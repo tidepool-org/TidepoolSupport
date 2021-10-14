@@ -95,31 +95,35 @@ extension TidepoolSupport {
         
         group.notify(queue: DispatchQueue.global(qos: .background)) { [weak self] in
             var alertVersion: VersionUpdate? = nil
+            var completionResult: Result<VersionUpdate?, Swift.Error>
             switch (infoResult!, appStoreResult!) {
             case (.failure, .failure):
-                completion(infoResult)
+                completionResult = infoResult
             case (.failure(let error), .success(let appStoreVersion)):
                 self?.log.error("Tidepool info checkVersion failed: %@", error.localizedDescription)
-                completion(.success(appStoreVersion))
+                completionResult = .success(appStoreVersion)
             case (.success(let infoVersion), .failure):
                 alertVersion = infoVersion
-                completion(infoResult)
+                completionResult = infoResult
             case (.success(let infoVersionOptional), .success(let appStoreVersionOptional)):
                 switch (infoVersionOptional, appStoreVersionOptional) {
                 case (nil, nil):
-                    completion(.success(nil))
+                    completionResult = .success(nil)
                 case (nil, .some(let appStoreVersion)):
                     alertVersion = appStoreVersion
-                    completion(.success(appStoreVersion))
+                    completionResult = .success(appStoreVersion)
                 case (.some(let infoVersion), nil):
                     alertVersion = infoVersion
-                    completion(.success(infoVersion))
+                    completionResult = .success(infoVersion)
                 case (.some(let infoVersion), .some(let appStoreVersion)):
                     alertVersion = max(infoVersion, appStoreVersion)
-                    completion(.success(alertVersion))
+                    completionResult = .success(alertVersion)
                 }
             }
-            alertVersion.map { self?.maybeIssueAlert($0) }
+            if let alertVersion = alertVersion {
+                self?.maybeIssueAlert(alertVersion)
+            }
+            completion(completionResult)
         }
     }
     

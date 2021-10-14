@@ -59,6 +59,8 @@ public class SoftwareUpdateViewModel: ObservableObject {
                 self?.update()
             }
             .store(in: &cancellables)
+        
+        update()
     }
     
     private func update() {
