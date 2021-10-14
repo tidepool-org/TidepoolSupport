@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D4372842718B5B000D6C098 /* VersionInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4372822718B5B000D6C098 /* VersionInfoTests.swift */; };
+		1D4372852718B5B000D6C098 /* SemanticVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4372832718B5B000D6C098 /* SemanticVersionTests.swift */; };
+		1D4372872718B85A00D6C098 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4372862718B85A00D6C098 /* URLProtocolMock.swift */; };
 		1DFFB93B27150D2D0075AEAA /* TidepoolSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; };
-		1DFFB94027150D2D0075AEAA /* TidepoolVersionCheckTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB93F27150D2D0075AEAA /* TidepoolVersionCheckTests.swift */; };
+		1DFFB94027150D2D0075AEAA /* TidepoolSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB93F27150D2D0075AEAA /* TidepoolSupportTests.swift */; };
 		1DFFB94127150D2D0075AEAA /* TidepoolSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DFFB93527150D2C0075AEAA /* TidepoolSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1DFFB94F27150D6F0075AEAA /* AppStoreVersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB94E27150D6F0075AEAA /* AppStoreVersionChecker.swift */; };
 		1DFFB95227150D9F0075AEAA /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB95127150D9F0075AEAA /* Bundle.swift */; };
@@ -43,10 +46,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D4372822718B5B000D6C098 /* VersionInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionInfoTests.swift; sourceTree = "<group>"; };
+		1D4372832718B5B000D6C098 /* SemanticVersionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticVersionTests.swift; sourceTree = "<group>"; };
+		1D4372862718B85A00D6C098 /* URLProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
 		1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TidepoolSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFFB93527150D2C0075AEAA /* TidepoolSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TidepoolSupport.h; sourceTree = "<group>"; };
 		1DFFB93A27150D2D0075AEAA /* TidepoolSupportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolSupportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DFFB93F27150D2D0075AEAA /* TidepoolVersionCheckTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidepoolVersionCheckTests.swift; sourceTree = "<group>"; };
+		1DFFB93F27150D2D0075AEAA /* TidepoolSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidepoolSupportTests.swift; sourceTree = "<group>"; };
 		1DFFB94E27150D6F0075AEAA /* AppStoreVersionChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreVersionChecker.swift; sourceTree = "<group>"; };
 		1DFFB95127150D9F0075AEAA /* Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		1DFFB95427150DDC0075AEAA /* SoftwareUpdateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoftwareUpdateViewModel.swift; sourceTree = "<group>"; };
@@ -95,7 +101,7 @@
 				1DFFB9792716381F0075AEAA /* Extensions */,
 				1DFFB93427150D2C0075AEAA /* TidepoolSupport */,
 				1DFFB94A27150D3F0075AEAA /* TidepoolSupportUI */,
-				1DFFB93E27150D2D0075AEAA /* TidepoolVersionCheckTests */,
+				1DFFB93E27150D2D0075AEAA /* TidepoolSupportTests */,
 				1DFFB970271627430075AEAA /* TidepoolSupportPlugin */,
 				1DFFB93327150D2C0075AEAA /* Products */,
 				1DFFB98227163A300075AEAA /* Frameworks */,
@@ -125,12 +131,15 @@
 			path = TidepoolSupport;
 			sourceTree = "<group>";
 		};
-		1DFFB93E27150D2D0075AEAA /* TidepoolVersionCheckTests */ = {
+		1DFFB93E27150D2D0075AEAA /* TidepoolSupportTests */ = {
 			isa = PBXGroup;
 			children = (
-				1DFFB93F27150D2D0075AEAA /* TidepoolVersionCheckTests.swift */,
+				1D4372832718B5B000D6C098 /* SemanticVersionTests.swift */,
+				1DFFB93F27150D2D0075AEAA /* TidepoolSupportTests.swift */,
+				1D4372862718B85A00D6C098 /* URLProtocolMock.swift */,
+				1D4372822718B5B000D6C098 /* VersionInfoTests.swift */,
 			);
-			path = TidepoolVersionCheckTests;
+			path = TidepoolSupportTests;
 			sourceTree = "<group>";
 		};
 		1DFFB94A27150D3F0075AEAA /* TidepoolSupportUI */ = {
@@ -357,7 +366,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DFFB94027150D2D0075AEAA /* TidepoolVersionCheckTests.swift in Sources */,
+				1D4372852718B5B000D6C098 /* SemanticVersionTests.swift in Sources */,
+				1D4372842718B5B000D6C098 /* VersionInfoTests.swift in Sources */,
+				1DFFB94027150D2D0075AEAA /* TidepoolSupportTests.swift in Sources */,
+				1D4372872718B85A00D6C098 /* URLProtocolMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

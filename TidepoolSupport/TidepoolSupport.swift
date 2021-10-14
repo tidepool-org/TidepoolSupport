@@ -36,12 +36,18 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     
     private let log = OSLog(category: supportIdentifier)
 
-    public init() {
+    public init(_ environment: TEnvironment? = nil) {
         tapi = TAPI()
-        tapi.fetchEnvironments { [self] _ in
-            // HACK (next step is to figure out how to set this via Loop Configurator
-            environment = tapi.environments.first { $0.host.contains("qa2") }!
+        
+        if let environment = environment {
+            self.environment = environment
+        } else {
+            tapi.fetchEnvironments { [self] _ in
+                // HACK (next step is to figure out how to set this via Loop Configurator
+                self.environment = tapi.environments.first { $0.host.contains("qa2") }!
+            }
         }
+             
         tapi.addObserver(self)
     }
 
@@ -72,38 +78,50 @@ extension TidepoolSupport {
     public func checkVersion(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Swift.Error>) -> Void) {
         
         let group = DispatchGroup()
-        var infoVersion = VersionUpdate.default
-        var appStoreVersion = VersionUpdate.default
+        var infoResult: Result<VersionUpdate?, Swift.Error>!
+        var appStoreResult: Result<VersionUpdate?, Swift.Error>!
         
         group.enter()
-        checkVersionInfo(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) { infoResult in
-            switch infoResult {
-            case .success(let v):
-                infoVersion = v ?? .default
-            case .failure:
-                break
-            }
+        checkVersionInfo(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) {
+            infoResult = $0
             group.leave()
         }
         
         group.enter()
-        appStoreVersionChecker.checkVersion(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) { [weak self] appStoreResult in
-            switch appStoreResult {
-            case .success(let v):
-                appStoreVersion = v ?? .default
-            case .failure(let error):
-                self?.log.error("appStoreVersionChecker.checkVersion failed: %@", error.localizedDescription)
-            }
+        appStoreVersionChecker.checkVersion(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) {
+            appStoreResult = $0
             group.leave()
         }
         
         group.notify(queue: DispatchQueue.global(qos: .background)) { [weak self] in
-            let result = max(infoVersion, appStoreVersion)
-            self?.maybeIssueAlert(result)
-            completion(.success(result))
+            var alertVersion: VersionUpdate? = nil
+            switch (infoResult!, appStoreResult!) {
+            case (.failure, .failure):
+                completion(infoResult)
+            case (.failure(let error), .success(let appStoreVersion)):
+                self?.log.error("Tidepool info checkVersion failed: %@", error.localizedDescription)
+                completion(.success(appStoreVersion))
+            case (.success(let infoVersion), .failure):
+                alertVersion = infoVersion
+                completion(infoResult)
+            case (.success(let infoVersionOptional), .success(let appStoreVersionOptional)):
+                switch (infoVersionOptional, appStoreVersionOptional) {
+                case (nil, nil):
+                    completion(.success(nil))
+                case (nil, .some(let appStoreVersion)):
+                    alertVersion = appStoreVersion
+                    completion(.success(appStoreVersion))
+                case (.some(let infoVersion), nil):
+                    alertVersion = infoVersion
+                    completion(.success(infoVersion))
+                case (.some(let infoVersion), .some(let appStoreVersion)):
+                    alertVersion = max(infoVersion, appStoreVersion)
+                    completion(.success(alertVersion))
+                }
+            }
+            alertVersion.map { self?.maybeIssueAlert($0) }
         }
     }
-    
     
     public func checkVersionInfo(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Swift.Error>) -> Void) {
         // TODO: ideally the backend API takes `bundleIdentifier` as a parameter, instead of returning a big struct
