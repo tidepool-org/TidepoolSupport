@@ -1,14 +1,14 @@
 //
 //  Bundle.swift
-//  TidepoolServiceKit
+//  TidepoolSupport
 //
-//  Created by Darin Krauss on 3/16/20.
 //  Copyright © 2020 LoopKit Authors. All rights reserved.
 //
 
 import Foundation
 
 extension Bundle {
+    
     var semanticVersion: String? {
         guard var semanticVersion = bundleShortVersionString else {
             return nil

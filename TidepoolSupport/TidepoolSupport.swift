@@ -20,9 +20,10 @@ public protocol SessionStorage {
 public final class TidepoolSupport: SupportUI, TAPIObserver {
     public typealias RawStateValue = [String: Any]
 
-    public static let identifier = "TidepoolSupport"
+    public static let supportIdentifier = "TidepoolSupport"
 
     public let tapi: TAPI
+    private var environment: TEnvironment!
     
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
@@ -33,11 +34,14 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
 
     public weak var alertIssuer: AlertIssuer?
     
-    private let log = OSLog(category: "TidepoolService")
-    private let tidepoolKitLog = OSLog(category: "TidepoolKit")
+    private let log = OSLog(category: supportIdentifier)
 
-    public init(automaticallyFetchEnvironments: Bool = true) {
-        tapi = TAPI(automaticallyFetchEnvironments: automaticallyFetchEnvironments)
+    public init() {
+        tapi = TAPI()
+        tapi.fetchEnvironments { [self] _ in
+            // HACK (next step is to figure out how to set this via Loop Configurator
+            environment = tapi.environments.first { $0.host.contains("qa2") }!
+        }
         tapi.addObserver(self)
     }
 
@@ -45,11 +49,10 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         tapi.removeObserver(self)
     }
 
-    public init?(rawState: RawStateValue) {
-        tapi = TAPI()
+    public convenience init?(rawState: RawStateValue) {
+        self.init()
         self.lastVersionInfo = (rawState["lastVersionInfo"] as? String).flatMap { VersionInfo(from: $0) }
         self.lastVersionCheckAlertDate = rawState["lastVersionCheckAlertDate"] as? Date
-        tapi.addObserver(self)
     }
 
     public var rawState: RawStateValue {
@@ -94,8 +97,10 @@ extension TidepoolSupport {
             group.leave()
         }
         
-        group.notify(queue: DispatchQueue.global(qos: .background)) {
-            completion(.success(max(infoVersion, appStoreVersion)))
+        group.notify(queue: DispatchQueue.global(qos: .background)) { [weak self] in
+            let result = max(infoVersion, appStoreVersion)
+            self?.maybeIssueAlert(result)
+            completion(.success(result))
         }
     }
     
@@ -103,12 +108,11 @@ extension TidepoolSupport {
     public func checkVersionInfo(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Swift.Error>) -> Void) {
         // TODO: ideally the backend API takes `bundleIdentifier` as a parameter, instead of returning a big struct
         // with all version info (which we parse below)
-        // Note also that this will use the _default environment_ unless the user
-        // switches environments and logs in.
-        tapi.getInfo() { [weak self] result in
+        // Note also that this will use the _default environment_ unless the user switches environments and logs in.
+        tapi.getInfo(environment: environment) { [weak self] result in
             switch result {
             case .failure(let error):
-                // If an error occurs, respond with the last-known version info, otherwise, reply with an error
+                // If an error or timeout occurs, respond with the last-known version info, otherwise, reply with an error
                 if let versionInfo = self?.lastVersionInfo {
                     self?.log.error("checkVersion error: %{public}@ Returning %{public}@",
                                     error.localizedDescription,
@@ -119,7 +123,7 @@ extension TidepoolSupport {
                     completion(.failure(error))
                 }
             case .success(let info):
-                self?.log.debug("checkVersion info = %{public}@ for %{public}@", info.versions.debugDescription, bundleIdentifier)
+                self?.log.debug("checkVersion info = %{public}@ for %{public}@ version %{public}@", info.versions.debugDescription, bundleIdentifier, currentVersion)
                 let versionInfo = info.versions?.loop.flatMap { VersionInfo(bundleIdentifier: bundleIdentifier, loop: $0) }
                 self?.lastVersionInfo = versionInfo
                 completion(.success(versionInfo?.getVersionUpdateNeeded(currentVersion: currentVersion)))
@@ -150,7 +154,7 @@ extension TidepoolSupport {
             return
         }
         
-        let alertIdentifier = Alert.Identifier(managerIdentifier: Self.identifier, alertIdentifier: versionUpdate.rawValue)
+        let alertIdentifier = Alert.Identifier(managerIdentifier: Self.supportIdentifier, alertIdentifier: versionUpdate.rawValue)
         let alertContent: LoopKit.Alert.Content
         if firstAlert {
             alertContent = Alert.Content(title: versionUpdate.localizedDescription,
@@ -192,26 +196,7 @@ extension TidepoolSupport {
     
 }
 
-extension TidepoolSupport: TLogging {
-    public func debug(_ message: String, function: StaticString, file: StaticString, line: UInt) {
-        tidepoolKitLog.debug("%{public}@ %{public}@", message, location(function: function, file: file, line: line))
-    }
-
-    public func info(_ message: String, function: StaticString, file: StaticString, line: UInt) {
-        tidepoolKitLog.info("%{public}@ %{public}@", message, location(function: function, file: file, line: line))
-    }
-
-    public func error(_ message: String, function: StaticString, file: StaticString, line: UInt) {
-        tidepoolKitLog.error("%{public}@ %{public}@", message, location(function: function, file: file, line: line))
-    }
-
-    private func location(function: StaticString, file: StaticString, line: UInt) -> String {
-        return "[\(URL(fileURLWithPath: file.description).lastPathComponent):\(line):\(function)]"
-    }
-}
-
 extension TidepoolSupport  {
-    public var supportIdentifier: String { Self.identifier }
 
     public func supportMenuItem(supportInfoProvider: SupportInfoProvider, urlHandler: @escaping (URL) -> Void) -> AnyView? {
         let viewModel = AdverseEventReportViewModel(supportInfoProvider: supportInfoProvider)

@@ -16,11 +16,6 @@ public class SoftwareUpdateViewModel: ObservableObject {
     
     @Published var versionUpdate: VersionUpdate?
 
-    var softwareUpdateAvailable: Bool {
-        update()
-        return versionUpdate?.softwareUpdateAvailable ?? false
-    }
-    
     @ViewBuilder
     var icon: some View {
         switch versionUpdate {
@@ -64,11 +59,9 @@ public class SoftwareUpdateViewModel: ObservableObject {
                 self?.update()
             }
             .store(in: &cancellables)
-        
-        update()
     }
     
-    public func update() {
+    private func update() {
         support?.checkVersion(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) {
             if case .success(let versionUpdate) = $0 {
                 self.versionUpdate = versionUpdate

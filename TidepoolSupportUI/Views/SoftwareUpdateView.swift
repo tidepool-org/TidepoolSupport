@@ -13,7 +13,7 @@ struct SoftwareUpdateView: View {
     
     private let padding: CGFloat = 5
     
-    var softwareUpdateViewModel: SoftwareUpdateViewModel
+    @ObservedObject var softwareUpdateViewModel: SoftwareUpdateViewModel
 
     var body: some View {
         List {
