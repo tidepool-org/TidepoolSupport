@@ -12,18 +12,13 @@ import LoopKitUI
 import TidepoolKit
 import SwiftUI
 
-public protocol SessionStorage {
-    func setSession(_ session: TSession?, for service: String) throws
-    func getSession(for service: String) throws -> TSession?
-}
-
 public final class TidepoolSupport: SupportUI, TAPIObserver {
     public typealias RawStateValue = [String: Any]
 
     public static let supportIdentifier = "TidepoolSupport"
 
     public let tapi: TAPI
-    private var environment: TEnvironment!
+    private var environment: TEnvironment?
     
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
@@ -39,14 +34,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     public init(_ environment: TEnvironment? = nil) {
         tapi = TAPI()
         
-        if let environment = environment {
-            self.environment = environment
-        } else {
-            tapi.fetchEnvironments { [self] _ in
-                // HACK (next step is to figure out how to set this via Loop Configurator
-                self.environment = tapi.environments.first { $0.host.contains("qa2") }!
-            }
-        }
+        self.environment = environment ?? UserDefaults.appGroup?.tidepoolEnvironmentConfig
              
         tapi.addObserver(self)
     }
@@ -223,5 +211,18 @@ extension TidepoolSupport  {
     public func supportMenuItem(supportInfoProvider: SupportInfoProvider, urlHandler: @escaping (URL) -> Void) -> AnyView? {
         let viewModel = AdverseEventReportViewModel(supportInfoProvider: supportInfoProvider)
         return AnyView(AdverseEventReportButton(adverseEventReportViewModel: viewModel, urlHandler: urlHandler))
+    }
+}
+
+extension UserDefaults {
+    // HACK: hard coded app group!
+    static let appGroup = UserDefaults(suiteName: "group.org.tidepool.LoopGroup")
+    
+    var tidepoolEnvironmentConfig: TEnvironment? {
+        guard let val = string(forKey: "org.tidepool.Loop.TidepoolEnvironment"),
+              let env = try? JSONDecoder().decode(TEnvironment.self, from: val.data(using: .utf8)!) else {
+                  return nil
+              }
+        return env
     }
 }
