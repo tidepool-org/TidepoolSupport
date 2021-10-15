@@ -18,8 +18,6 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>NSHumanReadableCopyright</key>
-	<string></string>
 	<key>com.loopkit.Loop.SupportIdentifier</key>
 	<string>TidepoolSupport</string>
 </dict>
