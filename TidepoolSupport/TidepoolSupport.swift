@@ -41,6 +41,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
 
     deinit {
         tapi.removeObserver(self)
+        log.default("deinit")
     }
 
     public convenience init?(rawState: RawStateValue) {

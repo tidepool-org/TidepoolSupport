@@ -37,7 +37,7 @@ public class SoftwareUpdateViewModel: ObservableObject {
     
     lazy private var cancellables = Set<AnyCancellable>()
 
-    private let support: SupportUI?
+    private weak var support: SupportUI?
     private let guidanceColors: GuidanceColors
     private let openAppStoreHook: (() -> Void)?
     private let bundleIdentifier: String
