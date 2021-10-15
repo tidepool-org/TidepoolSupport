@@ -154,7 +154,11 @@ extension TidepoolSupport {
                                    bundleIdentifier: String,
                                    currentVersion: String,
                                    openAppStoreHook: (() -> Void)?) -> AnyView? {
-        let viewModel = SoftwareUpdateViewModel(support: self, guidanceColors: guidanceColors, bundleIdentifier: bundleIdentifier, currentVersion: currentVersion)
+        let viewModel = SoftwareUpdateViewModel(support: self,
+                                                guidanceColors: guidanceColors,
+                                                openAppStoreHook: openAppStoreHook,
+                                                bundleIdentifier: bundleIdentifier,
+                                                currentVersion: currentVersion)
         return AnyView(SoftwareUpdateView(softwareUpdateViewModel: viewModel))
     }
     

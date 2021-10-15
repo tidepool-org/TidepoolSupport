@@ -45,7 +45,7 @@ public class SoftwareUpdateViewModel: ObservableObject {
     
     init(support: SupportUI?,
          guidanceColors: GuidanceColors,
-         openAppStoreHook: (() -> Void)? = nil,
+         openAppStoreHook: (() -> Void)?,
          bundleIdentifier: String,
          currentVersion: String) {
         self.support = support
@@ -82,6 +82,7 @@ extension SoftwareUpdateViewModel {
     static var preview: SoftwareUpdateViewModel {
         return SoftwareUpdateViewModel(support: nil,
                                        guidanceColors: GuidanceColors(),
+                                       openAppStoreHook: nil,
                                        bundleIdentifier: "",
                                        currentVersion: "")
     }

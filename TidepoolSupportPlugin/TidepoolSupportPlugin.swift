@@ -18,4 +18,8 @@ class TidepoolSupportPlugin: NSObject, SupportUIPlugin {
         super.init()
         log.default("Instantiated")
     }
+    
+    deinit {
+        log.default("Deinitialized")
+    }
 }
