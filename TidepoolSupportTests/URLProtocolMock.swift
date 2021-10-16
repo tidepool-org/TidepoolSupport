@@ -1,6 +1,6 @@
 //
 //  URLProtocolMock.swift
-//  TidepoolServiceKitTests
+//  TidepoolSupportTests
 //
 //  Created by Rick Pasetto on 9/15/21.
 //  Copyright © 2021 LoopKit Authors. All rights reserved.

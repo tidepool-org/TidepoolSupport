@@ -28,9 +28,7 @@ class TidepoolSupportTests: XCTestCase {
         URLProtocolMock.handlers = []
 
         let environment = TEnvironment(host: "test.org", port: 443)
-//        let session = TSession(environment: environment, authenticationToken: authenticationToken, userId: userId)
         support = TidepoolSupport(environment)
-//        support.tapi.session = session
         support.tapi.urlSessionConfiguration.protocolClasses = [URLProtocolMock.self]
     }
 

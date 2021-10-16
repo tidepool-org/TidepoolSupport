@@ -165,7 +165,7 @@ extension TidepoolSupport {
     
     private func maybeIssueAlert(_ versionUpdate: VersionUpdate) {
         guard versionUpdate >= .recommended else {
-            noAlertNecessary()
+            noAlertNecessary(versionUpdate)
             return
         }
         
@@ -197,7 +197,9 @@ extension TidepoolSupport {
         recordLastAlertDate()
     }
     
-    private func noAlertNecessary() {
+    private func noAlertNecessary(_ versionUpdate: VersionUpdate) {
+        let alertIdentifier = Alert.Identifier(managerIdentifier: Self.supportIdentifier, alertIdentifier: versionUpdate.rawValue)
+        alertIssuer?.retractAlert(identifier: alertIdentifier)
         lastVersionCheckAlertDate = nil
     }
     
