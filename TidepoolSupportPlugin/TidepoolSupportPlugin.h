@@ -3,6 +3,7 @@
 //  TidepoolSupportPlugin
 //
 //  Created by Rick Pasetto on 10/12/21.
+//  Copyright © 2021 LoopKit Authors. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

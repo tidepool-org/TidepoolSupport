@@ -3,7 +3,7 @@
 //  TidepoolSupport
 //
 //  Created by Rick Pasetto on 10/11/21.
-//
+//  Copyright © 2021 LoopKit Authors. All rights reserved.
 //
 
 import os.log
@@ -34,7 +34,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     public init(_ environment: TEnvironment? = nil) {
         tapi = TAPI()
         
-        self.environment = environment ?? UserDefaults.appGroup?.tidepoolEnvironmentConfig
+        self.environment = environment ?? tapi.defaultEnvironment
              
         tapi.addObserver(self)
     }
@@ -91,7 +91,8 @@ extension TidepoolSupport {
             case (.failure(let error), .success(let appStoreVersion)):
                 self?.log.error("Tidepool info checkVersion failed: %@", error.localizedDescription)
                 completionResult = .success(appStoreVersion)
-            case (.success(let infoVersion), .failure):
+            case (.success(let infoVersion), .failure(let error)):
+                self?.log.error("Tidepool appStore checkVersion failed: %@", error.localizedDescription)
                 alertVersion = infoVersion
                 completionResult = infoResult
             case (.success(let infoVersionOptional), .success(let appStoreVersionOptional)):
@@ -118,14 +119,13 @@ extension TidepoolSupport {
     
     public func checkVersionInfo(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Swift.Error>) -> Void) {
         // TODO: ideally the backend API takes `bundleIdentifier` as a parameter, instead of returning a big struct
-        // with all version info (which we parse below)
-        // Note also that this will use the _default environment_ unless the user switches environments and logs in.
+        // with all version info (which we parse below).  See https://tidepool.atlassian.net/browse/BACK-2012
         tapi.getInfo(environment: environment) { [weak self] result in
             switch result {
             case .failure(let error):
                 // If an error or timeout occurs, respond with the last-known version info, otherwise, reply with an error
                 if let versionInfo = self?.lastVersionInfo {
-                    self?.log.error("checkVersion error: %{public}@ Returning %{public}@",
+                    self?.log.error("checkVersion error: %{public}@; Returning %{public}@",
                                     error.localizedDescription,
                                     versionInfo.getVersionUpdateNeeded(currentVersion: currentVersion).localizedDescription)
                     completion(.success(versionInfo.getVersionUpdateNeeded(currentVersion: currentVersion)))
@@ -178,7 +178,7 @@ extension TidepoolSupport {
                                                     
                                                     Go to Tidepool Loop Settings > Software Update to complete.
                                                     """, comment: "Alert content body for first software update alert"),
-                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "default acknowledgement"),
+                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"),
                                          isCritical: versionUpdate == .required)
         } else if let lastVersionCheckAlertDate = lastVersionCheckAlertDate,
                   abs(lastVersionCheckAlertDate.timeIntervalSinceNow) > Self.alertCadence {
@@ -188,7 +188,7 @@ extension TidepoolSupport {
                                                     
                                                     Go to Tidepool Loop Settings > Software Update to install the latest version.
                                                     """, comment: "Alert content body for recurring software update alert"),
-                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "default acknowledgement"),
+                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"),
                                          isCritical: versionUpdate == .required)
         } else {
             return
@@ -218,18 +218,5 @@ extension TidepoolSupport  {
     public func supportMenuItem(supportInfoProvider: SupportInfoProvider, urlHandler: @escaping (URL) -> Void) -> AnyView? {
         let viewModel = AdverseEventReportViewModel(supportInfoProvider: supportInfoProvider)
         return AnyView(AdverseEventReportButton(adverseEventReportViewModel: viewModel, urlHandler: urlHandler))
-    }
-}
-
-extension UserDefaults {
-    // HACK: hard coded app group!
-    static let appGroup = UserDefaults(suiteName: "group.org.tidepool.LoopGroup")
-    
-    var tidepoolEnvironmentConfig: TEnvironment? {
-        guard let val = string(forKey: "org.tidepool.Loop.TidepoolEnvironment"),
-              let env = try? JSONDecoder().decode(TEnvironment.self, from: val.data(using: .utf8)!) else {
-                  return nil
-              }
-        return env
     }
 }

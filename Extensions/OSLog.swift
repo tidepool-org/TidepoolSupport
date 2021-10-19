@@ -10,7 +10,7 @@ import os.log
 
 extension OSLog {
     convenience init(category: String) {
-        self.init(subsystem: "org.tidepool.TidepoolOnboarding", category: category)
+        self.init(subsystem: "org.tidepool.TidepoolSupport", category: category)
     }
 
     func debug(_ message: StaticString, _ args: CVarArg...) {

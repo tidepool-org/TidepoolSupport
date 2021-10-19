@@ -1,9 +1,9 @@
 //
 //  AdverseEventReportButton.swift
-//  TidepoolServiceKitUI
+//  TidepoolSupport
 //
 //  Created by Pete Schwamb on 11/16/20.
-//  Copyright © 2020 Tidepool Project. All rights reserved.
+//  Copyright © 2021 LoopKit Authors. All rights reserved.
 //
 
 import Foundation

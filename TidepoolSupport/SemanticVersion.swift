@@ -1,6 +1,6 @@
 //
 //  SemanticVersion.swift
-//  LoopKit
+//  TidepoolSupport
 //
 //  Created by Rick Pasetto on 9/8/21.
 //  Copyright © 2021 LoopKit Authors. All rights reserved.

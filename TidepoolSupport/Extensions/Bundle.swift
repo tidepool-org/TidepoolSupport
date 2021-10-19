@@ -2,7 +2,7 @@
 //  Bundle.swift
 //  TidepoolSupport
 //
-//  Copyright © 2020 LoopKit Authors. All rights reserved.
+//  Copyright © 2021 LoopKit Authors. All rights reserved.
 //
 
 import Foundation

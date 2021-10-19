@@ -2,6 +2,7 @@
 //  VersionInfoTests.swift
 //
 //  Created by Rick Pasetto on 10/11/21.
+//  Copyright © 2021 LoopKit Authors. All rights reserved.
 //
 
 import XCTest

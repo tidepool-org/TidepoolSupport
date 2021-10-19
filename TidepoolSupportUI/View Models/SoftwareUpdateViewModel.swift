@@ -1,6 +1,6 @@
 //
 //  SoftwareUpdateViewModel.swift
-//  TidepoolServiceKitUI
+//  TidepoolSupport
 //
 //  Created by Rick Pasetto on 10/4/21.
 //  Copyright © 2021 LoopKit Authors. All rights reserved.

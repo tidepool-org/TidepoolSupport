@@ -14,8 +14,8 @@ class AppStoreVersionChecker {
     private static var decoder = JSONDecoder()
     
     func checkVersion(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Error>) -> Void) {
-        DispatchQueue.global(qos: .background).async {
-            _ = self.getAppInfo { result in
+        DispatchQueue.global(qos: .utility).async {
+            self.getAppInfo(bundleIdentifier) { result in
                 switch result {
                 case .success(let info):
                     if let appStoreVersion = SemanticVersion(info.version),
@@ -46,13 +46,12 @@ class AppStoreVersionChecker {
         let trackViewUrl: String
     }
     
-    private func getAppInfo(completion: @escaping (Result<AppInfo, Error>) -> Void) -> URLSessionDataTask? {
+    private func getAppInfo(_ bundleIdentifier: String, completion: @escaping (Result<AppInfo, Error>) -> Void) {
         
-        guard let identifier = Bundle.main.bundleIdentifier,
-              let url = URL(string: "http://itunes.apple.com/us/lookup?bundleId=\(identifier)") else {
-                  completion(.failure(VersionError.invalidBundleInfo))
-                  return nil
-              }
+        guard let url = URL(string: "http://itunes.apple.com/us/lookup?bundleId=\(bundleIdentifier)") else {
+            completion(.failure(VersionError.invalidBundleInfo))
+            return
+        }
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             do {
                 if let error = error {
@@ -72,7 +71,6 @@ class AppStoreVersionChecker {
         }
         
         task.resume()
-        return task
     }
 }
 
