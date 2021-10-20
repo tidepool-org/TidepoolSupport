@@ -27,7 +27,9 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     private var lastVersionInfo: VersionInfo?
     public var lastVersionCheckAlertDate: Date?
 
-    public weak var alertIssuer: AlertIssuer?
+    public weak var delegate: SupportUIDelegate?
+    
+    private var alertIssuer: AlertIssuer? { return delegate }
     
     private let log = OSLog(category: supportIdentifier)
 
@@ -146,18 +148,14 @@ extension TidepoolSupport {
 extension TidepoolSupport {
     
     private static var alertCadence = TimeInterval(2 * 7 * 24 * 60 * 60) // every 2 weeks
-    
-    public func setAlertIssuer(alertIssuer: AlertIssuer?) {
-        self.alertIssuer = alertIssuer
-    }
-    
-    public func softwareUpdateView(guidanceColors: GuidanceColors,
-                                   bundleIdentifier: String,
+        
+    public func softwareUpdateView(bundleIdentifier: String,
                                    currentVersion: String,
-                                   openAppStoreHook: (() -> Void)?) -> AnyView? {
+                                   guidanceColors: GuidanceColors,
+                                   openAppStore: (() -> Void)?) -> AnyView? {
         let viewModel = SoftwareUpdateViewModel(support: self,
                                                 guidanceColors: guidanceColors,
-                                                openAppStoreHook: openAppStoreHook,
+                                                openAppStore: openAppStore,
                                                 bundleIdentifier: bundleIdentifier,
                                                 currentVersion: currentVersion)
         return AnyView(SoftwareUpdateView(softwareUpdateViewModel: viewModel))

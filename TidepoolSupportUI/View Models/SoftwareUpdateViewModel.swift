@@ -39,20 +39,20 @@ public class SoftwareUpdateViewModel: ObservableObject {
 
     private weak var support: SupportUI?
     private let guidanceColors: GuidanceColors
-    private let openAppStoreHook: (() -> Void)?
+    private let openAppStore: (() -> Void)?
     private let bundleIdentifier: String
     private let currentVersion: String
     
     init(support: SupportUI?,
          guidanceColors: GuidanceColors,
-         openAppStoreHook: (() -> Void)?,
+         openAppStore: (() -> Void)?,
          bundleIdentifier: String,
          currentVersion: String) {
         self.support = support
         self.guidanceColors = guidanceColors
         self.bundleIdentifier = bundleIdentifier
         self.currentVersion = currentVersion
-        self.openAppStoreHook = openAppStoreHook
+        self.openAppStore = openAppStore
         
         NotificationCenter.default.publisher(for: .SoftwareUpdateAvailable)
             .sink { [weak self] _ in
@@ -72,7 +72,7 @@ public class SoftwareUpdateViewModel: ObservableObject {
     }
     
     func gotoAppStore() {
-        openAppStoreHook?()
+        openAppStore?()
     }
 
 }
@@ -82,7 +82,7 @@ extension SoftwareUpdateViewModel {
     static var preview: SoftwareUpdateViewModel {
         return SoftwareUpdateViewModel(support: nil,
                                        guidanceColors: GuidanceColors(),
-                                       openAppStoreHook: nil,
+                                       openAppStore: nil,
                                        bundleIdentifier: "",
                                        currentVersion: "")
     }
