@@ -10,6 +10,8 @@
 		1D4372842718B5B000D6C098 /* VersionInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4372822718B5B000D6C098 /* VersionInfoTests.swift */; };
 		1D4372852718B5B000D6C098 /* SemanticVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4372832718B5B000D6C098 /* SemanticVersionTests.swift */; };
 		1D4372872718B85A00D6C098 /* URLProtocolMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4372862718B85A00D6C098 /* URLProtocolMock.swift */; };
+		1DE14AFE272877E400502666 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE14AFD272877E400502666 /* UserDefaults.swift */; };
+		1DE14B0027287FAE00502666 /* MockUrlProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE14AFF27287FAE00502666 /* MockUrlProtocol.swift */; };
 		1DFFB93B27150D2D0075AEAA /* TidepoolSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; };
 		1DFFB94027150D2D0075AEAA /* TidepoolSupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB93F27150D2D0075AEAA /* TidepoolSupportTests.swift */; };
 		1DFFB94127150D2D0075AEAA /* TidepoolSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DFFB93527150D2C0075AEAA /* TidepoolSupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,6 +51,8 @@
 		1D4372822718B5B000D6C098 /* VersionInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionInfoTests.swift; sourceTree = "<group>"; };
 		1D4372832718B5B000D6C098 /* SemanticVersionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticVersionTests.swift; sourceTree = "<group>"; };
 		1D4372862718B85A00D6C098 /* URLProtocolMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLProtocolMock.swift; sourceTree = "<group>"; };
+		1DE14AFD272877E400502666 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		1DE14AFF27287FAE00502666 /* MockUrlProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUrlProtocol.swift; sourceTree = "<group>"; };
 		1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TidepoolSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFFB93527150D2C0075AEAA /* TidepoolSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TidepoolSupport.h; sourceTree = "<group>"; };
 		1DFFB93A27150D2D0075AEAA /* TidepoolSupportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolSupportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +128,7 @@
 				1DFFB95027150D930075AEAA /* Extensions */,
 				1DFFB93527150D2C0075AEAA /* TidepoolSupport.h */,
 				1DFFB94E27150D6F0075AEAA /* AppStoreVersionChecker.swift */,
+				1DE14AFF27287FAE00502666 /* MockUrlProtocol.swift */,
 				1DFFB96127150F1F0075AEAA /* SemanticVersion.swift */,
 				1DFFB96427150F560075AEAA /* TidepoolSupport.swift */,
 				1DFFB96027150F1F0075AEAA /* VersionInfo.swift */,
@@ -155,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				1DFFB95127150D9F0075AEAA /* Bundle.swift */,
+				1DE14AFD272877E400502666 /* UserDefaults.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -377,6 +383,8 @@
 				1DFFB95827150DF60075AEAA /* SoftwareUpdateView.swift in Sources */,
 				1DFFB96327150F1F0075AEAA /* SemanticVersion.swift in Sources */,
 				1DFFB96527150F560075AEAA /* TidepoolSupport.swift in Sources */,
+				1DE14B0027287FAE00502666 /* MockUrlProtocol.swift in Sources */,
+				1DE14AFE272877E400502666 /* UserDefaults.swift in Sources */,
 				1DFFB97F271639490075AEAA /* OSLog.swift in Sources */,
 				1DFFB967271626B50075AEAA /* AdverseEventReportViewModel.swift in Sources */,
 				1DFFB969271626BE0075AEAA /* AdverseEventReportButton.swift in Sources */,
