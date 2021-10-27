@@ -10,9 +10,6 @@ import LoopKit
 import LoopKitUI
 
 class AppStoreVersionChecker {
-           
-    fileprivate static let encoder = JSONEncoder()
-    fileprivate static let decoder = JSONDecoder()
 
     func checkVersion(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Error>) -> Void) {
         DispatchQueue.global(qos: .utility).async {
@@ -39,6 +36,9 @@ class AppStoreVersionChecker {
     }
     
     fileprivate struct LookupResult: Codable {
+        private static let encoder = JSONEncoder()
+        private static let decoder = JSONDecoder()
+
         let results: [AppInfo]
     }
     
@@ -75,7 +75,7 @@ class AppStoreVersionChecker {
                 guard let data = data else {
                     throw VersionError.invalidResponse
                 }
-                let result = try Self.decoder.decode(LookupResult.self, from: data)
+                let result = try LookupResult(from: data)
                 guard let info = result.results.first else {
                     throw VersionError.noResults
                 }
@@ -100,17 +100,12 @@ extension AppStoreVersionChecker.VersionError: LocalizedError {
 }
 
 extension AppStoreVersionChecker.LookupResult {
-    init?(from json: String) {
-        guard let data = json.data(using: .utf8),
-              let result = try? AppStoreVersionChecker.decoder.decode(AppStoreVersionChecker.LookupResult.self, from: data)
-              else {
-            return nil
-        }
-        self = result
+    init(from data: Data) throws {
+        self = try Self.decoder.decode(Self.self, from: data)
     }
 
     func toJSON() -> String? {
-        guard let data = try? AppStoreVersionChecker.encoder.encode(self) else {
+        guard let data = try? Self.encoder.encode(self) else {
             return nil
         }
         return String(data: data, encoding: .utf8)

@@ -10,7 +10,7 @@ import Foundation
 
 struct SemanticVersion: Comparable, CustomStringConvertible {
     // NOTE: does not support pre-release versions (https://semver.org/#spec-item-9)
-    static let versionRegex = "[0-9]+\\.[0-9]+\\.[0-9]+$"
+    static let versionRegex = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     let major: Int
     let minor: Int
     let patch: Int

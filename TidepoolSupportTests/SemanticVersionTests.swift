@@ -15,7 +15,7 @@ class SemanticVersionTests: XCTestCase {
         XCTAssertNil(SemanticVersion("abc123"))
         XCTAssertNil(SemanticVersion("foopyNoopy"))
         XCTAssertNil(SemanticVersion("1.2.3.4"))
-        XCTAssertNil(SemanticVersion("1.2.3.4"))
+        XCTAssertNil(SemanticVersion("v1.2.3.4"))
         XCTAssertNil(SemanticVersion("-1.2.3.4"))
         XCTAssertNil(SemanticVersion("1.203"))
         XCTAssertNil(SemanticVersion("1.2.3-alpha"))

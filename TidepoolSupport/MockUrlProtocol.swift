@@ -9,10 +9,9 @@
 import Foundation
 
 class MockURLProtocol: URLProtocol {
-    static var lookupResponse = "" // JSON response
+    static var lookupResponse: String? = nil // JSON response
     
     enum Error: Swift.Error { case badResponse, badRequest }
-    private static let encoder = JSONEncoder()
     
     override class func canInit(with request: URLRequest) -> Bool { true }
     
@@ -36,7 +35,9 @@ class MockURLProtocol: URLProtocol {
             throw Error.badRequest
         }
         guard let response = HTTPURLResponse.init(url: url, statusCode: 200, httpVersion: "2.0", headerFields: nil),
-              let data = MockURLProtocol.lookupResponse.data(using: .utf8) else {
+              let lookupResponse = MockURLProtocol.lookupResponse,
+              !lookupResponse.isEmpty,
+              let data = lookupResponse.data(using: .utf8) else {
                   throw Error.badResponse
               }
         return (response, data)
