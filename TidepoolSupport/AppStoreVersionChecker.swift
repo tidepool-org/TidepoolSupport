@@ -10,9 +10,7 @@ import LoopKit
 import LoopKitUI
 
 class AppStoreVersionChecker {
-           
-    private static var decoder = JSONDecoder()
-    
+
     func checkVersion(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Error>) -> Void) {
         DispatchQueue.global(qos: .utility).async {
             self.getAppInfo(bundleIdentifier) { result in
@@ -37,13 +35,30 @@ class AppStoreVersionChecker {
         case invalidBundleInfo, invalidResponse, noResults
     }
     
-    private struct LookupResult: Decodable {
+    fileprivate struct LookupResult: Codable {
+        private static let encoder = JSONEncoder()
+        private static let decoder = JSONDecoder()
+
         let results: [AppInfo]
     }
     
-    private struct AppInfo: Decodable {
+    fileprivate struct AppInfo: Codable {
         let version: String
         let trackViewUrl: String
+    }
+    
+    private var session: URLSession {
+        if let mockAppStoreVersionString = UserDefaults.appGroup?.mockAppStoreVersionResponse,
+           let mockAppStoreVersion = SemanticVersion(mockAppStoreVersionString),
+           let mockAppStoreVersionResult = LookupResult(results: [AppInfo(version: mockAppStoreVersion.description, trackViewUrl: "")]).toJSON()
+        {
+            let configuration = URLSessionConfiguration.ephemeral
+            configuration.protocolClasses = [MockURLProtocol.self]
+            MockURLProtocol.lookupResponse = mockAppStoreVersionResult
+            return URLSession(configuration: configuration)
+        } else {
+            return URLSession.shared
+        }
     }
     
     private func getAppInfo(_ bundleIdentifier: String, completion: @escaping (Result<AppInfo, Error>) -> Void) {
@@ -52,7 +67,7 @@ class AppStoreVersionChecker {
             completion(.failure(VersionError.invalidBundleInfo))
             return
         }
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = session.dataTask(with: url) { (data, response, error) in
             do {
                 if let error = error {
                     throw error
@@ -60,7 +75,7 @@ class AppStoreVersionChecker {
                 guard let data = data else {
                     throw VersionError.invalidResponse
                 }
-                let result = try Self.decoder.decode(LookupResult.self, from: data)
+                let result = try LookupResult(from: data)
                 guard let info = result.results.first else {
                     throw VersionError.noResults
                 }
@@ -84,3 +99,15 @@ extension AppStoreVersionChecker.VersionError: LocalizedError {
     }
 }
 
+extension AppStoreVersionChecker.LookupResult {
+    init(from data: Data) throws {
+        self = try Self.decoder.decode(Self.self, from: data)
+    }
+
+    func toJSON() -> String? {
+        guard let data = try? Self.encoder.encode(self) else {
+            return nil
+        }
+        return String(data: data, encoding: .utf8)
+    }
+}

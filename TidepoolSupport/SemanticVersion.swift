@@ -8,11 +8,13 @@
 
 import Foundation
 
-struct SemanticVersion: Comparable {
-    static let versionRegex = "[0-9]+.[0-9]+.[0-9]+"
+struct SemanticVersion: Comparable, CustomStringConvertible {
+    // NOTE: does not support pre-release versions (https://semver.org/#spec-item-9)
+    static let versionRegex = "^[0-9]+\\.[0-9]+\\.[0-9]+$"
     let major: Int
     let minor: Int
     let patch: Int
+    
     init?(_ value: String) {
         guard value.matches(SemanticVersion.versionRegex) else { return nil }
         let split = value.split(separator: ".")
@@ -29,6 +31,11 @@ struct SemanticVersion: Comparable {
         self.minor = minor
         self.patch = patch
     }
+    
+    var description: String {
+        return "\(major).\(minor).\(patch)"
+    }
+    
     static func < (lhs: SemanticVersion, rhs: SemanticVersion) -> Bool {
         if lhs.major == rhs.major {
             if lhs.minor == rhs.minor {
