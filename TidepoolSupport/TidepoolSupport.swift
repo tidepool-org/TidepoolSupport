@@ -147,7 +147,7 @@ extension TidepoolSupport {
 
 extension TidepoolSupport {
     
-    private static var alertCadence = TimeInterval(2 * 7 * 24 * 60 * 60) // every 2 weeks
+    private static var alertCadence = TimeInterval(7 * 24 * 60 * 60) // every 7 days
         
     public func softwareUpdateView(bundleIdentifier: String,
                                    currentVersion: String,
