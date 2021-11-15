@@ -51,7 +51,7 @@ public class AdverseEventReportViewModel {
     let cgmDetailsID = "request_custom_fields_360035932231"
 
     var cgmDetailsValue: String {
-        guard let cgmDevice = supportInfoProvider.cgmDevice else { return "" }
+        guard let cgmDevice = supportInfoProvider.cgmStatus?.device else { return "" }
 
         return "CGM Device Details: " + cgmDevice.details
     }
