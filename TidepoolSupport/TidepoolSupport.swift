@@ -177,7 +177,7 @@ extension TidepoolSupport {
                                                     Go to Tidepool Loop Settings > Software Update to complete.
                                                     """, comment: "Alert content body for first software update alert"),
                                          acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"),
-                                         isCritical: versionUpdate == .required)
+                                         interruptionLevel: versionUpdate == .required ? .critical : .active)
         } else if let lastVersionCheckAlertDate = lastVersionCheckAlertDate,
                   abs(lastVersionCheckAlertDate.timeIntervalSinceNow) > Self.alertCadence {
             alertContent = Alert.Content(title: NSLocalizedString("Update Reminder", comment: "Recurring software update alert title"),
@@ -187,7 +187,7 @@ extension TidepoolSupport {
                                                     Go to Tidepool Loop Settings > Software Update to install the latest version.
                                                     """, comment: "Alert content body for recurring software update alert"),
                                          acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"),
-                                         isCritical: versionUpdate == .required)
+                                         interruptionLevel: versionUpdate == .required ? .critical : .active)
         } else {
             return
         }
