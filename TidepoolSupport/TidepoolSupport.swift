@@ -35,8 +35,13 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
 
     public init(_ environment: TEnvironment? = nil) {
         tapi = TAPI()
-        
-        self.environment = environment ?? tapi.defaultEnvironment
+
+        // TODO: REMOVE BEFORE SHIPPING
+        if tapi.defaultEnvironment == nil {
+            tapi.defaultEnvironment = TEnvironment(host: "external.integration.tidepool.org", port: 443)
+        }
+
+        self.environment = environment ?? tapi.defaultEnvironment ?? tapi.environments.first
              
         tapi.addObserver(self)
     }
