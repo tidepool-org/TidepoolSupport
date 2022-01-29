@@ -36,7 +36,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     public init(_ environment: TEnvironment? = nil) {
         tapi = TAPI()
 
-        // TODO: REMOVE BEFORE SHIPPING
+        // TODO: REMOVE BEFORE SHIPPING - https://tidepool.atlassian.net/browse/LOOP-4060
         if tapi.defaultEnvironment == nil {
             tapi.defaultEnvironment = TEnvironment(host: "external.integration.tidepool.org", port: 443)
         }
