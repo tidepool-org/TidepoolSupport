@@ -11,6 +11,7 @@ import LoopKit
 @testable import TidepoolSupport
 
 class TidepoolSupportTests: XCTestCase {
+    static let timeout = TimeInterval(seconds: 5)
     static var randomString: String { UUID().uuidString }
     static let info = TInfo(versions: TInfo.Versions(loop: TInfo.Versions.Loop(minimumSupported: "1.2.3", criticalUpdateNeeded: ["1.0.0", "1.1.0"])))
     
@@ -54,7 +55,7 @@ class TidepoolSupportTests: XCTestCase {
             tempResult = $0
             e.fulfill()
         }
-        wait(for: [e], timeout: 1.0)
+        wait(for: [e], timeout: Self.timeout)
         let result = try XCTUnwrap(tempResult)
         XCTAssertNil(result.error)
         XCTAssertEqual(VersionUpdate.recommended, result.value)
@@ -68,7 +69,7 @@ class TidepoolSupportTests: XCTestCase {
             tempResult = $0
             e.fulfill()
         }
-        wait(for: [e], timeout: 1.0)
+        wait(for: [e], timeout: Self.timeout)
         let result = try XCTUnwrap(tempResult)
         XCTAssertNil(result.error)
         let value = try XCTUnwrap(result.value)
@@ -83,7 +84,7 @@ class TidepoolSupportTests: XCTestCase {
             tempResult = $0
             e.fulfill()
         }
-        wait(for: [e], timeout: 1.0)
+        wait(for: [e], timeout: Self.timeout)
         let result = try XCTUnwrap(tempResult)
         XCTAssertNotNil(result.error)
         XCTAssertNil(result.value as Any?)
@@ -97,7 +98,7 @@ class TidepoolSupportTests: XCTestCase {
             tempResult = $0
             e.fulfill()
         }
-        wait(for: [e], timeout: 1.0)
+        wait(for: [e], timeout: Self.timeout)
         var result = try XCTUnwrap(tempResult)
         XCTAssertNil(result.error)
         XCTAssertEqual(VersionUpdate.recommended, result.value)
@@ -108,7 +109,7 @@ class TidepoolSupportTests: XCTestCase {
             tempResult = $0
             e2.fulfill()
         }
-        wait(for: [e2], timeout: 1.0)
+        wait(for: [e2], timeout: Self.timeout)
         result = try XCTUnwrap(tempResult)
         XCTAssertNil(result.error)
         XCTAssertEqual(VersionUpdate.recommended, result.value)
