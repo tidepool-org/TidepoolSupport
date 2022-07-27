@@ -28,6 +28,15 @@
 		1DFFB976271627470075AEAA /* TidepoolSupportPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB95B27150E460075AEAA /* TidepoolSupportPlugin.swift */; };
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
+		C136CB7A2890D2FD005DF27D /* TidepoolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C136CB792890D2FD005DF27D /* TidepoolKit.framework */; };
+		C136CB7D2890D5FC005DF27D /* TidepoolKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */; };
+		C136CB812890D6B2005DF27D /* TidepoolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */; };
+		C136CB822890D6B2005DF27D /* TidepoolKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C136CB832890D6B2005DF27D /* TidepoolKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C136CB802890D6B2005DF27D /* TidepoolKitUI.framework */; };
+		C136CB842890D6B2005DF27D /* TidepoolKitUI.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C136CB802890D6B2005DF27D /* TidepoolKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
+		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +55,21 @@
 			remoteInfo = TidepoolSupport;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C15E3741288F1889008AB19C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C136CB842890D6B2005DF27D /* TidepoolKitUI.framework in CopyFiles */,
+				C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */,
+				C136CB822890D6B2005DF27D /* TidepoolKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D4372822718B5B000D6C098 /* VersionInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionInfoTests.swift; sourceTree = "<group>"; };
@@ -71,6 +95,12 @@
 		1DFFB96F271627430075AEAA /* TidepoolSupportPlugin.loopplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TidepoolSupportPlugin.loopplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFFB971271627430075AEAA /* TidepoolSupportPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TidepoolSupportPlugin.h; sourceTree = "<group>"; };
 		1DFFB97A2716382D0075AEAA /* OSLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
+		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C136CB802890D6B2005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C15E3749288F190D008AB19C /* LoopKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C15E374D288F1943008AB19C /* LoopKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +108,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */,
+				C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +125,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C136CB7A2890D2FD005DF27D /* TidepoolKit.framework in Frameworks */,
+				C136CB832890D6B2005DF27D /* TidepoolKitUI.framework in Frameworks */,
+				C136CB7D2890D5FC005DF27D /* TidepoolKitUI.framework in Frameworks */,
+				C136CB812890D6B2005DF27D /* TidepoolKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +240,12 @@
 		1DFFB98227163A300075AEAA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */,
+				C136CB802890D6B2005DF27D /* TidepoolKitUI.framework */,
+				C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */,
+				C136CB792890D2FD005DF27D /* TidepoolKit.framework */,
+				C15E374D288F1943008AB19C /* LoopKitUI.framework */,
+				C15E3749288F190D008AB19C /* LoopKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -274,7 +316,7 @@
 				1DFFB96B271627430075AEAA /* Sources */,
 				1DFFB96C271627430075AEAA /* Frameworks */,
 				1DFFB96D271627430075AEAA /* Resources */,
-				1D346767271A139B0026223C /* Copy Frameworks with Carthage */,
+				C15E3741288F1889008AB19C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -350,30 +392,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1D346767271A139B0026223C /* Copy Frameworks with Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/TidepoolKit.framework",
-				"$(BUILT_PRODUCTS_DIR)/TidepoolKitUI.framework",
-				"$(BUILT_PRODUCTS_DIR)/TidepoolSupport.framework",
-			);
-			name = "Copy Frameworks with Carthage";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "${SRCROOT}/Scripts/copy-frameworks.sh\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1DFFB92E27150D2C0075AEAA /* Sources */ = {
