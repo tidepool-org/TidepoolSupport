@@ -222,3 +222,26 @@ extension TidepoolSupport  {
         return AnyView(AdverseEventReportButton(adverseEventReportViewModel: viewModel, urlHandler: urlHandler))
     }
 }
+
+extension TidepoolSupport {
+    private enum StudyProduct: String {
+        case none
+        case studyProduct1
+        case studyProduct2
+    }
+    
+    private var studyProduct: StudyProduct {
+        StudyProduct(rawValue: UserDefaults.appGroup?.studyProductSelection ?? "none") ?? .none
+    }
+    
+    public func filterScenarios(scenarioURLs: [URL]) -> [URL] {
+        switch studyProduct {
+        case .none:
+            return scenarioURLs.filter { !$0.lastPathComponent.hasPrefix("HF-") }
+        case .studyProduct1:
+            return scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-1-") }
+        case .studyProduct2:
+            return scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
+        }
+    }
+}

@@ -12,6 +12,7 @@ extension UserDefaults {
 
     private enum Key: String {
         case mockAppStoreResponse = "org.tidepool.plugins.TidepoolSupport.MockAppStoreResponse"
+        case studyProductSelection = "org.tidepool.plugins.TidepoolSupport.StudyProductSelection"
     }
     
     var mockAppStoreVersionResponse: String? {
@@ -21,5 +22,9 @@ extension UserDefaults {
         set {
             set(newValue, forKey: Key.mockAppStoreResponse.rawValue)
         }
+    }
+    
+    var studyProductSelection: String? {
+        string(forKey: Key.studyProductSelection.rawValue)
     }
 }
