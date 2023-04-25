@@ -230,6 +230,15 @@ extension TidepoolSupport {
         case studyProduct2
     }
     
+    public var loopNeedsReset: Bool {
+        get {
+            UserDefaults.appGroup?.resetLoop == true
+        }
+        set {
+            UserDefaults.appGroup?.resetLoop = newValue
+        }
+    }
+    
     private var studyProduct: StudyProduct {
         StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none
     }
@@ -261,5 +270,39 @@ extension TidepoolSupport {
                 url: $0
             )
         }
+    }
+    
+    public func resetLoop() {
+        resetLoopUserDefaults()
+        resetLoopDocuments()
+    }
+    
+    private func resetLoopUserDefaults() {
+        // Store values to persist
+        let allowDebugFeatures = UserDefaults.appGroup?.allowDebugFeatures
+        let studyProductSelection = UserDefaults.appGroup?.studyProductSelection
+
+        // Wipe away whole domain
+        if let appGroupSuiteName = Bundle.main.appGroupSuiteName {
+            UserDefaults.appGroup?.removePersistentDomain(forName: appGroupSuiteName)
+        }
+
+        // Restore values to persist
+        UserDefaults.appGroup?.allowDebugFeatures = allowDebugFeatures ?? false
+        UserDefaults.appGroup?.studyProductSelection = studyProductSelection
+    }
+    
+    private func resetLoopDocuments() {
+        guard let appGroup = Bundle.main.appGroupSuiteName, let directoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            preconditionFailure("Could not get a container directory URL. Please ensure App Groups are set up correctly in entitlements.")
+        }
+        
+        let documents: URL = directoryURL.appendingPathComponent("com.loopkit.LoopKit", isDirectory: true)
+        try? FileManager.default.removeItem(at: documents)
+        
+        guard let localDocuments = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {
+            preconditionFailure("Could not get a documents directory URL.")
+        }
+        try? FileManager.default.removeItem(at: localDocuments)
     }
 }
