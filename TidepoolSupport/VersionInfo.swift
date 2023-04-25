@@ -37,7 +37,7 @@ extension TInfo.Versions.Loop {
         if needsSupportedUpdate(version: version) {
             return .recommended
         }
-        return .none
+        return .noUpdateNeeded
     }
     
     func needsCriticalUpdate(version: String) -> Bool {

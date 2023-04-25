@@ -8,26 +8,26 @@
 
 import LoopKit
 import LoopKitUI
+import os.log
 
 class AppStoreVersionChecker {
 
-    func checkVersion(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Error>) -> Void) {
-        DispatchQueue.global(qos: .utility).async {
-            self.getAppInfo(bundleIdentifier) { result in
-                switch result {
-                case .success(let info):
-                    if let appStoreVersion = SemanticVersion(info.version),
-                       let current = SemanticVersion(currentVersion),
-                       appStoreVersion > current
-                    {
-                        completion(.success(.available))
-                    } else {
-                        completion(.success(VersionUpdate.none))
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+    private let log = OSLog(category: "AppStoreVersionChecker")
+
+    func checkVersion(bundleIdentifier: String, currentVersion: String) async -> VersionUpdate? {
+        do {
+            let info = try await getAppInfo(bundleIdentifier)
+            if let appStoreVersion = SemanticVersion(info.version),
+               let current = SemanticVersion(currentVersion),
+               appStoreVersion > current
+            {
+                return .available
+            } else {
+                return .noUpdateNeeded
             }
+        } catch {
+            log.error("checkVersion failed: %@", error.localizedDescription)
+            return nil
         }
     }
     
@@ -61,31 +61,19 @@ class AppStoreVersionChecker {
         }
     }
     
-    private func getAppInfo(_ bundleIdentifier: String, completion: @escaping (Result<AppInfo, Error>) -> Void) {
+    private func getAppInfo(_ bundleIdentifier: String) async throws -> AppInfo {
         
         guard let url = URL(string: "http://itunes.apple.com/us/lookup?bundleId=\(bundleIdentifier)") else {
-            completion(.failure(VersionError.invalidBundleInfo))
-            return
+            throw VersionError.invalidBundleInfo
         }
-        let task = session.dataTask(with: url) { (data, response, error) in
-            do {
-                if let error = error {
-                    throw error
-                }
-                guard let data = data else {
-                    throw VersionError.invalidResponse
-                }
-                let result = try LookupResult(from: data)
-                guard let info = result.results.first else {
-                    throw VersionError.noResults
-                }
-                completion(.success(info))
-            } catch {
-                completion(.failure(error))
-            }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+
+        let result = try LookupResult(from: data)
+        guard let info = result.results.first else {
+            throw VersionError.noResults
         }
-        
-        task.resume()
+        return info
     }
 }
 

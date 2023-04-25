@@ -10,15 +10,17 @@ import os.log
 import LoopKit
 import LoopKitUI
 import TidepoolKit
+import TidepoolServiceKit
 import SwiftUI
 
 public final class TidepoolSupport: SupportUI, TAPIObserver {
+
     public typealias RawStateValue = [String: Any]
 
     public static let supportIdentifier = "TidepoolSupport"
 
     public let tapi: TAPI
-    private var environment: TEnvironment?
+    private var environment: TEnvironment
     
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
@@ -34,21 +36,17 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     private let log = OSLog(category: supportIdentifier)
 
     public init(_ environment: TEnvironment? = nil) {
-        tapi = TAPI()
+        tapi = TAPI(clientId: Bundle.main.tidepoolServiceClientId, redirectURL: Bundle.main.tidepoolServiceRedirectURL)
 
-        // TODO: REMOVE BEFORE SHIPPING - https://tidepool.atlassian.net/browse/LOOP-4060
         if tapi.defaultEnvironment == nil {
-            tapi.defaultEnvironment = TEnvironment(host: "external.integration.tidepool.org", port: 443)
+            tapi.defaultEnvironment = TEnvironment(host: "app.tidepool.org", port: 443)
         }
 
-        self.environment = environment ?? tapi.defaultEnvironment ?? tapi.environments.first
-             
-        tapi.addObserver(self)
-    }
+        self.environment = environment ?? tapi.defaultEnvironment!
 
-    deinit {
-        tapi.removeObserver(self)
-        log.default("deinit")
+        Task {
+            await tapi.addObserver(self)
+        }
     }
 
     public convenience init?(rawState: RawStateValue) {
@@ -67,84 +65,54 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     public func apiDidUpdateSession(_ session: TSession?) {
         // noop
     }
+
+    public func configurationMenuItems() -> [AnyView] {
+        return []
+    }
+
 }
 
 extension TidepoolSupport {
 
-    public func checkVersion(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Swift.Error>) -> Void) {
-        
-        let group = DispatchGroup()
-        var infoResult: Result<VersionUpdate?, Swift.Error>!
-        var appStoreResult: Result<VersionUpdate?, Swift.Error>!
-        
-        group.enter()
-        checkVersionInfo(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) {
-            infoResult = $0
-            group.leave()
-        }
-        
-        group.enter()
-        appStoreVersionChecker.checkVersion(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) {
-            appStoreResult = $0
-            group.leave()
-        }
-        
-        group.notify(queue: DispatchQueue.global(qos: .background)) { [weak self] in
-            var alertVersion: VersionUpdate? = nil
-            var completionResult: Result<VersionUpdate?, Swift.Error>
-            switch (infoResult!, appStoreResult!) {
-            case (.failure, .failure):
-                completionResult = infoResult
-            case (.failure(let error), .success(let appStoreVersion)):
-                self?.log.error("Tidepool info checkVersion failed: %@", error.localizedDescription)
-                completionResult = .success(appStoreVersion)
-            case (.success(let infoVersion), .failure(let error)):
-                self?.log.error("Tidepool appStore checkVersion failed: %@", error.localizedDescription)
-                alertVersion = infoVersion
-                completionResult = infoResult
-            case (.success(let infoVersionOptional), .success(let appStoreVersionOptional)):
-                switch (infoVersionOptional, appStoreVersionOptional) {
-                case (nil, nil):
-                    completionResult = .success(nil)
-                case (nil, .some(let appStoreVersion)):
-                    alertVersion = appStoreVersion
-                    completionResult = .success(appStoreVersion)
-                case (.some(let infoVersion), nil):
-                    alertVersion = infoVersion
-                    completionResult = .success(infoVersion)
-                case (.some(let infoVersion), .some(let appStoreVersion)):
-                    alertVersion = max(infoVersion, appStoreVersion)
-                    completionResult = .success(alertVersion)
-                }
+    public func checkVersion(bundleIdentifier: String, currentVersion: String) async -> VersionUpdate? {
+
+        async let infoVersionOptional = checkVersionInfo(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion)
+        async let appStoreVersionOptional = appStoreVersionChecker.checkVersion(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion)
+
+        let result: VersionUpdate? = [await infoVersionOptional, await appStoreVersionOptional].reduce(nil) { (a, b) in
+            if let a, let b {
+                return max(a, b)
+            } else {
+                return a ?? b
             }
-            if let alertVersion = alertVersion {
-                self?.maybeIssueAlert(alertVersion)
-            }
-            completion(completionResult)
         }
+
+        if let alertVersion = result {
+            maybeIssueAlert(alertVersion)
+        }
+        return result
     }
     
-    public func checkVersionInfo(bundleIdentifier: String, currentVersion: String, completion: @escaping (Result<VersionUpdate?, Swift.Error>) -> Void) {
+    public func checkVersionInfo(bundleIdentifier: String, currentVersion: String) async -> VersionUpdate? {
         // TODO: ideally the backend API takes `bundleIdentifier` as a parameter, instead of returning a big struct
         // with all version info (which we parse below).  See https://tidepool.atlassian.net/browse/BACK-2012
-        tapi.getInfo(environment: environment) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                // If an error or timeout occurs, respond with the last-known version info, otherwise, reply with an error
-                if let versionInfo = self?.lastVersionInfo {
-                    self?.log.error("checkVersion error: %{public}@; Returning %{public}@",
-                                    error.localizedDescription,
-                                    versionInfo.getVersionUpdateNeeded(currentVersion: currentVersion).localizedDescription)
-                    completion(.success(versionInfo.getVersionUpdateNeeded(currentVersion: currentVersion)))
-                } else {
-                    self?.log.error("checkVersion error: %{public}@", error.localizedDescription)
-                    completion(.failure(error))
-                }
-            case .success(let info):
-                self?.log.debug("checkVersion info = %{public}@ for %{public}@ version %{public}@", info.versions.debugDescription, bundleIdentifier, currentVersion)
-                let versionInfo = info.versions?.loop.flatMap { VersionInfo(bundleIdentifier: bundleIdentifier, loop: $0) }
-                self?.lastVersionInfo = versionInfo
-                completion(.success(versionInfo?.getVersionUpdateNeeded(currentVersion: currentVersion)))
+
+        do {
+            let info = try await tapi.getInfo(environment: environment)
+            log.debug("checkVersion info = %{public}@ for %{public}@ version %{public}@", info.versions.debugDescription, bundleIdentifier, currentVersion)
+            let versionInfo = info.versions?.loop.flatMap { VersionInfo(bundleIdentifier: bundleIdentifier, loop: $0) }
+            lastVersionInfo = versionInfo
+            return versionInfo?.getVersionUpdateNeeded(currentVersion: currentVersion)
+        } catch {
+            // If an error or timeout occurs, respond with the last-known version info, otherwise, reply with an error
+            if let versionInfo = lastVersionInfo {
+                log.error("checkVersion error: %{public}@; Returning %{public}@",
+                                error.localizedDescription,
+                                versionInfo.getVersionUpdateNeeded(currentVersion: currentVersion).localizedDescription)
+                return versionInfo.getVersionUpdateNeeded(currentVersion: currentVersion)
+            } else {
+                log.error("checkVersion error: %{public}@", error.localizedDescription)
+                return nil
             }
         }
     }

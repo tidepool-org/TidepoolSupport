@@ -34,6 +34,7 @@
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
+		C166903829F70D03007E0A14 /* TidepoolServiceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C166903729F70D03007E0A14 /* TidepoolServiceKit.framework */; };
 		C16DA94129B8CCC200CC3610 /* TidepoolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C16DA94029B8CCC200CC3610 /* TidepoolKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +99,7 @@
 		C136CB802890D6B2005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C15E3749288F190D008AB19C /* LoopKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C15E374D288F1943008AB19C /* LoopKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C166903729F70D03007E0A14 /* TidepoolServiceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolServiceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C16DA94029B8CCC200CC3610 /* TidepoolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -107,6 +109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */,
+				C166903829F70D03007E0A14 /* TidepoolServiceKit.framework in Frameworks */,
 				C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */,
 				C16DA94129B8CCC200CC3610 /* TidepoolKit.framework in Frameworks */,
 			);
@@ -237,6 +240,7 @@
 		1DFFB98227163A300075AEAA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C166903729F70D03007E0A14 /* TidepoolServiceKit.framework */,
 				C16DA94029B8CCC200CC3610 /* TidepoolKit.framework */,
 				C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */,
 				C136CB802890D6B2005DF27D /* TidepoolKitUI.framework */,
@@ -499,7 +503,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -557,7 +560,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
