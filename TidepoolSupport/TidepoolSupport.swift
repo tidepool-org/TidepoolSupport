@@ -237,15 +237,4 @@ extension TidepoolSupport {
     public var studyProduct: StudyProduct {
         StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none
     }
-    
-    public func filterScenarios(scenarioURLs: [URL]) -> [URL] {
-        switch studyProduct {
-        case .none:
-            return scenarioURLs
-        case .studyProduct1:
-            return scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-1-") }
-        case .studyProduct2:
-            return scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
-        }
-    }
 }
