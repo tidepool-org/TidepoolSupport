@@ -224,16 +224,24 @@ extension TidepoolSupport  {
 }
 
 extension TidepoolSupport {
-    public enum StudyProduct: String {
+    private enum StudyProduct: String {
         case none
         case studyProduct1
         case studyProduct2
     }
     
+    private var studyProduct: StudyProduct {
+        StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none
+    }
+    
+    public var studyProductSelection: String? {
+        UserDefaults.appGroup?.studyProductSelection
+    }
+    
     public func getScenarios(from scenarioURLs: [URL]) -> [LoopScenario] {
         var filteredURLs: [URL] = []
 
-        switch StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none {
+        switch studyProduct {
         case .none:
             filteredURLs = scenarioURLs
         case .studyProduct1:
@@ -253,13 +261,5 @@ extension TidepoolSupport {
                 url: $0
             )
         }
-    }
-    
-    public var studyProductSelection: String? {
-        UserDefaults.appGroup?.studyProductSelection
-    }
-    
-    public var studyProduct: StudyProduct {
-        StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none
     }
 }
