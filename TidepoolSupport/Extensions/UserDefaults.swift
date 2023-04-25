@@ -12,6 +12,9 @@ extension UserDefaults {
 
     private enum Key: String {
         case mockAppStoreResponse = "org.tidepool.plugins.TidepoolSupport.MockAppStoreResponse"
+        case studyProductSelection = "org.tidepool.plugins.TidepoolSupport.StudyProductSelection"
+        case resetLoop = "org.tidepool.plugins.TidepoolSupport.ResetLoop"
+        case allowDebugFeatures = "com.loopkit.Loop.allowDebugFeatures"
     }
     
     var mockAppStoreVersionResponse: String? {
@@ -20,6 +23,33 @@ extension UserDefaults {
         }
         set {
             set(newValue, forKey: Key.mockAppStoreResponse.rawValue)
+        }
+    }
+    
+    var studyProductSelection: String? {
+        get {
+            string(forKey: Key.studyProductSelection.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.studyProductSelection.rawValue)
+        }
+    }
+    
+    var resetLoop: Bool? {
+        get {
+            bool(forKey: Key.resetLoop.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.resetLoop.rawValue)
+        }
+    }
+    
+    var allowDebugFeatures: Bool {
+        get {
+            bool(forKey: Key.allowDebugFeatures.rawValue)
+        }
+        set {
+            set(newValue, forKey: Key.allowDebugFeatures.rawValue)
         }
     }
 }
