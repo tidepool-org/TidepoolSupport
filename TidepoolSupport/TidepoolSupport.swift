@@ -230,6 +230,31 @@ extension TidepoolSupport {
         case studyProduct2
     }
     
+    public func getScenarios(from scenarioURLs: [URL]) -> [LoopScenario] {
+        var filteredURLs: [URL] = []
+
+        switch StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none {
+        case .none:
+            filteredURLs = scenarioURLs
+        case .studyProduct1:
+            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-1-") }
+        case .studyProduct2:
+            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
+        }
+
+        return filteredURLs.map {
+            LoopScenario(
+                name: $0                                            // /Scenarios/HF-1-Scenario_1.json
+                    .deletingPathExtension()                        // /Scenarios/HF-1-Scenario_1
+                    .lastPathComponent                              // HF-1-Scenario_1
+                    .replacingOccurrences(of: "HF-1-", with: "")    // Scenario_1
+                    .replacingOccurrences(of: "HF-2-", with: "")    // Scenario_1
+                    .replacingOccurrences(of: "_", with: " "),      // Scenario 1,
+                url: $0
+            )
+        }
+    }
+    
     public var studyProductSelection: String? {
         UserDefaults.appGroup?.studyProductSelection
     }
