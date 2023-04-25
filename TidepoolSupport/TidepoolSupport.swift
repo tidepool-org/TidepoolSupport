@@ -38,11 +38,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     public init(_ environment: TEnvironment? = nil) {
         tapi = TAPI(clientId: Bundle.main.tidepoolServiceClientId, redirectURL: Bundle.main.tidepoolServiceRedirectURL)
 
-        if tapi.defaultEnvironment == nil {
-            tapi.defaultEnvironment = TEnvironment(host: "app.tidepool.org", port: 443)
-        }
-
-        self.environment = environment ?? tapi.defaultEnvironment!
+        self.environment = environment ?? tapi.defaultEnvironment ?? TEnvironment.productionEnvironment
 
         Task {
             await tapi.addObserver(self)
