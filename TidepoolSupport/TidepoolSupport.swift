@@ -186,3 +186,87 @@ extension TidepoolSupport  {
         return AnyView(AdverseEventReportButton(adverseEventReportViewModel: viewModel, urlHandler: urlHandler))
     }
 }
+
+extension TidepoolSupport {
+    private enum StudyProduct: String {
+        case none
+        case studyProduct1
+        case studyProduct2
+    }
+    
+    public var loopNeedsReset: Bool {
+        get {
+            UserDefaults.appGroup?.resetLoop == true
+        }
+        set {
+            UserDefaults.appGroup?.resetLoop = newValue
+        }
+    }
+    
+    private var studyProduct: StudyProduct {
+        StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none
+    }
+    
+    public var studyProductSelection: String? {
+        UserDefaults.appGroup?.studyProductSelection
+    }
+    
+    public func getScenarios(from scenarioURLs: [URL]) -> [LoopScenario] {
+        var filteredURLs: [URL] = []
+
+        switch studyProduct {
+        case .none:
+            filteredURLs = scenarioURLs
+        case .studyProduct1:
+            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-1-") }
+        case .studyProduct2:
+            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
+        }
+
+        return filteredURLs.map {
+            LoopScenario(
+                name: $0                                            // /Scenarios/HF-1-Scenario_1.json
+                    .deletingPathExtension()                        // /Scenarios/HF-1-Scenario_1
+                    .lastPathComponent                              // HF-1-Scenario_1
+                    .replacingOccurrences(of: "HF-1-", with: "")    // Scenario_1
+                    .replacingOccurrences(of: "HF-2-", with: "")    // Scenario_1
+                    .replacingOccurrences(of: "_", with: " "),      // Scenario 1,
+                url: $0
+            )
+        }
+    }
+    
+    public func resetLoop() {
+        resetLoopUserDefaults()
+        resetLoopDocuments()
+    }
+    
+    private func resetLoopUserDefaults() {
+        // Store values to persist
+        let allowDebugFeatures = UserDefaults.appGroup?.allowDebugFeatures
+        let studyProductSelection = UserDefaults.appGroup?.studyProductSelection
+
+        // Wipe away whole domain
+        if let appGroupSuiteName = Bundle.main.appGroupSuiteName {
+            UserDefaults.appGroup?.removePersistentDomain(forName: appGroupSuiteName)
+        }
+
+        // Restore values to persist
+        UserDefaults.appGroup?.allowDebugFeatures = allowDebugFeatures ?? false
+        UserDefaults.appGroup?.studyProductSelection = studyProductSelection
+    }
+    
+    private func resetLoopDocuments() {
+        guard let appGroup = Bundle.main.appGroupSuiteName, let directoryURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            preconditionFailure("Could not get a container directory URL. Please ensure App Groups are set up correctly in entitlements.")
+        }
+        
+        let documents: URL = directoryURL.appendingPathComponent("com.loopkit.LoopKit", isDirectory: true)
+        try? FileManager.default.removeItem(at: documents)
+        
+        guard let localDocuments = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {
+            preconditionFailure("Could not get a documents directory URL.")
+        }
+        try? FileManager.default.removeItem(at: localDocuments)
+    }
+}
