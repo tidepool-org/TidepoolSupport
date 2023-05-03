@@ -23,14 +23,17 @@ class TidepoolSupportTests: XCTestCase {
        case test
     }
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
         
         URLProtocolMock.handlers = []
 
         let environment = TEnvironment(host: "test.org", port: 443)
         support = TidepoolSupport(environment)
-        support.tapi.urlSessionConfiguration.protocolClasses = [URLProtocolMock.self]
+
+        let urlSessionConfiguration = await support.tapi.urlSessionConfiguration
+        urlSessionConfiguration.protocolClasses = [URLProtocolMock.self]
+        await support.tapi.setURLSessionConfiguration(urlSessionConfiguration)
     }
 
     override func tearDown() {
@@ -47,72 +50,33 @@ class TidepoolSupportTests: XCTestCase {
                                                             error: TestError.test)]
     }
 
-    func testCheckVersion() throws {
+    func testCheckVersion() async throws {
         setupToReturnInfo()
-        var tempResult: Result<VersionUpdate?, Error>?
-        let e = self.expectation(description: #function)
-        support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0") {
-            tempResult = $0
-            e.fulfill()
-        }
-        wait(for: [e], timeout: Self.timeout)
-        let result = try XCTUnwrap(tempResult)
-        XCTAssertNil(result.error)
-        XCTAssertEqual(VersionUpdate.recommended, result.value)
+
+        let result = await support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0")
+        XCTAssertEqual(VersionUpdate.recommended, result)
     }
     
-    func testCheckVersionReturnsNilForOtherBundleIdentifiers() throws {
+    func testCheckVersionReturnsNilForOtherBundleIdentifiers() async throws {
         setupToReturnInfo()
-        var tempResult: Result<VersionUpdate?, Error>?
-        let e = self.expectation(description: #function)
-        support.checkVersion(bundleIdentifier: "foo.bar", currentVersion: "1.2.0") {
-            tempResult = $0
-            e.fulfill()
-        }
-        wait(for: [e], timeout: Self.timeout)
-        let result = try XCTUnwrap(tempResult)
-        XCTAssertNil(result.error)
-        let value = try XCTUnwrap(result.value)
-        XCTAssertNil(value)
+        let result = await support.checkVersion(bundleIdentifier: "foo.bar", currentVersion: "1.2.0")
+        XCTAssertNil(result)
     }
     
-    func testCheckVersionError() throws {
+    func testCheckVersionError() async throws {
         setupToReturnErrorOnInfo()
-        var tempResult: Result<VersionUpdate?, Error>?
-        let e = self.expectation(description: #function)
-        support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0") {
-            tempResult = $0
-            e.fulfill()
-        }
-        wait(for: [e], timeout: Self.timeout)
-        let result = try XCTUnwrap(tempResult)
-        XCTAssertNotNil(result.error)
-        XCTAssertNil(result.value as Any?)
+        let result = await support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0")
+        XCTAssertNil(result)
     }
     
-    func testCheckVersionReturnsLastResultOnError() throws {
+    func testCheckVersionReturnsLastResultOnError() async throws {
         setupToReturnInfo()
-        var tempResult: Result<VersionUpdate?, Error>?
-        let e = self.expectation(description: #function)
-        support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0") {
-            tempResult = $0
-            e.fulfill()
-        }
-        wait(for: [e], timeout: Self.timeout)
-        var result = try XCTUnwrap(tempResult)
-        XCTAssertNil(result.error)
-        XCTAssertEqual(VersionUpdate.recommended, result.value)
+        let result = await support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0")
+        XCTAssertEqual(VersionUpdate.recommended, result)
         
         setupToReturnErrorOnInfo()
-        let e2 = self.expectation(description: #function + " error")
-        support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0") {
-            tempResult = $0
-            e2.fulfill()
-        }
-        wait(for: [e2], timeout: Self.timeout)
-        result = try XCTUnwrap(tempResult)
-        XCTAssertNil(result.error)
-        XCTAssertEqual(VersionUpdate.recommended, result.value)
+        let result2 = await support.checkVersion(bundleIdentifier: "org.tidepool.Loop", currentVersion: "1.2.0")
+        XCTAssertEqual(VersionUpdate.recommended, result2)
     }
 }
 

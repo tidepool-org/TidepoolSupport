@@ -64,9 +64,11 @@ public class SoftwareUpdateViewModel: ObservableObject {
     }
     
     private func update() {
-        support?.checkVersion(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion) {
-            if case .success(let versionUpdate) = $0 {
-                self.versionUpdate = versionUpdate
+        Task { @MainActor in
+            do {
+                self.versionUpdate = try await support?.checkVersion(bundleIdentifier: bundleIdentifier, currentVersion: currentVersion)
+            } catch {
+                // ignore
             }
         }
     }
