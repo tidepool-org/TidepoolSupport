@@ -194,7 +194,7 @@ extension TidepoolSupport {
         case studyProduct2
     }
     
-    public var loopNeedsReset: Bool {
+    private(set) public var loopNeedsReset: Bool {
         get {
             UserDefaults.appGroup?.resetLoop == true
         }
@@ -239,6 +239,7 @@ extension TidepoolSupport {
     public func resetLoop() {
         resetLoopUserDefaults()
         resetLoopDocuments()
+        loopNeedsReset = false
     }
     
     private func resetLoopUserDefaults() {
