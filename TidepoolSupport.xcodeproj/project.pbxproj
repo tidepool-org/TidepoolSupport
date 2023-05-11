@@ -36,6 +36,15 @@
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
 		C166903829F70D03007E0A14 /* TidepoolServiceKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C166903729F70D03007E0A14 /* TidepoolServiceKit.framework */; };
 		C16DA94129B8CCC200CC3610 /* TidepoolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C16DA94029B8CCC200CC3610 /* TidepoolKit.framework */; };
+		C1B2EE982A0C4C7A001CF2FA /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EE972A0C4C7A001CF2FA /* LocalizedString.swift */; };
+		C1B2EEA02A0C4F27001CF2FA /* InvitationSubmitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EE9B2A0C4F27001CF2FA /* InvitationSubmitView.swift */; };
+		C1B2EEA12A0C4F27001CF2FA /* AlertConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EE9C2A0C4F27001CF2FA /* AlertConfigurationView.swift */; };
+		C1B2EEA22A0C4F27001CF2FA /* MyCaregiversView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EE9D2A0C4F27001CF2FA /* MyCaregiversView.swift */; };
+		C1B2EEA32A0C4F27001CF2FA /* NewCaregiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EE9E2A0C4F27001CF2FA /* NewCaregiverView.swift */; };
+		C1B2EEA52A0C4F79001CF2FA /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEA42A0C4F79001CF2FA /* TimeInterval.swift */; };
+		C1B2EEB52A0D2A12001CF2FA /* InvitationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEAE2A0D2A11001CF2FA /* InvitationViewModel.swift */; };
+		C1B2EEB82A0D2A12001CF2FA /* Caregiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEB12A0D2A12001CF2FA /* Caregiver.swift */; };
+		C1B2EEB92A0D2A12001CF2FA /* CaregiverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEB22A0D2A12001CF2FA /* CaregiverManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +110,15 @@
 		C15E374D288F1943008AB19C /* LoopKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoopKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C166903729F70D03007E0A14 /* TidepoolServiceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolServiceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C16DA94029B8CCC200CC3610 /* TidepoolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1B2EE972A0C4C7A001CF2FA /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
+		C1B2EE9B2A0C4F27001CF2FA /* InvitationSubmitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationSubmitView.swift; sourceTree = "<group>"; };
+		C1B2EE9C2A0C4F27001CF2FA /* AlertConfigurationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertConfigurationView.swift; sourceTree = "<group>"; };
+		C1B2EE9D2A0C4F27001CF2FA /* MyCaregiversView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCaregiversView.swift; sourceTree = "<group>"; };
+		C1B2EE9E2A0C4F27001CF2FA /* NewCaregiverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewCaregiverView.swift; sourceTree = "<group>"; };
+		C1B2EEA42A0C4F79001CF2FA /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
+		C1B2EEAE2A0D2A11001CF2FA /* InvitationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationViewModel.swift; sourceTree = "<group>"; };
+		C1B2EEB12A0D2A12001CF2FA /* Caregiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Caregiver.swift; sourceTree = "<group>"; };
+		C1B2EEB22A0D2A12001CF2FA /* CaregiverManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaregiverManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,9 +179,11 @@
 		1DFFB93427150D2C0075AEAA /* TidepoolSupport */ = {
 			isa = PBXGroup;
 			children = (
+				C1B2EE992A0C4F12001CF2FA /* Caregivers */,
 				1DFFB95027150D930075AEAA /* Extensions */,
 				1DFFB93527150D2C0075AEAA /* TidepoolSupport.h */,
 				1DFFB94E27150D6F0075AEAA /* AppStoreVersionChecker.swift */,
+				C1B2EE972A0C4C7A001CF2FA /* LocalizedString.swift */,
 				1DE14AFF27287FAE00502666 /* MockUrlProtocol.swift */,
 				1DFFB96127150F1F0075AEAA /* SemanticVersion.swift */,
 				1DFFB96427150F560075AEAA /* TidepoolSupport.swift */,
@@ -197,6 +217,7 @@
 			children = (
 				1DFFB95127150D9F0075AEAA /* Bundle.swift */,
 				1DE14AFD272877E400502666 /* UserDefaults.swift */,
+				C1B2EEA42A0C4F79001CF2FA /* TimeInterval.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -250,6 +271,20 @@
 				C15E3749288F190D008AB19C /* LoopKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C1B2EE992A0C4F12001CF2FA /* Caregivers */ = {
+			isa = PBXGroup;
+			children = (
+				C1B2EE9C2A0C4F27001CF2FA /* AlertConfigurationView.swift */,
+				C1B2EEB12A0D2A12001CF2FA /* Caregiver.swift */,
+				C1B2EEB22A0D2A12001CF2FA /* CaregiverManager.swift */,
+				C1B2EEAE2A0D2A11001CF2FA /* InvitationViewModel.swift */,
+				C1B2EE9B2A0C4F27001CF2FA /* InvitationSubmitView.swift */,
+				C1B2EE9D2A0C4F27001CF2FA /* MyCaregiversView.swift */,
+				C1B2EE9E2A0C4F27001CF2FA /* NewCaregiverView.swift */,
+			);
+			path = Caregivers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,15 +436,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DFFB95827150DF60075AEAA /* SoftwareUpdateView.swift in Sources */,
+				C1B2EEA52A0C4F79001CF2FA /* TimeInterval.swift in Sources */,
+				C1B2EE982A0C4C7A001CF2FA /* LocalizedString.swift in Sources */,
+				C1B2EEA12A0C4F27001CF2FA /* AlertConfigurationView.swift in Sources */,
+				C1B2EEA02A0C4F27001CF2FA /* InvitationSubmitView.swift in Sources */,
+				C1B2EEA32A0C4F27001CF2FA /* NewCaregiverView.swift in Sources */,
 				1DFFB96327150F1F0075AEAA /* SemanticVersion.swift in Sources */,
 				1DFFB96527150F560075AEAA /* TidepoolSupport.swift in Sources */,
 				1DE14B0027287FAE00502666 /* MockUrlProtocol.swift in Sources */,
 				1DE14AFE272877E400502666 /* UserDefaults.swift in Sources */,
 				1DFFB97F271639490075AEAA /* OSLog.swift in Sources */,
+				C1B2EEA22A0C4F27001CF2FA /* MyCaregiversView.swift in Sources */,
 				1DFFB967271626B50075AEAA /* AdverseEventReportViewModel.swift in Sources */,
 				1DFFB969271626BE0075AEAA /* AdverseEventReportButton.swift in Sources */,
 				1DFFB95227150D9F0075AEAA /* Bundle.swift in Sources */,
+				C1B2EEB92A0D2A12001CF2FA /* CaregiverManager.swift in Sources */,
 				1DFFB95527150DDC0075AEAA /* SoftwareUpdateViewModel.swift in Sources */,
+				C1B2EEB82A0D2A12001CF2FA /* Caregiver.swift in Sources */,
+				C1B2EEB52A0D2A12001CF2FA /* InvitationViewModel.swift in Sources */,
 				1DFFB94F27150D6F0075AEAA /* AppStoreVersionChecker.swift in Sources */,
 				1DFFB96227150F1F0075AEAA /* VersionInfo.swift in Sources */,
 			);

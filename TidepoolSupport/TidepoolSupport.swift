@@ -140,21 +140,21 @@ extension TidepoolSupport {
         let alertContent: LoopKit.Alert.Content
         if firstAlert {
             alertContent = Alert.Content(title: versionUpdate.localizedDescription,
-                                         body: NSLocalizedString("""
+                                         body: LocalizedString("""
                                                     Your Tidepool Loop app is out of date. It will continue to work, but we recommend updating to the latest version.
                                                     
                                                     Go to Tidepool Loop Settings > Software Update to complete.
                                                     """, comment: "Alert content body for first software update alert"),
-                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"))
+                                         acknowledgeActionButtonLabel: LocalizedString("OK", comment: "Default acknowledgement"))
         } else if let lastVersionCheckAlertDate = lastVersionCheckAlertDate,
                   abs(lastVersionCheckAlertDate.timeIntervalSinceNow) > Self.alertCadence {
-            alertContent = Alert.Content(title: NSLocalizedString("Update Reminder", comment: "Recurring software update alert title"),
-                                         body: NSLocalizedString("""
+            alertContent = Alert.Content(title: LocalizedString("Update Reminder", comment: "Recurring software update alert title"),
+                                         body: LocalizedString("""
                                                     A software update is recommended to continue using the Tidepool Loop app.
                                                     
                                                     Go to Tidepool Loop Settings > Software Update to install the latest version.
                                                     """, comment: "Alert content body for recurring software update alert"),
-                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"))
+                                         acknowledgeActionButtonLabel: LocalizedString("OK", comment: "Default acknowledgement"))
         } else {
             return
         }
@@ -180,10 +180,26 @@ extension TidepoolSupport {
 }
 
 extension TidepoolSupport  {
+    public func configurationMenuItems() -> [LoopKitUI.CustomMenuItem] {
+        var menuItems = [LoopKitUI.CustomMenuItem]()
+        if let delegate {
+            let viewModel = AdverseEventReportViewModel(supportInfoProvider: delegate)
+            let view = AdverseEventReportButton(adverseEventReportViewModel: viewModel) { url in
+                delegate.openURL(url: url)
+            }
+            menuItems.append(CustomMenuItem(section: .support, view: AnyView(view)))
+        }
+        menuItems.append(
+            CustomMenuItem(
+                section: .custom(localizedTitle: LocalizedString("Share Activity", comment: "Settings menu section title for share activity")),
+                view: AnyView(myCaregiversMenu)))
+        return menuItems
+    }
 
-    public func supportMenuItem(supportInfoProvider: SupportInfoProvider, urlHandler: @escaping (URL) -> Void) -> AnyView? {
-        let viewModel = AdverseEventReportViewModel(supportInfoProvider: supportInfoProvider)
-        return AnyView(AdverseEventReportButton(adverseEventReportViewModel: viewModel, urlHandler: urlHandler))
+    var myCaregiversMenu: some View {
+        NavigationLink("My Caregivers") {
+            MyCaregiversView(caregiverManager: CaregiverManager(caregivers: [], api: tapi))
+        }
     }
 }
 
