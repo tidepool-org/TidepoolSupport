@@ -19,7 +19,7 @@ struct NewCaregiverView: View {
             Section(header: header)
             {
                 TextField(text: $viewModel.nickname) {
-                    Text("Nickname")
+                    Text(LocalizedString("Nickname", comment: "Placeholder text for nickname field of invite caregiver form"))
                 }
                 .textInputAutocapitalization(.words)
                 .onChange(of: viewModel.nickname) { newValue in
@@ -27,7 +27,7 @@ struct NewCaregiverView: View {
                 }
 
                 TextField(text: $viewModel.email) {
-                    Text("Email")
+                    Text(LocalizedString("Email", comment: "Placeholder text for email field of invite caregiver form"))
                 }
                 .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
@@ -39,14 +39,14 @@ struct NewCaregiverView: View {
         .onAppear {
             validateInputs()
         }
-        .navigationTitle("Invite Caregiver")
+        .navigationTitle(LocalizedString("Invite Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     AlertConfigurationView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
-                    Text("Next")
+                    Text(LocalizedString("Next", comment: "Button title to continue to next page of invite caregiver form"))
                 }
                 .isDetailLink(false)
                 .disabled(!formComplete)

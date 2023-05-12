@@ -30,9 +30,9 @@ struct AlertConfigurationView: View {
         Form {
             Section(header: header)
             {
-                Toggle("Urgent Low", isOn: $viewModel.urgentLowEnabled)
+                Toggle(LocalizedString("Urgent Low", comment: "Title of urgent low alert"), isOn: $viewModel.urgentLowEnabled)
                 if viewModel.urgentLowEnabled {
-                    Picker("Notify Below", selection: $viewModel.urgentLowThreshold) {
+                    Picker(LocalizedString("Notify Below", comment: "Title of urgent low alert threshold"), selection: $viewModel.urgentLowThreshold) {
                         ForEach(viewModel.urgentLowThresholdValues) { value in
                             Text(viewModel.valueFormatter.string(from: value as NSNumber)! + " mg/dL")
                         }
@@ -40,14 +40,14 @@ struct AlertConfigurationView: View {
                 }
             }
             Section() {
-                Toggle("Low", isOn: $viewModel.lowEnabled)
+                Toggle(LocalizedString("Low", comment: "Title of low alert"), isOn: $viewModel.lowEnabled)
                 if viewModel.lowEnabled {
-                    Picker("Notify Below", selection: $viewModel.lowThreshold) {
+                    Picker(LocalizedString("Notify Below", comment: "Title of low alert threshold"), selection: $viewModel.lowThreshold) {
                         ForEach(viewModel.lowThresholdValues) { value in
                             Text(viewModel.valueFormatter.string(from: value as NSNumber)! + " mg/dL")
                         }
                     }
-                    Picker("For More Than", selection: $viewModel.lowDelay) {
+                    Picker(LocalizedString("For More Than", comment: "Title of alert delay value"), selection: $viewModel.lowDelay) {
                         ForEach(viewModel.lowDelayValues) { value in
                             Text(viewModel.timeIntervalFormatter.string(from: value)!)
                         }
@@ -55,14 +55,14 @@ struct AlertConfigurationView: View {
                 }
             }
             Section() {
-                Toggle("High", isOn: $viewModel.highEnabled)
+                Toggle(LocalizedString("High", comment: "Title of high alert"), isOn: $viewModel.highEnabled)
                 if viewModel.highEnabled {
-                    Picker("Notify Above", selection: $viewModel.highThreshold) {
+                    Picker(LocalizedString("Notify Above", comment: "Title of high alert threshold value"), selection: $viewModel.highThreshold) {
                         ForEach(viewModel.highThresholdValues) { value in
                             Text(viewModel.valueFormatter.string(from: value as NSNumber)! + " mg/dL")
                         }
                     }
-                    Picker("For More Than", selection: $viewModel.highDelay) {
+                    Picker(LocalizedString("For More Than", comment: "Title of alert delay value"), selection: $viewModel.highDelay) {
                         ForEach(viewModel.highDelayValues) { value in
                             Text(viewModel.timeIntervalFormatter.string(from: value)!)
                         }
@@ -70,9 +70,9 @@ struct AlertConfigurationView: View {
                 }
             }
             Section() {
-                Toggle("Not Looping", isOn: $viewModel.notLoopingEnabled)
+                Toggle(LocalizedString("Not Looping", comment: "Title of not looping alert"), isOn: $viewModel.notLoopingEnabled)
                 if viewModel.notLoopingEnabled {
-                    Picker("For More Than", selection: $viewModel.notLoopingDelay) {
+                    Picker(LocalizedString("For More Than", comment: "Title of alert delay value"), selection: $viewModel.notLoopingDelay) {
                         ForEach(viewModel.notLoopingDelayValues) { value in
                             Text(viewModel.timeIntervalFormatter.string(from: value)!)
                         }
@@ -80,9 +80,9 @@ struct AlertConfigurationView: View {
                 }
             }
             Section(footer: noCommunicationFooter) {
-                Toggle("No Communication", isOn: $viewModel.noCommunicationEnabled)
+                Toggle(LocalizedString("No Communication", comment: "Title of no communication alert"), isOn: $viewModel.noCommunicationEnabled)
                 if viewModel.noCommunicationEnabled {
-                    Picker("For More Than", selection: $viewModel.noCommunicationDelay) {
+                    Picker(LocalizedString("For More Than", comment: "Title of alert delay value"), selection: $viewModel.noCommunicationDelay) {
                         ForEach(viewModel.noCommunicationDelayValues) { value in
                             Text(viewModel.timeIntervalFormatter.string(from: value)!)
                         }
@@ -90,14 +90,14 @@ struct AlertConfigurationView: View {
                 }
             }
         }
-        .navigationTitle("Notifications")
+        .navigationTitle(LocalizedString("Notifications", comment: "Navigation title for notification configuration page of caregiver invitation"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
                     InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
-                    Text("Next")
+                    Text(LocalizedString("Next", comment: "Button title for navigating to next page of caregiver invitation form"))
                 }
                 .isDetailLink(false)
             }

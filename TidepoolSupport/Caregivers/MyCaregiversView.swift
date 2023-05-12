@@ -14,7 +14,7 @@ struct MyCaregiversView: View {
     @ObservedObject var caregiverManager: CaregiverManager
 
     @State private var selectedCaregiver: Caregiver?
-    @State private var showingCaregiverOptions: Bool = false
+    @State private var showingCaregiverActions: Bool = false
     @State private var showingRemoveConfirmation: Bool = false
     @State private var isCreatingInvitation: Bool = false
 
@@ -25,7 +25,7 @@ struct MyCaregiversView: View {
                 ForEach(caregiverManager.caregivers) { caregiver in
                     Button {
                         selectedCaregiver = caregiver
-                        showingCaregiverOptions = true
+                        showingCaregiverActions = true
                     } label: {
                         HStack {
                             VStack(alignment: .leading) {
@@ -39,24 +39,23 @@ struct MyCaregiversView: View {
                                 .foregroundColor(.primary)
                         }
                     }
-                    .confirmationDialog(selectedCaregiver?.name ?? "Unselected", isPresented: $showingCaregiverOptions, titleVisibility: .visible) {
-                        Button("Resend Invitation") {
-                            print("here1")
+                    .confirmationDialog(selectedCaregiver!.name, isPresented: $showingCaregiverActions, titleVisibility: .visible) {
+                        Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action") {
+                            // TODO
                         }
 
-                        Button("Remove Caregiver", role: .destructive) {
+                            Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
                             showingRemoveConfirmation = true
                         }
                     }
-                    .alert("Remove Caregiver?",
+                        .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
                            isPresented: $showingRemoveConfirmation,
                            presenting: caregiver,
                            actions: { caregiver in
                         Button(role: .destructive) {
-                            // Handle the deletion.
-
+                            // TODO - handle the deletion
                         } label: {
-                            Text("Remove")
+                            Text(LocalizedString("Remove", comment: "Button title on alert for remove caregiver confirmation"))
                         }
                     },
                            message: { caregiver in
@@ -69,14 +68,17 @@ struct MyCaregiversView: View {
                     label: {
                         HStack {
                             Image(systemName: "plus.circle.fill")
-                            Text("Invite a new caregiver")
+                            Text(LocalizedString("Invite a new caregiver", comment: "Navigation link title to invite a new caregiver"))
                         }
                         .foregroundColor(.accentColor)
                     })
                 .isDetailLink(false)
             }
         }
-        .navigationTitle("My Caregivers")
+        .onAppear {
+            // TODO: refresh invites and followers from backend
+        }
+        .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
         .navigationBarTitleDisplayMode(.large)
     }
 
@@ -88,7 +90,7 @@ struct MyCaregiversView: View {
                 .foregroundColor(.primary)
             if caregiverManager.caregivers.count == 0 {
                 VStack {
-                    Text("You haven’t added any caregivers yet!")
+                    Text(LocalizedString("You haven’t added any caregivers yet!", comment: "Informative text shown on My Caregivers page when no caregiver invitations or followers exist")))
                         .textCase(nil)
                         .font(.body.italic())
                         .padding(.top, 20)

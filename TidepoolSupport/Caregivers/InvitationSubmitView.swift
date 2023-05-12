@@ -67,40 +67,40 @@ struct InvitationSubmitView: View {
         VStack(spacing: 0) {
             List {
                 Section(header: header) {
-                    labelRow("Caregiver Nickname", viewModel.nickname)
-                    labelRow("Email", viewModel.email)
+                    labelRow(LocalizedString("Caregiver Nickname", comment: "Label text for reviewing caregiver invitation nickname"), viewModel.nickname)
+                    labelRow(LocalizedString("Email", comment: "Label text for reviewing caregiver invitation email"), viewModel.email)
                 }
                 Section
                 {
-                    alertEnabledRow("Urgent Low", viewModel.urgentLowEnabled)
+                    alertEnabledRow(LocalizedString("Urgent Low", comment: "Title of urgent low alert"), viewModel.urgentLowEnabled)
                     if viewModel.urgentLowEnabled {
-                        thresholdRow("Notify Below", viewModel.urgentLowThreshold)
+                        thresholdRow(LocalizedString("Notify Below", comment: "Title of urgent low alert threshold"), viewModel.urgentLowThreshold)
                     }
                 }
                 Section() {
-                    alertEnabledRow("Low", viewModel.lowEnabled)
+                    alertEnabledRow(LocalizedString("Low", comment: "Title of low alert"), viewModel.lowEnabled)
                     if viewModel.lowEnabled {
-                        thresholdRow("Notify Below", viewModel.lowThreshold)
-                        delayRow("For More Than", viewModel.lowDelay)
+                        thresholdRow(LocalizedString("Notify Below", comment: "Title of low alert threshold"), viewModel.lowThreshold)
+                        delayRow(LocalizedString("For More Than", comment: "Title of alert delay value"), viewModel.lowDelay)
                     }
                 }
                 Section() {
-                    alertEnabledRow("High", viewModel.highEnabled)
+                    alertEnabledRow(LocalizedString("High", comment: "Title of high alert"), viewModel.highEnabled)
                     if viewModel.highEnabled {
-                        thresholdRow("Notify Above", viewModel.highThreshold)
-                        delayRow("For More Than", viewModel.highDelay)
+                        thresholdRow(LocalizedString("Notify Above", comment: "Title of high alert threshold value"), viewModel.highThreshold)
+                        delayRow(LocalizedString("For More Than", comment: "Title of delay value"), viewModel.highDelay)
                     }
                 }
                 Section() {
-                    alertEnabledRow("Not Looping", viewModel.notLoopingEnabled)
+                    alertEnabledRow(LocalizedString("Not Looping", comment: "Title of not looping alert"), viewModel.notLoopingEnabled)
                     if viewModel.notLoopingEnabled {
-                        delayRow("For More Than", viewModel.notLoopingDelay)
+                        delayRow(LocalizedString("For More Than", comment: "Title of alert delay value"), viewModel.notLoopingDelay)
                     }
                 }
                 Section() {
-                    alertEnabledRow("No Communication", viewModel.noCommunicationEnabled)
+                    alertEnabledRow(LocalizedString("No Communication", comment: "Title of no communication alert"), viewModel.noCommunicationEnabled)
                     if viewModel.noCommunicationEnabled {
-                        delayRow("For More Than", viewModel.noCommunicationDelay)
+                        delayRow(LocalizedString("For More Than", comment: "Title of alert delay value"), viewModel.noCommunicationDelay)
                     }
                 }
             }
@@ -116,7 +116,7 @@ struct InvitationSubmitView: View {
                         Image(systemName: "checkmark.circle.fill")
                             .foregroundColor(.accentColor)
                             .font(Font.system(.largeTitle))
-                        Text("Invite Sent!")
+                        Text(LocalizedString("Invite Sent!", comment: "Success message for caregiver invitation creation"))
                             .bold()
                     }
                     .frame(maxWidth: .infinity)
@@ -153,9 +153,9 @@ struct InvitationSubmitView: View {
                     case .sending:
                         ProgressView()
                     case .sent:
-                        Text("Continue")
+                        Text(LocalizedString("Continue", comment: "Button title to continue"))
                     default:
-                        Text("Send Invite")
+                        Text(LocalizedString("Send Invite", comment: "Button title to send caregiver invitation"))
                     }
                 }
                 .actionButtonStyle(.primary)
@@ -166,12 +166,12 @@ struct InvitationSubmitView: View {
             .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
         }
         .edgesIgnoringSafeArea(.bottom)
-        .navigationTitle("Send Invitation")
+        .navigationTitle(LocalizedString("Send Invitation", comment: "Navigation bar title on submit caregiver invitation page"))
         .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden(sendState.isSent || sendState.isSending)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Cancel") {
+                Button(LocalizedString("Cancel", comment: "Button title to cancel sending of caregiver invitation")) {
                     isCreatingInvitation = false
                 }
                 .disabled(sendState.isSent || sendState.isSending)
@@ -182,7 +182,7 @@ struct InvitationSubmitView: View {
     func errorView(_ error: Error) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Label {
-                Text("Invite failed to send.")
+                Text(LocalizedString("Invite failed to send.", comment: "Failure message when caregiver invitation fails during sending."))
                     .bold()
             } icon: {
                 Image(systemName: "exclamationmark.triangle.fill")
