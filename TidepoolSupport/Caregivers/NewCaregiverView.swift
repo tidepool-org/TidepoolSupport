@@ -11,8 +11,8 @@ struct NewCaregiverView: View {
     @Environment(\.appName) private var appName
 
     @ObservedObject var viewModel: InvitationViewModel
-
     @State private var formComplete: Bool = false
+    @Binding var isCreatingInvitation: Bool
 
     var body: some View {
         Form {
@@ -44,10 +44,11 @@ struct NewCaregiverView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    AlertConfigurationView(viewModel: viewModel)
+                    AlertConfigurationView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
                     Text("Next")
                 }
+                .isDetailLink(false)
                 .disabled(!formComplete)
             }
         }
@@ -73,7 +74,7 @@ struct NewCaregiverView: View {
 struct NewCaregiver_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NewCaregiverView(viewModel: InvitationViewModel())
+            NewCaregiverView(viewModel: InvitationViewModel.mock, isCreatingInvitation: .constant(true))
         }
         .environment(\.appName, "Tidepool Loop")
 

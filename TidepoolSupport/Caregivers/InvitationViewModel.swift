@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import TidepoolKit
 
 class InvitationViewModel: ObservableObject {
+
+    var api: TAPI
 
     @Published var nickname: String = ""
     @Published var email: String = ""
@@ -70,8 +73,15 @@ class InvitationViewModel: ObservableObject {
         return formatter
     }()
 
-    func submit() async throws {
-        try await mockSubmit()
+    init(api: TAPI) {
+        self.api = api
+    }
+
+    func submit() async throws -> TInvite {
+        //try await mockSubmit()
+        let request = TInviteRequest(email: email, permissions: TInvitePermissions(view: TPermissionFlag()))
+        let invite = try await api.sendInvite(request: request)
+        return invite
     }
 
     // Mock stuff
@@ -89,6 +99,7 @@ class InvitationViewModel: ObservableObject {
 enum MockNetworkError: Error {
     case serverError
 }
+
 extension MockNetworkError : LocalizedError {
     public var errorDescription: String? {
         switch self {
@@ -101,5 +112,11 @@ extension MockNetworkError : LocalizedError {
         case .serverError:
             return LocalizedString("Make sure your device has service and then tap Send Invite to resend your invitation.", comment: "")
         }
+    }
+}
+
+extension InvitationViewModel {
+    static var mock: InvitationViewModel {
+        InvitationViewModel(api: TAPI.mock)
     }
 }

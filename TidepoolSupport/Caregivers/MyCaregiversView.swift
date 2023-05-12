@@ -16,6 +16,7 @@ struct MyCaregiversView: View {
     @State private var selectedCaregiver: Caregiver?
     @State private var showingCaregiverOptions: Bool = false
     @State private var showingRemoveConfirmation: Bool = false
+    @State private var isCreatingInvitation: Bool = false
 
     var body: some View {
         List {
@@ -51,27 +52,28 @@ struct MyCaregiversView: View {
                            isPresented: $showingRemoveConfirmation,
                            presenting: caregiver,
                            actions: { caregiver in
-                               Button(role: .destructive) {
-                                   // Handle the deletion.
+                        Button(role: .destructive) {
+                            // Handle the deletion.
 
-                               } label: {
-                                   Text("Remove")
-                               }
-                           },
+                        } label: {
+                            Text("Remove")
+                        }
+                    },
                            message: { caregiver in
-                              Text(String(format: LocalizedString("%1$@ will lose all access to your data. Are you sure you want to remove this caregiver?", comment: "Format string for message on remove caregiver alert confirmation"), caregiver.name))
-                           })
-
+                        Text(String(format: LocalizedString("%1$@ will lose all access to your data. Are you sure you want to remove this caregiver?", comment: "Format string for message on remove caregiver alert confirmation"), caregiver.name))
+                    })
                 }
-                NavigationLink {
-                    NewCaregiverView(viewModel: InvitationViewModel())
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Invite a new caregiver")
-                    }
-                    .foregroundColor(.accentColor)
-                }
+                NavigationLink(
+                    destination: NewCaregiverView(viewModel: InvitationViewModel(api: caregiverManager.api), isCreatingInvitation: $isCreatingInvitation),
+                    isActive: $isCreatingInvitation,
+                    label: {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Invite a new caregiver")
+                        }
+                        .foregroundColor(.accentColor)
+                    })
+                .isDetailLink(false)
             }
         }
         .navigationTitle("My Caregivers")

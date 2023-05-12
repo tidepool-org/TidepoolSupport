@@ -10,6 +10,7 @@ import SwiftUI
 struct InvitationSubmitView: View {
 
     @ObservedObject var viewModel: InvitationViewModel
+    @Binding var isCreatingInvitation: Bool
 
     enum SendState {
         case idle
@@ -108,19 +109,8 @@ struct InvitationSubmitView: View {
             VStack(spacing: 0) {
                 switch sendState {
                 case .error(let error):
-                    VStack(alignment: .leading, spacing: 10) {
-                        Label {
-                            Text("Invite failed to send.")
-                                .bold()
-                        } icon: {
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .foregroundColor(.red)
-                        }
-                        if let error = error as? LocalizedError, let recoverySuggestion = error.recoverySuggestion {
-                            Text(recoverySuggestion)
-                        }
-                    }
-                    .padding([.top, .horizontal])
+                    errorView(error)
+                        .padding([.top, .horizontal])
                 case .sent:
                     VStack(spacing: 10) {
                         Image(systemName: "checkmark.circle.fill")
@@ -153,7 +143,7 @@ struct InvitationSubmitView: View {
                             }
                         }
                     case .sent:
-                        // TODO: Navigate to caregiver mgmt
+                        isCreatingInvitation = false
                         break
                     default:
                         break
@@ -182,10 +172,23 @@ struct InvitationSubmitView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Cancel") {
-                    print("Cancel tapped!")
+                    isCreatingInvitation = false
                 }
                 .disabled(sendState.isSent || sendState.isSending)
             }
+        }
+    }
+
+    func errorView(_ error: Error) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label {
+                Text("Invite failed to send.")
+                    .bold()
+            } icon: {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundColor(.red)
+            }
+            Text((error as? LocalizedError)?.recoverySuggestion ?? error.localizedDescription)
         }
     }
 
@@ -205,7 +208,7 @@ struct InvitationSubmitView: View {
 struct InvitationSubmitView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            InvitationSubmitView(viewModel: InvitationViewModel())
+            InvitationSubmitView(viewModel: InvitationViewModel.mock, isCreatingInvitation: .constant(true))
         }
     }
 }

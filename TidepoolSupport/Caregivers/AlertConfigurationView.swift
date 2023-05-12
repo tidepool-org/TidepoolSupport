@@ -16,6 +16,7 @@ extension Double: Identifiable {
 struct AlertConfigurationView: View {
 
     @ObservedObject var viewModel: InvitationViewModel
+    @Binding var isCreatingInvitation: Bool
 
     struct ThresholdValue: Identifiable {
         var id: Double {
@@ -94,10 +95,11 @@ struct AlertConfigurationView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    InvitationSubmitView(viewModel: viewModel)
+                    InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
                     Text("Next")
                 }
+                .isDetailLink(false)
             }
         }
     }
@@ -122,7 +124,7 @@ struct AlertConfigurationView: View {
 struct InitialNotificationsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            AlertConfigurationView(viewModel: InvitationViewModel())
+            AlertConfigurationView(viewModel: InvitationViewModel.mock, isCreatingInvitation: .constant(true))
         }
     }
 }
