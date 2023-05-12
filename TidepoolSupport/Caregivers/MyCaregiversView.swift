@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import LoopKitUI
 
 struct MyCaregiversView: View {
+    @EnvironmentObject private var displayGlucosePreference: DisplayGlucoseUnitObservable
 
     @Environment(\.appName) private var appName
 
@@ -40,11 +42,11 @@ struct MyCaregiversView: View {
                         }
                     }
                     .confirmationDialog(selectedCaregiver!.name, isPresented: $showingCaregiverActions, titleVisibility: .visible) {
-                        Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action") {
+                        Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                             // TODO
                         }
 
-                            Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
+                        Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
                             showingRemoveConfirmation = true
                         }
                     }
@@ -90,7 +92,7 @@ struct MyCaregiversView: View {
                 .foregroundColor(.primary)
             if caregiverManager.caregivers.count == 0 {
                 VStack {
-                    Text(LocalizedString("You haven’t added any caregivers yet!", comment: "Informative text shown on My Caregivers page when no caregiver invitations or followers exist")))
+                    Text(LocalizedString("You haven’t added any caregivers yet!", comment: "Informative text shown on My Caregivers page when no caregiver invitations or followers exist"))
                         .textCase(nil)
                         .font(.body.italic())
                         .padding(.top, 20)

@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import HealthKit
+import LoopKitUI
+import LoopKit
 
 extension Double: Identifiable {
     public var id: Double {
@@ -14,6 +17,7 @@ extension Double: Identifiable {
 }
 
 struct AlertConfigurationView: View {
+    @EnvironmentObject private var glucosePreference: DisplayGlucoseUnitObservable
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
@@ -26,6 +30,12 @@ struct AlertConfigurationView: View {
         let value: Double
     }
 
+    let formatter = QuantityFormatter(for: .milligramsPerDeciliter)
+
+    func formatGlucose(_ glucose: Double) -> String {
+        return formatter.string(from: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: glucose), for: glucosePreference.displayGlucoseUnit)!
+    }
+
     var body: some View {
         Form {
             Section(header: header)
@@ -34,7 +44,7 @@ struct AlertConfigurationView: View {
                 if viewModel.urgentLowEnabled {
                     Picker(LocalizedString("Notify Below", comment: "Title of urgent low alert threshold"), selection: $viewModel.urgentLowThreshold) {
                         ForEach(viewModel.urgentLowThresholdValues) { value in
-                            Text(viewModel.valueFormatter.string(from: value as NSNumber)! + " mg/dL")
+                            Text(formatGlucose(value))
                         }
                     }
                 }
@@ -44,7 +54,7 @@ struct AlertConfigurationView: View {
                 if viewModel.lowEnabled {
                     Picker(LocalizedString("Notify Below", comment: "Title of low alert threshold"), selection: $viewModel.lowThreshold) {
                         ForEach(viewModel.lowThresholdValues) { value in
-                            Text(viewModel.valueFormatter.string(from: value as NSNumber)! + " mg/dL")
+                            Text(formatGlucose(value))
                         }
                     }
                     Picker(LocalizedString("For More Than", comment: "Title of alert delay value"), selection: $viewModel.lowDelay) {
@@ -59,7 +69,7 @@ struct AlertConfigurationView: View {
                 if viewModel.highEnabled {
                     Picker(LocalizedString("Notify Above", comment: "Title of high alert threshold value"), selection: $viewModel.highThreshold) {
                         ForEach(viewModel.highThresholdValues) { value in
-                            Text(viewModel.valueFormatter.string(from: value as NSNumber)! + " mg/dL")
+                            Text(formatGlucose(value))
                         }
                     }
                     Picker(LocalizedString("For More Than", comment: "Title of alert delay value"), selection: $viewModel.highDelay) {

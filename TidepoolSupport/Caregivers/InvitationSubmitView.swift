@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import HealthKit
+import LoopKitUI
+import LoopKit
 
 struct InvitationSubmitView: View {
+    @EnvironmentObject private var glucosePreference: DisplayGlucoseUnitObservable
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
@@ -37,7 +41,18 @@ struct InvitationSubmitView: View {
         }
     }
 
+    let formatter = QuantityFormatter(for: .milligramsPerDeciliter)
+
+    func formatGlucose(_ glucose: Double) -> String {
+        return formatter.string(from: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: glucose), for: glucosePreference.displayGlucoseUnit)!
+    }
+
     @State var sendState: SendState = .idle
+
+    init(viewModel: InvitationViewModel, isCreatingInvitation: Binding<Bool>) {
+        self.viewModel = viewModel
+        self._isCreatingInvitation = isCreatingInvitation
+    }
 
     func labelRow(_ name: String, _ value: String) -> some View {
         HStack {
@@ -56,7 +71,7 @@ struct InvitationSubmitView: View {
     }
 
     func thresholdRow(_ name: String, _ value: Double) -> some View {
-        labelRow(name, viewModel.valueFormatter.string(from: value as NSNumber)! + " mg/dL")
+        labelRow(name, formatGlucose(value))
     }
 
     func delayRow(_ name: String, _ value: TimeInterval) -> some View {
@@ -132,7 +147,7 @@ struct InvitationSubmitView: View {
                                 withAnimation {
                                     sendState = .sending
                                 }
-                                try await viewModel.submit()
+                                let _ = try await viewModel.submit()
                                 withAnimation {
                                     sendState = .sent
                                 }
