@@ -7,6 +7,9 @@
 
 import Foundation
 import TidepoolKit
+import HealthKit
+import LoopKit
+import Combine
 
 class InvitationViewModel: ObservableObject {
 
@@ -22,6 +25,10 @@ class InvitationViewModel: ObservableObject {
 
     }
 
+    // TODO: all the thresholds/ranges below are in mg/dL.
+    // While they are converted to mmol/L correctly in the UI, they are not nice round numbers
+    // like they are in mg/dL.  We should probably have a set of mmol/L defaults and ranges
+    // that are separate from the mg/dL ones, for mmol/L users.
     @Published var urgentLowEnabled: Bool = true
     @Published var urgentLowThreshold: Double = 55
     var urgentLowThresholdValues: [Double] {
@@ -60,18 +67,14 @@ class InvitationViewModel: ObservableObject {
         return Array(stride(from: TimeInterval(minutes: 30), through: TimeInterval(hours: 2), by: TimeInterval(minutes: 5)))
     }
 
-    let valueFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }()
-
     let timeIntervalFormatter: DateComponentsFormatter = {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
         formatter.unitsStyle = .short
         return formatter
     }()
+
+    private var subscribers: Set<AnyCancellable> = []
 
     init(api: TAPI) {
         self.api = api
