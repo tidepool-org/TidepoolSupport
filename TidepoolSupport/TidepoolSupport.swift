@@ -34,8 +34,8 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     
     private let log = OSLog(category: supportIdentifier)
 
-    public init() {
-        print("init")
+    public init(tapi: TAPI? = nil) {
+        self.tapi = tapi
     }
 
     public convenience init?(rawState: RawStateValue) {
@@ -57,7 +57,6 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
             self.tapi = tidepoolService.tapi
         }
     }
-
 
     public func apiDidUpdateSession(_ session: TSession?) {
         // noop
