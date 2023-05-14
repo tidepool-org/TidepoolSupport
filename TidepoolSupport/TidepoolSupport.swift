@@ -20,6 +20,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     public static let supportIdentifier = "TidepoolSupport"
 
     public var tapi: TAPI?
+    private var environment: TEnvironment?
 
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
@@ -34,8 +35,9 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     
     private let log = OSLog(category: supportIdentifier)
 
-    public init(tapi: TAPI? = nil) {
+    public init(tapi: TAPI? = nil, environment: TEnvironment? = nil) {
         self.tapi = tapi
+        self.environment = environment
     }
 
     public convenience init?(rawState: RawStateValue) {
@@ -55,6 +57,11 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     public func initializationComplete(for services: [LoopKit.Service]) {
         if let tidepoolService = services.first(where: { $0 as? TidepoolService != nil }) as? TidepoolService {
             self.tapi = tidepoolService.tapi
+            Task {
+                if let session = await tapi?.session {
+                    environment = session.environment
+                }
+            }
         }
     }
 
@@ -95,8 +102,11 @@ extension TidepoolSupport {
         // with all version info (which we parse below).  See https://tidepool.atlassian.net/browse/BACK-2012
 
         do {
-            if let tapi, let session = await tapi.session {
-                let info = try await tapi.getInfo(environment: session.environment)
+            if let tapi {
+                let defaultEnvironment = tapi.defaultEnvironment
+                let sessionEnvironment = await tapi.session?.environment
+                let environment = environment ?? sessionEnvironment ?? defaultEnvironment ?? TEnvironment.productionEnvironment
+                let info = try await tapi.getInfo(environment: environment)
                 log.debug("checkVersion info = %{public}@ for %{public}@ version %{public}@", info.versions.debugDescription, bundleIdentifier, currentVersion)
                 let versionInfo = info.versions?.loop.flatMap { VersionInfo(bundleIdentifier: bundleIdentifier, loop: $0) }
                 lastVersionInfo = versionInfo

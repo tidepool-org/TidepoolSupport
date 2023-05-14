@@ -39,7 +39,8 @@ class TidepoolSupportTests: XCTestCase {
         urlSessionConfiguration.protocolClasses = [URLProtocolMock.self]
         await tapi.setURLSessionConfiguration(urlSessionConfiguration)
 
-        support = TidepoolSupport(tapi: tapi)
+        let environment = TEnvironment(host: "test.org", port: 443)
+        support = TidepoolSupport(tapi: tapi, environment: environment)
     }
 
     override func tearDown() {
