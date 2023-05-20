@@ -54,9 +54,9 @@ struct SoftwareUpdateView: View {
         switch softwareUpdateViewModel.versionUpdate {
         case .required,  // for now...
                 .recommended:
-            return NSLocalizedString("Your Tidepool Loop app is out of date. It will continue to work, but we recommend updating to the new version.", comment: "Body for supported update needed")
+            return LocalizedString("Your Tidepool Loop app is out of date. It will continue to work, but we recommend updating to the new version.", comment: "Body for supported update needed")
         case .available:
-            return NSLocalizedString("Tidepool Loop has a new version ready for you. Please update through the App Store.", comment: "Body for information update needed")
+            return LocalizedString("Tidepool Loop has a new version ready for you. Please update through the App Store.", comment: "Body for information update needed")
         default:
             return ""
         }
@@ -65,7 +65,7 @@ struct SoftwareUpdateView: View {
     private var appStoreButton: some View {
         Button( action: { softwareUpdateViewModel.gotoAppStore() } ) {
             HStack {
-                Text(NSLocalizedString("App Store to Download and Install", comment: "App Store to Download and Install button text"))
+                Text(LocalizedString("App Store to Download and Install", comment: "App Store to Download and Install button text"))
                 Spacer()
                 Image(systemName: "chevron.right").foregroundColor(.gray).font(.footnote)
             }
@@ -75,11 +75,11 @@ struct SoftwareUpdateView: View {
     }
     
     private var supportSection: some View {
-        Section(header: SectionHeader(label: NSLocalizedString("Support", comment: "The title of the support section in software update")),
+        Section(header: SectionHeader(label: LocalizedString("Support", comment: "The title of the support section in software update")),
                 footer: Text("Have a question about an update? Let us know.", comment: "The footer of the support section in software update")) {
             NavigationLink(destination: Text("Get Help"))
             {
-                Text(NSLocalizedString("Get Help", comment: "The title of the support item in settings"))
+                Text(LocalizedString("Get Help", comment: "The title of the support item in settings"))
             }
         }
     }

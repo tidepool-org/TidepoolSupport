@@ -19,9 +19,9 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
 
     public static let supportIdentifier = "TidepoolSupport"
 
-    public let tapi: TAPI
-    private var environment: TEnvironment
-    
+    public var tapi: TAPI?
+    private var environment: TEnvironment?
+
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
     public private (set) var error: Error?
@@ -35,14 +35,9 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     
     private let log = OSLog(category: supportIdentifier)
 
-    public init(_ environment: TEnvironment? = nil) {
-        tapi = TAPI(clientId: Bundle.main.tidepoolServiceClientId, redirectURL: Bundle.main.tidepoolServiceRedirectURL)
-
-        self.environment = environment ?? tapi.defaultEnvironment ?? TEnvironment.productionEnvironment
-
-        Task {
-            await tapi.addObserver(self)
-        }
+    public init(tapi: TAPI? = nil, environment: TEnvironment? = nil) {
+        self.tapi = tapi
+        self.environment = environment
     }
 
     public convenience init?(rawState: RawStateValue) {
@@ -56,6 +51,17 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         rawValue["lastVersionInfo"] = lastVersionInfo?.toJSON()
         rawValue["lastVersionCheckAlertDate"] = lastVersionCheckAlertDate
         return rawValue
+    }
+
+    public func initializationComplete(for services: [LoopKit.Service]) {
+        if let tidepoolService = services.first(where: { $0 as? TidepoolService != nil }) as? TidepoolService {
+            self.tapi = tidepoolService.tapi
+            Task {
+                if let session = await tapi?.session {
+                    environment = session.environment
+                }
+            }
+        }
     }
 
     public func apiDidUpdateSession(_ session: TSession?) {
@@ -95,11 +101,18 @@ extension TidepoolSupport {
         // with all version info (which we parse below).  See https://tidepool.atlassian.net/browse/BACK-2012
 
         do {
-            let info = try await tapi.getInfo(environment: environment)
-            log.debug("checkVersion info = %{public}@ for %{public}@ version %{public}@", info.versions.debugDescription, bundleIdentifier, currentVersion)
-            let versionInfo = info.versions?.loop.flatMap { VersionInfo(bundleIdentifier: bundleIdentifier, loop: $0) }
-            lastVersionInfo = versionInfo
-            return versionInfo?.getVersionUpdateNeeded(currentVersion: currentVersion)
+            if let tapi {
+                let defaultEnvironment = tapi.defaultEnvironment
+                let sessionEnvironment = await tapi.session?.environment
+                let environment = environment ?? sessionEnvironment ?? defaultEnvironment ?? TEnvironment.productionEnvironment
+                let info = try await tapi.getInfo(environment: environment)
+                log.debug("checkVersion info = %{public}@ for %{public}@ version %{public}@", info.versions.debugDescription, bundleIdentifier, currentVersion)
+                let versionInfo = info.versions?.loop.flatMap { VersionInfo(bundleIdentifier: bundleIdentifier, loop: $0) }
+                lastVersionInfo = versionInfo
+                return versionInfo?.getVersionUpdateNeeded(currentVersion: currentVersion)
+            } else {
+                throw TError.sessionMissing
+            }
         } catch {
             // If an error or timeout occurs, respond with the last-known version info, otherwise, reply with an error
             if let versionInfo = lastVersionInfo {
@@ -141,21 +154,21 @@ extension TidepoolSupport {
         let alertContent: LoopKit.Alert.Content
         if firstAlert {
             alertContent = Alert.Content(title: versionUpdate.localizedDescription,
-                                         body: NSLocalizedString("""
+                                         body: LocalizedString("""
                                                     Your Tidepool Loop app is out of date. It will continue to work, but we recommend updating to the latest version.
                                                     
                                                     Go to Tidepool Loop Settings > Software Update to complete.
                                                     """, comment: "Alert content body for first software update alert"),
-                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"))
+                                         acknowledgeActionButtonLabel: LocalizedString("OK", comment: "Default acknowledgement"))
         } else if let lastVersionCheckAlertDate = lastVersionCheckAlertDate,
                   abs(lastVersionCheckAlertDate.timeIntervalSinceNow) > Self.alertCadence {
-            alertContent = Alert.Content(title: NSLocalizedString("Update Reminder", comment: "Recurring software update alert title"),
-                                         body: NSLocalizedString("""
+            alertContent = Alert.Content(title: LocalizedString("Update Reminder", comment: "Recurring software update alert title"),
+                                         body: LocalizedString("""
                                                     A software update is recommended to continue using the Tidepool Loop app.
                                                     
                                                     Go to Tidepool Loop Settings > Software Update to install the latest version.
                                                     """, comment: "Alert content body for recurring software update alert"),
-                                         acknowledgeActionButtonLabel: NSLocalizedString("OK", comment: "Default acknowledgement"))
+                                         acknowledgeActionButtonLabel: LocalizedString("OK", comment: "Default acknowledgement"))
         } else {
             return
         }
@@ -181,10 +194,28 @@ extension TidepoolSupport {
 }
 
 extension TidepoolSupport  {
+    public func configurationMenuItems() -> [LoopKitUI.CustomMenuItem] {
+        var menuItems = [LoopKitUI.CustomMenuItem]()
+        if let delegate {
+            let viewModel = AdverseEventReportViewModel(supportInfoProvider: delegate)
+            let view = AdverseEventReportButton(adverseEventReportViewModel: viewModel) { url in
+                delegate.openURL(url: url)
+            }
+            menuItems.append(CustomMenuItem(section: .support, view: AnyView(view)))
+        }
+        if let tapi {
+            menuItems.append(
+                CustomMenuItem(
+                    section: .custom(localizedTitle: LocalizedString("Share Activity", comment: "Settings menu section title for share activity")),
+                    view: AnyView(myCaregiversMenu(api: tapi))))
+        }
+        return menuItems
+    }
 
-    public func supportMenuItem(supportInfoProvider: SupportInfoProvider, urlHandler: @escaping (URL) -> Void) -> AnyView? {
-        let viewModel = AdverseEventReportViewModel(supportInfoProvider: supportInfoProvider)
-        return AnyView(AdverseEventReportButton(adverseEventReportViewModel: viewModel, urlHandler: urlHandler))
+    func myCaregiversMenu(api: TAPI) -> some View {
+        NavigationLink("My Caregivers") {
+            MyCaregiversView(caregiverManager: CaregiverManager(caregivers: [], api: api))
+        }
     }
 }
 

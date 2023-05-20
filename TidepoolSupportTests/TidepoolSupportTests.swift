@@ -10,8 +10,14 @@ import LoopKit
 @testable import TidepoolKit
 @testable import TidepoolSupport
 
+extension TAPI {
+    static var mock: TAPI {
+        TAPI(clientId: "mock", redirectURL: URL(string: "https://mock.com/mock")!)
+    }
+}
+
 class TidepoolSupportTests: XCTestCase {
-    static let timeout = TimeInterval(seconds: 5)
+    static let timeout = TimeInterval(5)
     static var randomString: String { UUID().uuidString }
     static let info = TInfo(versions: TInfo.Versions(loop: TInfo.Versions.Loop(minimumSupported: "1.2.3", criticalUpdateNeeded: ["1.0.0", "1.1.0"])))
     
@@ -28,12 +34,13 @@ class TidepoolSupportTests: XCTestCase {
         
         URLProtocolMock.handlers = []
 
-        let environment = TEnvironment(host: "test.org", port: 443)
-        support = TidepoolSupport(environment)
-
-        let urlSessionConfiguration = await support.tapi.urlSessionConfiguration
+        let tapi = TAPI.mock
+        let urlSessionConfiguration = await tapi.urlSessionConfiguration
         urlSessionConfiguration.protocolClasses = [URLProtocolMock.self]
-        await support.tapi.setURLSessionConfiguration(urlSessionConfiguration)
+        await tapi.setURLSessionConfiguration(urlSessionConfiguration)
+
+        let environment = TEnvironment(host: "test.org", port: 443)
+        support = TidepoolSupport(tapi: tapi, environment: environment)
     }
 
     override func tearDown() {
