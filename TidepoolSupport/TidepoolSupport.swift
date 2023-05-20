@@ -50,7 +50,6 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         var rawValue: RawStateValue = [:]
         rawValue["lastVersionInfo"] = lastVersionInfo?.toJSON()
         rawValue["lastVersionCheckAlertDate"] = lastVersionCheckAlertDate
-        rawValue["studyProductSelection"] = studyProductSelection
         return rawValue
     }
 
@@ -221,18 +220,14 @@ extension TidepoolSupport  {
 }
 
 extension TidepoolSupport {
-    private enum StudyProduct: String {
+    public enum StudyProduct: String {
         case none
         case studyProduct1
         case studyProduct2
     }
     
-    private var studyProduct: StudyProduct {
-        StudyProduct(rawValue: studyProductSelection ?? "none") ?? .none
-    }
-    
-    public var studyProductSelection: String? {
-        UserDefaults.appGroup?.studyProductSelection
+    public var studyProduct: StudyProduct {
+        StudyProduct(rawValue: UserDefaults.appGroup?.studyProductSelection ?? "none") ?? .none
     }
     
     public func getScenarios(from scenarioURLs: [URL]) -> [LoopScenario] {
