@@ -82,7 +82,7 @@ class InvitationViewModel: ObservableObject {
 
     func submit() async throws -> TInvite {
         //try await mockSubmit()
-        let request = TInviteRequest(email: email, permissions: TInvitePermissions(view: TPermissionFlag()))
+        let request = TInviteRequest(email: email, permissions: TPermissions(view: TPermissionFlag()))
         let invite = try await api.sendInvite(request: request)
         return invite
     }
