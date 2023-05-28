@@ -17,7 +17,7 @@ extension Double: Identifiable {
 }
 
 struct AlertConfigurationView: View {
-    @EnvironmentObject private var glucosePreference: DisplayGlucoseUnitObservable
+    @EnvironmentObject private var glucosePreference: DisplayGlucosePreference
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
@@ -30,10 +30,8 @@ struct AlertConfigurationView: View {
         let value: Double
     }
 
-    let formatter = QuantityFormatter(for: .milligramsPerDeciliter)
-
     func formatGlucose(_ glucose: Double) -> String {
-        return formatter.string(from: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: glucose), for: glucosePreference.displayGlucoseUnit)!
+        return glucosePreference.formatter.string(from: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: glucose))!
     }
 
     var body: some View {
