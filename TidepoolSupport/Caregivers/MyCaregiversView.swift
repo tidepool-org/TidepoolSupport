@@ -9,7 +9,7 @@ import SwiftUI
 import LoopKitUI
 
 struct MyCaregiversView: View {
-    @EnvironmentObject private var displayGlucosePreference: DisplayGlucoseUnitObservable
+    @EnvironmentObject private var displayGlucosePreference: DisplayGlucosePreference
 
     @Environment(\.appName) private var appName
 
