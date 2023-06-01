@@ -72,7 +72,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         return []
     }
 
-    private var _studyProductSelection: String?
+    private var _productSelection: String?
 }
 
 extension TidepoolSupport {
@@ -220,26 +220,29 @@ extension TidepoolSupport  {
 }
 
 extension TidepoolSupport {
-    public enum StudyProduct: String {
+    public enum Product: String {
         case none
         case studyProduct1
         case studyProduct2
+        case marketingDemo
     }
     
-    public var studyProduct: StudyProduct {
-        StudyProduct(rawValue: UserDefaults.appGroup?.studyProductSelection ?? "none") ?? .none
+    public var selectedProduct: Product {
+        Product(rawValue: UserDefaults.appGroup?.productSelection ?? "none") ?? .none
     }
     
     public func getScenarios(from scenarioURLs: [URL]) -> [LoopScenario] {
         var filteredURLs: [URL] = []
 
-        switch studyProduct {
+        switch selectedProduct {
         case .none:
             filteredURLs = scenarioURLs
         case .studyProduct1:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-1-") }
         case .studyProduct2:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
+        case .marketingDemo:
+            filteredURLs = scenarioURLs
         }
 
         return filteredURLs.map {
@@ -256,11 +259,11 @@ extension TidepoolSupport {
     }
     
     public func loopWillReset() {
-        _studyProductSelection = UserDefaults.appGroup?.studyProductSelection
+        _productSelection = UserDefaults.appGroup?.productSelection
     }
     
     public func loopDidReset() {
-        UserDefaults.appGroup?.studyProductSelection = _studyProductSelection
-        _studyProductSelection = nil
+        UserDefaults.appGroup?.productSelection = _productSelection
+        _productSelection = nil
     }
 }
