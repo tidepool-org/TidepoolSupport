@@ -242,7 +242,7 @@ extension TidepoolSupport {
         case .studyProduct2:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
         case .marketingDemo:
-            filteredURLs = scenarioURLs
+            filteredURLs = []
         }
 
         return filteredURLs.map {
