@@ -12,7 +12,7 @@ extension UserDefaults {
 
     private enum Key: String {
         case mockAppStoreResponse = "org.tidepool.plugins.TidepoolSupport.MockAppStoreResponse"
-        case studyProductSelection = "org.tidepool.plugins.TidepoolSupport.StudyProductSelection"
+        case productSelection = "org.tidepool.plugins.TidepoolSupport.ProductSelection"
         case allowDebugFeatures = "com.loopkit.Loop.allowDebugFeatures"
     }
     
@@ -25,12 +25,12 @@ extension UserDefaults {
         }
     }
     
-    var studyProductSelection: String? {
+    var productSelection: String? {
         get {
-            string(forKey: Key.studyProductSelection.rawValue)
+            string(forKey: Key.productSelection.rawValue)
         }
         set {
-            set(newValue, forKey: Key.studyProductSelection.rawValue)
+            set(newValue, forKey: Key.productSelection.rawValue)
         }
     }
     
