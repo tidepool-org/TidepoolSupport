@@ -15,6 +15,7 @@ class CaregiverManager: ObservableObject {
     private let log = OSLog(category: caregiverManagerIdentifier)
     
     private let userDefaultsSave = UserDefaults.standard
+    private let backendInvitesToIgnore = ["bigdata@tidepool.org", "bigdata+CWD@tidepool.org"]
     
     var api: TAPI
 
@@ -36,7 +37,7 @@ class CaregiverManager: ObservableObject {
         do {
             let trusteeUsers = try await api.getUsers()
             
-            for user in trusteeUsers {
+            trusteeUsers.forEach { user in
                 let email = user.emails.first
                 let status = InvitationStatus.accepted
                 let id = user.userid
@@ -63,21 +64,24 @@ class CaregiverManager: ObservableObject {
     private func processPendingInvites(caregivers: inout [Caregiver]) async {
         do {
             let pendingInvites = try await api.getPendingInvites()
-            for invitee in pendingInvites{
-                let nickName = userDefaultsSave.string(forKey: invitee.email) ?? ""
+            pendingInvites.forEach { invitee in
                 let email = invitee.email
+                if backendInvitesToIgnore.contains(email){return}
+                let nickName = userDefaultsSave.string(forKey: invitee.email) ?? ""
                 let status: InvitationStatus
                 
                 switch invitee.status {
 //              Currently a user must create a web account before the 'ignore' option is offered resulting in a declined status.
-//              In this use case, the invitee will have a full name, however,
+//              In this use-case, the invitee will have a full name, however,
 //              this is not currently updated as this UX may be refactored to redirect to the mobile app.
                 case "declined":
                     status = InvitationStatus.declined
                 default:
                     status = InvitationStatus.pending
                 }
-
+                
+//              In the 'pending' use-case, invitee does not yet have an account,
+//              therefore, does not have a userId, unique invitation key is a placeholder for now.
                 caregivers.append(Caregiver(name: nickName, email: email, status: status, id: invitee.key))
             }
         } catch {
