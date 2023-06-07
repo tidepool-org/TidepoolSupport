@@ -11,6 +11,7 @@ import Foundation
 enum InvitationStatus {
     case pending
     case accepted
+    case declined
 }
 
 struct Caregiver: Identifiable {

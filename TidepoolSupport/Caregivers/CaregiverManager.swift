@@ -7,15 +7,82 @@
 
 import Foundation
 import TidepoolKit
+import os.log
 
 class CaregiverManager: ObservableObject {
-    @Published var caregivers: [Caregiver]
-
+    
+    private static let caregiverManagerIdentifier = "CaregiverManager"
+    private let log = OSLog(category: caregiverManagerIdentifier)
+    
+    private let userDefaultsSave = UserDefaults.standard
+    
     var api: TAPI
 
-    init(caregivers: [Caregiver], api: TAPI) {
-        self.caregivers = caregivers
+    init(api: TAPI) {
         self.api = api
+    }
+    
+    @MainActor
+    func fetchCaregivers() async -> [Caregiver] {
+        var caregivers = [Caregiver]()
+        
+        await processExistingTrusteeUsers(caregivers: &caregivers)
+        await processPendingInvites(caregivers: &caregivers)
+        
+        return caregivers
+    }
+    
+    private func processExistingTrusteeUsers(caregivers: inout [Caregiver]) async {
+        do {
+            let trusteeUsers = try await api.getUsers()
+            
+            for user in trusteeUsers {
+                let email = user.emails.first
+                let status = InvitationStatus.accepted
+                let id = user.userid
+                var fullName = ""
+                
+                var nickName = userDefaultsSave.string(forKey: user.emails.first ?? "")
+                if user.profile != nil {
+                    fullName = user.profile?.fullName ?? ""
+                }
+                
+//              Default to profile full name if no nickname exists
+                if (nickName == nil) {
+                    nickName = fullName
+                }
+                
+                caregivers.append(Caregiver(name: nickName ?? "", email: email ?? "", status: status, id: id))
+            }
+        } catch {
+            log.error("processExistingTrusteeUsers error: %{public}@",error.localizedDescription)
+        }
+        
+    }
+    
+    private func processPendingInvites(caregivers: inout [Caregiver]) async {
+        do {
+            let pendingInvites = try await api.getPendingInvites()
+            for invitee in pendingInvites{
+                let nickName = userDefaultsSave.string(forKey: invitee.email) ?? ""
+                let email = invitee.email
+                let status: InvitationStatus
+                
+                switch invitee.status {
+//              Currently a user must create a web account before the 'ignore' option is offered resulting in a declined status.
+//              In this use case, the invitee will have a full name, however,
+//              this is not currently updated as this UX may be refactored to redirect to the mobile app.
+                case "declined":
+                    status = InvitationStatus.declined
+                default:
+                    status = InvitationStatus.pending
+                }
+
+                caregivers.append(Caregiver(name: nickName, email: email, status: status, id: invitee.key))
+            }
+        } catch {
+            log.error("processPendingInvites error: %{public}@",error.localizedDescription)
+        }
     }
 }
 
@@ -27,12 +94,12 @@ extension TAPI {
     }
 }
 
-extension CaregiverManager {
-    static var mock: CaregiverManager {
-        return CaregiverManager(caregivers: [Caregiver.mockPending, Caregiver.mockAccepted], api: TAPI.mock)
-    }
-
-    static var mockNoCaregivers: CaregiverManager {
-        return CaregiverManager(caregivers: [], api: TAPI.mock)
-    }
-}
+//extension CaregiverManager {
+//    static var mock: CaregiverManager {
+//        return CaregiverManager(caregivers: [Caregiver.mockPending, Caregiver.mockAccepted], api: TAPI.mock)
+//    }
+//
+//    static var mockNoCaregivers: CaregiverManager {
+//        return CaregiverManager(caregivers: [], api: TAPI.mock)
+//    }
+//}

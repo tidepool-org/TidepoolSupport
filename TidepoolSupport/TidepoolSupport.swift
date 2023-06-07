@@ -214,7 +214,7 @@ extension TidepoolSupport  {
 
     func myCaregiversMenu(api: TAPI) -> some View {
         NavigationLink("My Caregivers") {
-            MyCaregiversView(caregiverManager: CaregiverManager(caregivers: [], api: api))
+            MyCaregiversView(caregiverManager: CaregiverManager(api: api))
         }
     }
 }

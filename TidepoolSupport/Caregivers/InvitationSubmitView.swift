@@ -15,6 +15,8 @@ struct InvitationSubmitView: View {
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
+    
+    private let userDefaultsSave = UserDefaults.standard
 
     enum SendState {
         case idle
@@ -145,6 +147,7 @@ struct InvitationSubmitView: View {
                                 withAnimation {
                                     sendState = .sending
                                 }
+                                userDefaultsSave.set(viewModel.nickname, forKey: viewModel.email)
                                 let _ = try await viewModel.submit()
                                 withAnimation {
                                     sendState = .sent

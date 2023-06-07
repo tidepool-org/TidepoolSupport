@@ -8,26 +8,46 @@
 import SwiftUI
 import LoopKitUI
 
+@MainActor
+class MyCaregiversViewModel: ObservableObject {
+    @Published var caregivers: [Caregiver]
+    
+    @Published var selectedCaregiver: Caregiver?
+    @Published var showingCaregiverActions: Bool = false
+    @Published var showingRemoveConfirmation: Bool = false
+    @Published var isCreatingInvitation: Bool = false
+    
+    let caregiverManager: CaregiverManager
+    
+    init(caregiverManager: CaregiverManager, caregivers: [Caregiver] = []) {
+        self.caregiverManager = caregiverManager
+        self.caregivers = caregivers
+    }
+    
+    func fetchCaregivers() async {
+        self.caregivers = await caregiverManager.fetchCaregivers()
+    }
+}
+
 struct MyCaregiversView: View {
     @EnvironmentObject private var displayGlucosePreference: DisplayGlucosePreference
 
     @Environment(\.appName) private var appName
-
-    @ObservedObject var caregiverManager: CaregiverManager
-
-    @State private var selectedCaregiver: Caregiver?
-    @State private var showingCaregiverActions: Bool = false
-    @State private var showingRemoveConfirmation: Bool = false
-    @State private var isCreatingInvitation: Bool = false
+    
+    @StateObject var viewModel: MyCaregiversViewModel
+    
+    init(caregiverManager: CaregiverManager) {
+        self._viewModel = .init(wrappedValue: MyCaregiversViewModel(caregiverManager: caregiverManager))
+    }
 
     var body: some View {
         List {
             Section(header: header)
             {
-                ForEach(caregiverManager.caregivers) { caregiver in
+                ForEach(viewModel.caregivers) { caregiver in
                     Button {
-                        selectedCaregiver = caregiver
-                        showingCaregiverActions = true
+                        viewModel.selectedCaregiver = caregiver
+                        viewModel.showingCaregiverActions = true
                     } label: {
                         HStack {
                             VStack(alignment: .leading) {
@@ -41,17 +61,17 @@ struct MyCaregiversView: View {
                                 .foregroundColor(.primary)
                         }
                     }
-                    .confirmationDialog(selectedCaregiver!.name, isPresented: $showingCaregiverActions, titleVisibility: .visible) {
+                    .confirmationDialog(viewModel.selectedCaregiver?.name ?? "", isPresented: $viewModel.showingCaregiverActions, titleVisibility: .visible) {
                         Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                             // TODO
                         }
 
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-                            showingRemoveConfirmation = true
+                            viewModel.showingRemoveConfirmation = true
                         }
                     }
                         .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
-                           isPresented: $showingRemoveConfirmation,
+                               isPresented: $viewModel.showingRemoveConfirmation,
                            presenting: caregiver,
                            actions: { caregiver in
                         Button(role: .destructive) {
@@ -65,8 +85,8 @@ struct MyCaregiversView: View {
                     })
                 }
                 NavigationLink(
-                    destination: NewCaregiverView(viewModel: InvitationViewModel(api: caregiverManager.api), isCreatingInvitation: $isCreatingInvitation),
-                    isActive: $isCreatingInvitation,
+                    destination: NewCaregiverView(viewModel: InvitationViewModel(api: viewModel.caregiverManager.api), isCreatingInvitation: $viewModel.isCreatingInvitation),
+                    isActive: $viewModel.isCreatingInvitation,
                     label: {
                         HStack {
                             Image(systemName: "plus.circle.fill")
@@ -77,7 +97,8 @@ struct MyCaregiversView: View {
                 .isDetailLink(false)
             }
         }
-        .onAppear {
+        .task {
+            await viewModel.fetchCaregivers()
             // TODO: refresh invites and followers from backend
         }
         .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
@@ -90,7 +111,7 @@ struct MyCaregiversView: View {
                 .textCase(nil)
                 .font(.body.bold())
                 .foregroundColor(.primary)
-            if caregiverManager.caregivers.count == 0 {
+            if viewModel.caregivers.count == 0 {
                 VStack {
                     Text(LocalizedString("You haven’t added any caregivers yet!", comment: "Informative text shown on My Caregivers page when no caregiver invitations or followers exist"))
                         .textCase(nil)
@@ -109,7 +130,7 @@ struct MyCaregiversView: View {
 struct MyCaregiversView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            MyCaregiversView(caregiverManager: CaregiverManager.mock)
+            MyCaregiversView(caregiverManager: CaregiverManager(api: .mock))
         }
         .environment(\.appName, "Tidepool Loop")
     }
