@@ -25,7 +25,7 @@ extension UserDefaults {
         }
     }
     
-    var productSelection: String? {
+    public var productSelection: String? {
         get {
             string(forKey: Key.productSelection.rawValue)
         }

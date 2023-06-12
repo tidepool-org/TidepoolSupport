@@ -225,6 +225,26 @@ extension TidepoolSupport {
         case studyProduct1
         case studyProduct2
         case marketingDemo
+        
+        public var skipsOnboarding: Bool {
+            switch self {
+            case .none, .studyProduct1: return false
+            case .studyProduct2, .marketingDemo: return true
+            }
+        }
+        
+        public var maskDevices: Bool {
+            self == .marketingDemo
+        }
+        
+        public var hideDeleteDataSection: Bool {
+            switch self {
+            case .none:
+                return false
+            default:
+                return false
+            }
+        }
     }
     
     public var selectedProduct: Product {
