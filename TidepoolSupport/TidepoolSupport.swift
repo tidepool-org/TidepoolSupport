@@ -242,7 +242,7 @@ extension TidepoolSupport {
             case .none:
                 return false
             default:
-                return false
+                return true
             }
         }
     }
