@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LoopKitUI
+import TidepoolKit
 
 @MainActor
 class MyCaregiversViewModel: ObservableObject {
@@ -16,8 +17,10 @@ class MyCaregiversViewModel: ObservableObject {
     @Published var showingCaregiverActions: Bool = false
     @Published var showingRemoveConfirmation: Bool = false
     @Published var isCreatingInvitation: Bool = false
-    
+    @Published var caregiversPendingRemoval: [Caregiver] = []
+            
     let caregiverManager: CaregiverManager
+    let primaryButton = SetupButton(type: .custom)
     
     init(caregiverManager: CaregiverManager, caregivers: [Caregiver] = []) {
         self.caregiverManager = caregiverManager
@@ -33,9 +36,10 @@ struct MyCaregiversView: View {
     @EnvironmentObject private var displayGlucosePreference: DisplayGlucosePreference
 
     @Environment(\.appName) private var appName
+    @Environment(\.guidanceColors) private var guidanceColors
     
     @StateObject var viewModel: MyCaregiversViewModel
-    
+        
     init(caregiverManager: CaregiverManager) {
         self._viewModel = .init(wrappedValue: MyCaregiversViewModel(caregiverManager: caregiverManager))
     }
@@ -49,33 +53,62 @@ struct MyCaregiversView: View {
                         viewModel.selectedCaregiver = caregiver
                         viewModel.showingCaregiverActions = true
                     } label: {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(caregiver.name)
+                        HStack(spacing: 24) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(caregiver.name).fontWeight(.medium)
                                     .foregroundColor(.primary)
-                                Text(caregiver.email)
+                                Text(caregiver.email).font(.footnote)
                                     .foregroundColor(.secondary)
                             }
                             Spacer()
-                            Image(systemName: "person.fill")
-                                .foregroundColor(.primary)
+                            if viewModel.caregiversPendingRemoval.contains(caregiver) {
+                                ProgressView()
+                                    .progressViewStyle(.circular)
+                                    .frame(width: 26, height: 26)
+                            } else {
+                                switch caregiver.status {
+                                case InvitationStatus.pending:
+                                    Text("Invite Sent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
+                                case InvitationStatus.declined:
+                                    Text("Invite Declined").font(.caption).foregroundColor(guidanceColors.critical).padding(2).padding(.horizontal, 2).background(guidanceColors.critical.opacity(0.3).cornerRadius(2))
+                                default:
+                                    EmptyView()
+                                }
+                                Image(systemName: "ellipsis")
+                                    .foregroundColor(.accentColor)
+                            }
                         }
                     }
+                    .padding(.vertical, 2)
                     .confirmationDialog(viewModel.selectedCaregiver?.name ?? "", isPresented: $viewModel.showingCaregiverActions, titleVisibility: .visible) {
-                        Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-                            // TODO
+                        if viewModel.selectedCaregiver?.status == .declined {
+                            Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
+                                // TODO: Logic needed here. Need to discuss TPermissions resurrection from original invite.
+                            }
                         }
-
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
                             viewModel.showingRemoveConfirmation = true
                         }
+                        
                     }
-                        .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
-                               isPresented: $viewModel.showingRemoveConfirmation,
-                           presenting: caregiver,
+                    .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
+                           isPresented: $viewModel.showingRemoveConfirmation,
+                           presenting: viewModel.selectedCaregiver,
                            actions: { caregiver in
                         Button(role: .destructive) {
-                            // TODO - handle the deletion
+                            Task{
+                                // TODO: Logic is there to handle removal of pending invites. Logic still needed to remove caregivers with sharing status.
+                                viewModel.caregiversPendingRemoval.append(caregiver)
+                                await Task.sleep(NSEC_PER_SEC * 1)
+                                if let caregiverIndexToRemove = viewModel.caregivers.firstIndex(of: caregiver) {
+                                    let caregiverEmailToRemove = viewModel.caregivers[caregiverIndexToRemove].email
+                                    await viewModel.caregiverManager.removeCaregiver(caregiverEmail: caregiverEmailToRemove)
+                                    viewModel.caregivers.remove(at: caregiverIndexToRemove)
+                                }
+                                if let caregiverIndexToRemove = viewModel.caregiversPendingRemoval.firstIndex(of: caregiver) {
+                                    viewModel.caregiversPendingRemoval.remove(at: caregiverIndexToRemove)
+                                }
+                            }
                         } label: {
                             Text(LocalizedString("Remove", comment: "Button title on alert for remove caregiver confirmation"))
                         }
@@ -99,10 +132,23 @@ struct MyCaregiversView: View {
         }
         .task {
             await viewModel.fetchCaregivers()
-            // TODO: refresh invites and followers from backend
         }
         .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
         .navigationBarTitleDisplayMode(.large)
+//        VStack(spacing: 0) {
+//            if (viewModel.selectedCaregiver?.status == .declined) {
+//                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
+//                    // TODO
+//                }
+//                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
+//                    viewModel.showingRemoveConfirmation = true
+//                }
+//            } else {
+//                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
+//                    viewModel.showingRemoveConfirmation = true
+//                }
+//            }
+//        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))
     }
 
     var header: some View {

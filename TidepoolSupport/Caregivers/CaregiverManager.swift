@@ -18,7 +18,7 @@ class CaregiverManager: ObservableObject {
     private let backendInvitesToIgnore = ["bigdata@tidepool.org", "bigdata+CWD@tidepool.org"]
     
     var api: TAPI
-
+    
     init(api: TAPI) {
         self.api = api
     }
@@ -31,6 +31,15 @@ class CaregiverManager: ObservableObject {
         await processPendingInvites(caregivers: &caregivers)
         
         return caregivers
+    }
+    
+    func removeCaregiver(caregiverEmail: String) async {
+        do {
+            // TODO: cancelInvite only removes pending invites, need to add logic here to remove caregivers with sharing status.
+            let response = try await api.cancelInvite(invitedByEmail: caregiverEmail)
+        } catch {
+            log.error("removeCaregiver error: %{public}@",error.localizedDescription)
+        }
     }
     
     private func processExistingTrusteeUsers(caregivers: inout [Caregiver]) async {
@@ -48,7 +57,7 @@ class CaregiverManager: ObservableObject {
                     fullName = user.profile?.fullName ?? ""
                 }
                 
-//              Default to profile full name if no nickname exists
+                /// Default to profile full name if no nickname exists
                 if (nickName == nil) {
                     nickName = fullName
                 }
@@ -71,17 +80,17 @@ class CaregiverManager: ObservableObject {
                 let status: InvitationStatus
                 
                 switch invitee.status {
-//              Currently a user must create a web account before the 'ignore' option is offered resulting in a declined status.
-//              In this use-case, the invitee will have a full name, however,
-//              this is not currently updated as this UX may be refactored to redirect to the mobile app.
+                    /// Currently a user must create a web account before the 'ignore' option is offered resulting in a declined status.
+                    /// In this use-case, the invitee will have a full name, however,
+                    /// this is not currently updated as this UX may be refactored to redirect to the mobile app.
                 case "declined":
                     status = InvitationStatus.declined
                 default:
                     status = InvitationStatus.pending
                 }
                 
-//              In the 'pending' use-case, invitee does not yet have an account,
-//              therefore, does not have a userId, unique invitation key is a placeholder for now.
+                /// In the 'pending' use-case, invitee does not yet have an account,
+                /// therefore, does not have a userId, unique invitation key is a placeholder for now.
                 caregivers.append(Caregiver(name: nickName, email: email, status: status, id: invitee.key))
             }
         } catch {
