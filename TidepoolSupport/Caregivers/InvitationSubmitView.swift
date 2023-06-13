@@ -147,6 +147,7 @@ struct InvitationSubmitView: View {
                                 withAnimation {
                                     sendState = .sending
                                 }
+                                // MARK: Temporary local storage save for nickname
                                 userDefaultsSave.set(viewModel.nickname, forKey: viewModel.email)
                                 let _ = try await viewModel.submit()
                                 withAnimation {
