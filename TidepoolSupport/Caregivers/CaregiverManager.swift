@@ -14,7 +14,7 @@ class CaregiverManager: ObservableObject {
     private static let caregiverManagerIdentifier = "CaregiverManager"
     private let log = OSLog(category: caregiverManagerIdentifier)
     
-    private let userDefaultsSave = UserDefaults.standard
+    private let nicknameStorage = UserDefaults.standard
     private let backendInvitesToIgnore = ["bigdata@tidepool.org", "bigdata+CWD@tidepool.org"]
     
     var api: TAPI
@@ -27,8 +27,8 @@ class CaregiverManager: ObservableObject {
     func fetchCaregivers() async -> [Caregiver] {
         var caregivers = [Caregiver]()
         
-        await processExistingTrusteeUsers(caregivers: &caregivers)
-        await processPendingInvites(caregivers: &caregivers)
+        await fetchExistingTrusteeUsers(caregivers: &caregivers)
+        await fetchPendingInvites(caregivers: &caregivers)
         
         return caregivers
     }
@@ -42,7 +42,7 @@ class CaregiverManager: ObservableObject {
         }
     }
     
-    private func processExistingTrusteeUsers(caregivers: inout [Caregiver]) async {
+    private func fetchExistingTrusteeUsers(caregivers: inout [Caregiver]) async {
         do {
             let trusteeUsers = try await api.getUsers()
             
@@ -52,7 +52,7 @@ class CaregiverManager: ObservableObject {
                 let id = user.userid
                 var fullName = ""
                 
-                var nickName = userDefaultsSave.string(forKey: user.emails.first ?? "")
+                var nickName = nicknameStorage.string(forKey: user.emails.first ?? "")
                 if user.profile != nil {
                     fullName = user.profile?.fullName ?? ""
                 }
@@ -70,13 +70,13 @@ class CaregiverManager: ObservableObject {
         
     }
     
-    private func processPendingInvites(caregivers: inout [Caregiver]) async {
+    private func fetchPendingInvites(caregivers: inout [Caregiver]) async {
         do {
             let pendingInvites = try await api.getPendingInvites()
             pendingInvites.forEach { invitee in
                 let email = invitee.email
                 if backendInvitesToIgnore.contains(email){return}
-                let nickName = userDefaultsSave.string(forKey: invitee.email) ?? ""
+                let nickName = nicknameStorage.string(forKey: invitee.email) ?? ""
                 let status: InvitationStatus
                 
                 switch invitee.status {
