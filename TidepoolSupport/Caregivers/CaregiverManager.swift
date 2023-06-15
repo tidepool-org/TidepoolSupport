@@ -65,7 +65,7 @@ class CaregiverManager: ObservableObject {
                 caregivers.append(Caregiver(name: nickName ?? "", email: email ?? "", status: status, id: id))
             }
         } catch {
-            log.error("processExistingTrusteeUsers error: %{public}@",error.localizedDescription)
+            log.error("fetchExistingTrusteeUsers error: %{public}@",error.localizedDescription)
         }
         
     }
@@ -94,7 +94,7 @@ class CaregiverManager: ObservableObject {
                 caregivers.append(Caregiver(name: nickName, email: email, status: status, id: invitee.key))
             }
         } catch {
-            log.error("processPendingInvites error: %{public}@",error.localizedDescription)
+            log.error("fetchPendingInvites error: %{public}@",error.localizedDescription)
         }
     }
 }
