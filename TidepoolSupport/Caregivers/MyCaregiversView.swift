@@ -97,9 +97,10 @@ struct MyCaregiversView: View {
                            actions: { caregiver in
                         Button(role: .destructive) {
                             Task{
-                                // TODO: Logic is there to handle removal of pending invites. Logic still needed to remove caregivers with sharing status.
+                                /// TODO: Logic is there to handle removal of pending invites.
+                                /// Logic still needed to remove caregivers with sharing status.
                                 viewModel.caregiversPendingRemoval.append(caregiver)
-                                await Task.sleep(NSEC_PER_SEC * 1)
+//                                await Task.sleep(NSEC_PER_SEC * 1)
                                 if let caregiverIndexToRemove = viewModel.caregivers.firstIndex(of: caregiver) {
                                     let caregiverEmailToRemove = viewModel.caregivers[caregiverIndexToRemove].email
                                     await viewModel.caregiverManager.removeCaregiver(caregiverEmail: caregiverEmailToRemove)
