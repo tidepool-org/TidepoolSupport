@@ -106,13 +106,3 @@ extension TAPI {
         TAPI(clientId: "mock", redirectURL: URL(string: "https://mock.com/mock")!)
     }
 }
-
-//extension CaregiverManager {
-//    static var mock: CaregiverManager {
-//        return CaregiverManager(caregivers: [Caregiver.mockPending, Caregiver.mockAccepted], api: TAPI.mock)
-//    }
-//
-//    static var mockNoCaregivers: CaregiverManager {
-//        return CaregiverManager(caregivers: [], api: TAPI.mock)
-//    }
-//}
