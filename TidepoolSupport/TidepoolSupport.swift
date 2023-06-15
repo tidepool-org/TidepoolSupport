@@ -39,10 +39,6 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         selectedProduct == .none
     }
     
-    public var onlyAllowSimulatorDevices: Bool {
-        selectedProduct == .marketingDemo
-    }
-    
     public var deviceIdentifierWhitelist: DeviceWhitelist {
         switch selectedProduct {
         case .marketingDemo:
