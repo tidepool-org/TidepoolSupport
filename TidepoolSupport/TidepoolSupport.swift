@@ -34,6 +34,14 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     private var alertIssuer: AlertIssuer? { return delegate }
     
     private let log = OSLog(category: supportIdentifier)
+    
+    public var showsDeleteTestDataUI: Bool {
+        selectedProduct == .none
+    }
+    
+    public var onlyAllowSimulatorDevices: Bool {
+        selectedProduct == .marketingDemo
+    }
 
     public init(tapi: TAPI? = nil, environment: TEnvironment? = nil) {
         self.tapi = tapi
@@ -225,6 +233,17 @@ extension TidepoolSupport {
         case studyProduct1
         case studyProduct2
         case marketingDemo
+        
+        public var skipsOnboarding: Bool {
+            switch self {
+            case .none, .studyProduct1: return false
+            case .studyProduct2, .marketingDemo: return true
+            }
+        }
+        
+        public var maskDevices: Bool {
+            self == .marketingDemo
+        }
     }
     
     public var selectedProduct: Product {
