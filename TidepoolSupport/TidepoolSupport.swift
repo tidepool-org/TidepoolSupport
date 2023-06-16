@@ -39,8 +39,13 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         selectedProduct == .none
     }
     
-    public var onlyAllowSimulatorDevices: Bool {
-        selectedProduct == .marketingDemo
+    public var deviceIdentifierWhitelist: DeviceWhitelist {
+        switch selectedProduct {
+        case .marketingDemo:
+            return DeviceWhitelist(cgmDevices: ["MockCGMManager"], pumpDevices: ["MockPumpManager"])
+        default:
+            return DeviceWhitelist()
+        }
     }
 
     public init(tapi: TAPI? = nil, environment: TEnvironment? = nil) {
