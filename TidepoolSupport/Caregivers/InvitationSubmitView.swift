@@ -15,6 +15,7 @@ struct InvitationSubmitView: View {
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
+    @State var cancelConfirmationShown: Bool = false
 
     enum SendState {
         case idle
@@ -185,10 +186,17 @@ struct InvitationSubmitView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(LocalizedString("Cancel", comment: "Button title to cancel sending of caregiver invitation")) {
-                    isCreatingInvitation = false
+                    cancelConfirmationShown = true
                 }
                 .disabled(sendState.isSent || sendState.isSending)
             }
+        }
+        .confirmationDialog(LocalizedString("Close Invitation?", comment: "Title of confirmation dialog for closing invitation"), isPresented: $cancelConfirmationShown) {
+            Button(LocalizedString("Close Invite", comment: "Button to confirm closing invitation"), role: .destructive) {
+                isCreatingInvitation = false
+            }
+        } message: {
+            Text(LocalizedString("If you leave now, you will need to create this invitation again.", comment: "Message of confirmation dialog for closing invitation"))
         }
     }
 

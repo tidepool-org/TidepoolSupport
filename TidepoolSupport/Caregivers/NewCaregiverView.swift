@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import TidepoolKit
 
 struct NewCaregiverView: View {
     @Environment(\.appName) private var appName
 
-    @ObservedObject var viewModel: InvitationViewModel
+    @StateObject var viewModel: InvitationViewModel
     @State private var formComplete: Bool = false
     @Binding var isCreatingInvitation: Bool
 
@@ -18,6 +19,11 @@ struct NewCaregiverView: View {
         case nickname, email
     }
     @FocusState private var focusedField: FocusedField?
+
+    init(api: TAPI, isCreatingInvitation: Binding<Bool>) {
+        self._viewModel = StateObject(wrappedValue: InvitationViewModel(api: api))
+        self._isCreatingInvitation = isCreatingInvitation
+    }
 
     var body: some View {
         Form {
@@ -84,7 +90,7 @@ struct NewCaregiverView: View {
 struct NewCaregiver_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NewCaregiverView(viewModel: InvitationViewModel.mock, isCreatingInvitation: .constant(true))
+            NewCaregiverView(api: TAPI.mock, isCreatingInvitation: .constant(true))
         }
         .environment(\.appName, "Tidepool Loop")
 

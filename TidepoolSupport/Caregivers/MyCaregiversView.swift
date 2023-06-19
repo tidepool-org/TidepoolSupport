@@ -65,7 +65,7 @@ struct MyCaregiversView: View {
                     })
                 }
                 NavigationLink(
-                    destination: NewCaregiverView(viewModel: InvitationViewModel(api: caregiverManager.api), isCreatingInvitation: $isCreatingInvitation),
+                    destination: NewCaregiverView(api: caregiverManager.api, isCreatingInvitation: $isCreatingInvitation),
                     isActive: $isCreatingInvitation,
                     label: {
                         HStack {
