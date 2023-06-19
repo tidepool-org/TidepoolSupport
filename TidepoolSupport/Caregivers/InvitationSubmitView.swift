@@ -166,9 +166,9 @@ struct InvitationSubmitView: View {
                     case .sending:
                         ProgressView()
                     case .sent:
-                        Text(LocalizedString("Continue", comment: "Button title to continue"))
+                        Text(LocalizedString("Done", comment: "Button title to continue"))
                     default:
-                        Text(LocalizedString("Send Invite", comment: "Button title to send caregiver invitation"))
+                        Text(LocalizedString("Send Invitation", comment: "Button title to send caregiver invitation"))
                     }
                 }
                 .actionButtonStyle(.primary)
@@ -209,7 +209,8 @@ struct InvitationSubmitView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(LocalizedString("Review the information below. Then tap Send Invite to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
                 .textCase(nil)
-                .font(.body)
+                .font(.body.bold())
+                .foregroundColor(.primary)
             Divider()
                 .overlay(.primary)
         }

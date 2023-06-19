@@ -116,7 +116,8 @@ struct AlertConfigurationView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(LocalizedString("Configure the notifications you would like your caregiver to receive. Caregivers will be able to change this configuration later on.", comment: "Text of section header on the new caregiver alert configuration page"))
                 .textCase(nil)
-                .font(.body)
+                .font(.body.bold())
+                .foregroundColor(.primary)
             Divider()
                 .overlay(.primary)
         }

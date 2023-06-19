@@ -14,13 +14,19 @@ struct NewCaregiverView: View {
     @State private var formComplete: Bool = false
     @Binding var isCreatingInvitation: Bool
 
+    enum FocusedField {
+        case nickname, email
+    }
+    @FocusState private var focusedField: FocusedField?
+
     var body: some View {
         Form {
             Section(header: header)
             {
                 TextField(text: $viewModel.nickname) {
-                    Text(LocalizedString("Nickname", comment: "Placeholder text for nickname field of invite caregiver form"))
+                    Text(LocalizedString("Caregiver Nickname", comment: "Placeholder text for caregiver nickname field of invite caregiver form"))
                 }
+                .focused($focusedField, equals: .nickname)
                 .textInputAutocapitalization(.words)
                 .onChange(of: viewModel.nickname) { newValue in
                     validateInputs()
@@ -29,8 +35,10 @@ struct NewCaregiverView: View {
                 TextField(text: $viewModel.email) {
                     Text(LocalizedString("Email", comment: "Placeholder text for email field of invite caregiver form"))
                 }
+                .focused($focusedField, equals: .email)
                 .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
                 .onChange(of: viewModel.email) { newValue in
                     validateInputs()
                 }
@@ -38,6 +46,7 @@ struct NewCaregiverView: View {
         }
         .onAppear {
             validateInputs()
+            focusedField = .nickname
         }
         .navigationTitle(LocalizedString("Invite Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
@@ -58,7 +67,8 @@ struct NewCaregiverView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Next to configure their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
                 .textCase(nil)
-                .font(.body)
+                .font(.body.bold())
+                .foregroundColor(.primary)
             Divider()
                 .overlay(.primary)
         }
