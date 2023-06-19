@@ -67,7 +67,7 @@ struct NewCaregiverView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Next to configure their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
                 .textCase(nil)
-                .font(.body.bold())
+                .font(.body.weight(.semibold))
                 .foregroundColor(.primary)
             Divider()
                 .overlay(.primary)

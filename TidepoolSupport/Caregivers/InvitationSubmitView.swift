@@ -209,7 +209,7 @@ struct InvitationSubmitView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(LocalizedString("Review the information below. Then tap Send Invite to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
                 .textCase(nil)
-                .font(.body.bold())
+                .font(.body.weight(.semibold))
                 .foregroundColor(.primary)
             Divider()
                 .overlay(.primary)
