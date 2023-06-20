@@ -88,7 +88,7 @@ struct MyCaregiversView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(String(format: LocalizedString("These people can view your %1$@ activity.", comment: "Format string for section header on My Caregivers page"), appName))
                 .textCase(nil)
-                .font(.body.bold())
+                .font(.body.weight(.semibold))
                 .foregroundColor(.primary)
             if caregiverManager.caregivers.count == 0 {
                 VStack {
