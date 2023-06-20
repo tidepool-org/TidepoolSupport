@@ -21,6 +21,7 @@ struct AlertConfigurationView: View {
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
+    @State var cancelConfirmationShown: Bool = false
 
     struct ThresholdValue: Identifiable {
         var id: Double {
@@ -35,6 +36,39 @@ struct AlertConfigurationView: View {
     }
 
     var body: some View {
+        VStack(spacing: 0) {
+            form
+            VStack {
+                NavigationLink {
+                    InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
+                } label: {
+                    Text(LocalizedString("Continue", comment: "Button title for navigating to next page of caregiver invitation form"))
+                }
+                .actionButtonStyle()
+                .padding()
+            }
+            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(.drop(radius: 5)))
+        }
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationTitle(LocalizedString("Notifications", comment: "Navigation title for notification configuration page of caregiver invitation"))
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(LocalizedString("Cancel", comment: "Button title to cancel sending of caregiver invitation")) {
+                    cancelConfirmationShown = true
+                }
+            }
+        }
+        .confirmationDialog(LocalizedString("Close Invitation?", comment: "Title of confirmation dialog for closing invitation"), isPresented: $cancelConfirmationShown) {
+            Button(LocalizedString("Close Invite", comment: "Button to confirm closing invitation"), role: .destructive) {
+                isCreatingInvitation = false
+            }
+        } message: {
+            Text(LocalizedString("If you leave now, you will need to create this invitation again.", comment: "Message of confirmation dialog for closing invitation"))
+        }
+    }
+
+    var form: some View {
         Form {
             Section(header: header)
             {
@@ -96,18 +130,6 @@ struct AlertConfigurationView: View {
                         }
                     }
                 }
-            }
-        }
-        .navigationTitle(LocalizedString("Notifications", comment: "Navigation title for notification configuration page of caregiver invitation"))
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink {
-                    InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
-                } label: {
-                    Text(LocalizedString("Next", comment: "Button title for navigating to next page of caregiver invitation form"))
-                }
-                .isDetailLink(false)
             }
         }
     }
