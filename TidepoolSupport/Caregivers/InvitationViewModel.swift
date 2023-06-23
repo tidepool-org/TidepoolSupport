@@ -12,8 +12,9 @@ import LoopKit
 import Combine
 
 class InvitationViewModel: ObservableObject {
+    struct InvitationViewModelError: Error {}
 
-    var api: TAPI
+    var api: TAPI?
 
     @Published var nickname: String = ""
     @Published var email: String = ""
@@ -76,12 +77,15 @@ class InvitationViewModel: ObservableObject {
 
     private var subscribers: Set<AnyCancellable> = []
 
-    init(api: TAPI) {
+    init(api: TAPI?) {
         self.api = api
     }
 
     func submit() async throws -> TInvite {
         //try await mockSubmit()
+        guard let api else {
+            throw InvitationViewModelError()
+        }
         let request = TInviteRequest(email: email, permissions: TPermissions(view: TPermissionFlag()))
         let invite = try await api.sendInvite(request: request)
         return invite

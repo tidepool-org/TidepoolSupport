@@ -9,49 +9,25 @@ import SwiftUI
 import LoopKitUI
 import TidepoolKit
 
-@MainActor
-class MyCaregiversViewModel: ObservableObject {
-    @Published var caregivers: [Caregiver]
-    
-    @Published var selectedCaregiver: Caregiver?
-    @Published var showingCaregiverActions: Bool = false
-    @Published var showingRemoveConfirmation: Bool = false
-    @Published var isCreatingInvitation: Bool = false
-    @Published var caregiversPendingRemoval: [Caregiver] = []
-            
-    let caregiverManager: CaregiverManager
-    let primaryButton = SetupButton(type: .custom)
-    
-    init(caregiverManager: CaregiverManager, caregivers: [Caregiver] = []) {
-        self.caregiverManager = caregiverManager
-        self.caregivers = caregivers
-    }
-    
-    func fetchCaregivers() async {
-        self.caregivers = await caregiverManager.fetchCaregivers()
-    }
-}
-
 struct MyCaregiversView: View {
     @EnvironmentObject private var displayGlucosePreference: DisplayGlucosePreference
 
     @Environment(\.appName) private var appName
     @Environment(\.guidanceColors) private var guidanceColors
     
-    @StateObject var viewModel: MyCaregiversViewModel
-        
-    init(caregiverManager: CaregiverManager) {
-        self._viewModel = .init(wrappedValue: MyCaregiversViewModel(caregiverManager: caregiverManager))
-    }
-
+    @ObservedObject var caregiverManager: CaregiverManager
+    
+    let primaryButton = SetupButton(type: .custom)
+    
+    
     var body: some View {
         List {
             Section(header: header)
             {
-                ForEach(viewModel.caregivers) { caregiver in
+                ForEach(caregiverManager.caregivers) { caregiver in
                     Button {
-                        viewModel.selectedCaregiver = caregiver
-                        viewModel.showingCaregiverActions = true
+                        caregiverManager.selectedCaregiver = caregiver
+                        caregiverManager.showingCaregiverActions = true
                     } label: {
                         HStack(spacing: 24) {
                             VStack(alignment: .leading, spacing: 4) {
@@ -61,7 +37,7 @@ struct MyCaregiversView: View {
                                     .foregroundColor(.secondary)
                             }
                             Spacer()
-                            if viewModel.caregiversPendingRemoval.contains(caregiver) {
+                            if caregiverManager.caregiversPendingRemoval.contains(caregiver) {
                                 ProgressView()
                                     .progressViewStyle(.circular)
                                     .frame(width: 26, height: 26)
@@ -80,35 +56,24 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
-                    .confirmationDialog(viewModel.selectedCaregiver?.name ?? "", isPresented: $viewModel.showingCaregiverActions, titleVisibility: .visible) {
-                        if viewModel.selectedCaregiver?.status == .declined {
+                    .confirmationDialog(caregiverManager.selectedCaregiver?.name ?? "", isPresented: $caregiverManager.showingCaregiverActions, titleVisibility: .visible) {
+                        if caregiverManager.selectedCaregiver?.status == .declined {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                                 // TODO: Logic needed here. Need to discuss TPermissions resurrection from original invite.
                             }
                         }
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-                            viewModel.showingRemoveConfirmation = true
+                            caregiverManager.showingRemoveConfirmation = true
                         }
                         
                     }
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
-                           isPresented: $viewModel.showingRemoveConfirmation,
-                           presenting: viewModel.selectedCaregiver,
+                           isPresented: $caregiverManager.showingRemoveConfirmation,
+                           presenting: caregiverManager.selectedCaregiver,
                            actions: { caregiver in
                         Button(role: .destructive) {
-                            Task{
-                                /// TODO: Logic is there to handle removal of pending invites.
-                                /// Logic still needed to remove caregivers with sharing status.
-                                viewModel.caregiversPendingRemoval.append(caregiver)
-//                                await Task.sleep(NSEC_PER_SEC * 1)
-                                if let caregiverIndexToRemove = viewModel.caregivers.firstIndex(of: caregiver) {
-                                    let caregiverEmailToRemove = viewModel.caregivers[caregiverIndexToRemove].email
-                                    await viewModel.caregiverManager.removeCaregiver(caregiverEmail: caregiverEmailToRemove)
-                                    viewModel.caregivers.remove(at: caregiverIndexToRemove)
-                                }
-                                if let caregiverIndexToRemove = viewModel.caregiversPendingRemoval.firstIndex(of: caregiver) {
-                                    viewModel.caregiversPendingRemoval.remove(at: caregiverIndexToRemove)
-                                }
+                            Task {
+                                await caregiverManager.removeCaregiver(caregiver: caregiver)
                             }
                         } label: {
                             Text(LocalizedString("Remove", comment: "Button title on alert for remove caregiver confirmation"))
@@ -119,8 +84,8 @@ struct MyCaregiversView: View {
                     })
                 }
                 NavigationLink(
-                    destination: NewCaregiverView(viewModel: InvitationViewModel(api: viewModel.caregiverManager.api), isCreatingInvitation: $viewModel.isCreatingInvitation),
-                    isActive: $viewModel.isCreatingInvitation,
+                    destination: NewCaregiverView(viewModel: InvitationViewModel(api: caregiverManager.api), isCreatingInvitation: $caregiverManager.isCreatingInvitation),
+                    isActive: $caregiverManager.isCreatingInvitation,
                     label: {
                         HStack {
                             Image(systemName: "plus.circle.fill")
@@ -132,7 +97,7 @@ struct MyCaregiversView: View {
             }
         }
         .task {
-            await viewModel.fetchCaregivers()
+            await caregiverManager.fetchCaregivers()
         }
         .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
         .navigationBarTitleDisplayMode(.large)
@@ -158,7 +123,7 @@ struct MyCaregiversView: View {
                 .textCase(nil)
                 .font(.body.bold())
                 .foregroundColor(.primary)
-            if viewModel.caregivers.count == 0 {
+            if caregiverManager.caregivers.count == 0 {
                 VStack {
                     Text(LocalizedString("You haven’t added any caregivers yet!", comment: "Informative text shown on My Caregivers page when no caregiver invitations or followers exist"))
                         .textCase(nil)

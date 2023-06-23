@@ -11,40 +11,63 @@ import os.log
 
 class CaregiverManager: ObservableObject {
     
+    @Published var caregivers: [Caregiver] = []
+    
+    @Published var selectedCaregiver: Caregiver?
+    @Published var showingCaregiverActions: Bool = false
+    @Published var showingRemoveConfirmation: Bool = false
+    @Published var isCreatingInvitation: Bool = false
+    @Published var caregiversPendingRemoval: [Caregiver] = []
+    
     private static let caregiverManagerIdentifier = "CaregiverManager"
     private let log = OSLog(category: caregiverManagerIdentifier)
     
     private let nicknameStorage = UserDefaults.standard
     private let backendInvitesToIgnore = ["bigdata@tidepool.org", "bigdata+CWD@tidepool.org"]
     
-    var api: TAPI
+    var api: TAPI?
     
-    init(api: TAPI) {
+    init(api: TAPI?) {
         self.api = api
     }
     
     @MainActor
-    func fetchCaregivers() async -> [Caregiver] {
+    func fetchCaregivers() async {
         var caregivers = [Caregiver]()
         
         await fetchExistingTrusteeUsers(caregivers: &caregivers)
         await fetchPendingInvites(caregivers: &caregivers)
         
-        return caregivers
+        self.caregivers = caregivers
     }
     
     func removeCaregiver(caregiverEmail: String) async {
         do {
             // TODO: cancelInvite only removes pending invites, need to add logic here to remove caregivers with sharing status.
-            let response = try await api.cancelInvite(invitedByEmail: caregiverEmail)
+            let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
         } catch {
             log.error("removeCaregiver error: %{public}@",error.localizedDescription)
         }
     }
     
+    func removeCaregiver(caregiver: Caregiver) async {
+        /// TODO: Logic is there to handle removal of pending invites.
+        /// Logic still needed to remove caregivers with sharing status.
+        caregiversPendingRemoval.append(caregiver)
+        //                                await Task.sleep(NSEC_PER_SEC * 1)
+        if let caregiverIndexToRemove = caregivers.firstIndex(of: caregiver) {
+            let caregiverEmailToRemove = caregivers[caregiverIndexToRemove].email
+            await removeCaregiver(caregiverEmail: caregiverEmailToRemove)
+            caregivers.remove(at: caregiverIndexToRemove)
+        }
+        if let caregiverIndexToRemove = caregiversPendingRemoval.firstIndex(of: caregiver) {
+            caregiversPendingRemoval.remove(at: caregiverIndexToRemove)
+        }
+    }
+    
     private func fetchExistingTrusteeUsers(caregivers: inout [Caregiver]) async {
         do {
-            let trusteeUsers = try await api.getUsers()
+            let trusteeUsers = try await api?.getUsers() ?? []
             
             trusteeUsers.forEach { user in
                 let email = user.emails.first
@@ -72,7 +95,7 @@ class CaregiverManager: ObservableObject {
     
     private func fetchPendingInvites(caregivers: inout [Caregiver]) async {
         do {
-            let pendingInvites = try await api.getPendingInvites()
+            let pendingInvites = try await api?.getPendingInvitesSent() ?? []
             pendingInvites.forEach { invitee in
                 let email = invitee.email
                 if backendInvitesToIgnore.contains(email){return}
