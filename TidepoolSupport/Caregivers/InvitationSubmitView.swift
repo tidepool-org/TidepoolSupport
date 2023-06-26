@@ -17,8 +17,6 @@ struct InvitationSubmitView: View {
     @Binding var isCreatingInvitation: Bool
     @State var cancelConfirmationShown: Bool = false
     
-    private let nicknameStorage = UserDefaults.standard
-
     enum SendState {
         case idle
         case error(Error)
@@ -148,8 +146,6 @@ struct InvitationSubmitView: View {
                                 withAnimation {
                                     sendState = .sending
                                 }
-                                // MARK: Temporary local storage save for nickname
-                                nicknameStorage.set(viewModel.nickname, forKey: viewModel.email)
                                 let _ = try await viewModel.submit()
                                 withAnimation {
                                     sendState = .sent
