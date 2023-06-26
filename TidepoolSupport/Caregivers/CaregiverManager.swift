@@ -41,27 +41,38 @@ class CaregiverManager: ObservableObject {
         self.caregivers = caregivers
     }
     
-    func removeCaregiver(caregiverEmail: String) async {
-        do {
-            // TODO: cancelInvite only removes pending invites, need to add logic here to remove caregivers with sharing status.
-            let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
-        } catch {
-            log.error("removeCaregiver error: %{public}@",error.localizedDescription)
-        }
-    }
-    
     func removeCaregiver(caregiver: Caregiver) async {
-        /// TODO: Logic is there to handle removal of pending invites.
-        /// Logic still needed to remove caregivers with sharing status.
         caregiversPendingRemoval.append(caregiver)
-        //                                await Task.sleep(NSEC_PER_SEC * 1)
+        await Task.sleep(NSEC_PER_SEC * 1)
+        
         if let caregiverIndexToRemove = caregivers.firstIndex(of: caregiver) {
-            let caregiverEmailToRemove = caregivers[caregiverIndexToRemove].email
-            await removeCaregiver(caregiverEmail: caregiverEmailToRemove)
+            if caregiver.status == InvitationStatus.accepted {
+                await removeCaregiverPermissions(caregiver: caregiver)
+            } else { /// Caregiver has pending or declined invitation status
+                let caregiverEmailToRemove = caregivers[caregiverIndexToRemove].email
+                await removeInvitation(caregiverEmail: caregiverEmailToRemove)
+            }
             caregivers.remove(at: caregiverIndexToRemove)
         }
         if let caregiverIndexToRemove = caregiversPendingRemoval.firstIndex(of: caregiver) {
             caregiversPendingRemoval.remove(at: caregiverIndexToRemove)
+        }
+    }
+    
+    private func removeCaregiverPermissions(caregiver: Caregiver) async {
+        do {
+            let permissions = TPermissions.init()
+            let _ = try await api?.grantPermissionsInGroup(userId: caregiver.id, permissions: permissions)
+        } catch {
+            log.error("removeCaregiverPermissions error: %{public}@",error.localizedDescription)
+        }
+    }
+    
+    private func removeInvitation(caregiverEmail: String) async {
+        do {
+            let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
+        } catch {
+            log.error("removeInvitation error: %{public}@",error.localizedDescription)
         }
     }
     
