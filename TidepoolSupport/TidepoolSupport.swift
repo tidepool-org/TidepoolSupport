@@ -266,7 +266,7 @@ extension TidepoolSupport {
         case .studyProduct2:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
         case .marketingDemo:
-            filteredURLs = []
+            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("13-hour-BG-trace") }
         }
 
         return filteredURLs.map {
