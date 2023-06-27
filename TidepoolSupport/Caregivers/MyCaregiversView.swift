@@ -16,6 +16,11 @@ struct MyCaregiversView: View {
     @Environment(\.guidanceColors) private var guidanceColors
     
     @ObservedObject var caregiverManager: CaregiverManager
+    @State private var isCreatingInvitation: Bool = false
+    @State private var selectedCaregiver: Caregiver?
+    @State private var showingCaregiverActions: Bool = false
+    @State private var showingRemoveConfirmation: Bool = false
+
     
     let primaryButton = SetupButton(type: .custom)
     
@@ -26,8 +31,8 @@ struct MyCaregiversView: View {
             {
                 ForEach(caregiverManager.caregivers) { caregiver in
                     Button {
-                        caregiverManager.selectedCaregiver = caregiver
-                        caregiverManager.showingCaregiverActions = true
+                        selectedCaregiver = caregiver
+                        showingCaregiverActions = true
                     } label: {
                         HStack(spacing: 24) {
                             VStack(alignment: .leading, spacing: 4) {
@@ -56,20 +61,20 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
-                    .confirmationDialog(caregiverManager.selectedCaregiver?.name ?? "", isPresented: $caregiverManager.showingCaregiverActions, titleVisibility: .visible) {
-                        if caregiverManager.selectedCaregiver?.status == .declined {
+                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .visible) {
+                        if selectedCaregiver?.status == .declined {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                                 // TODO: Logic needed here. Need to discuss TPermissions resurrection from original invite.
                             }
                         }
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-                            caregiverManager.showingRemoveConfirmation = true
+                            showingRemoveConfirmation = true
                         }
                         
                     }
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
-                           isPresented: $caregiverManager.showingRemoveConfirmation,
-                           presenting: caregiverManager.selectedCaregiver,
+                           isPresented: $showingRemoveConfirmation,
+                           presenting: selectedCaregiver,
                            actions: { caregiver in
                         Button(role: .destructive) {
                             Task {
@@ -102,16 +107,16 @@ struct MyCaregiversView: View {
         .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
         .navigationBarTitleDisplayMode(.large)
 //        VStack(spacing: 0) {
-//            if (viewModel.selectedCaregiver?.status == .declined) {
+//            if (selectedCaregiver?.status == .declined) {
 //                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
 //                    // TODO
 //                }
 //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-//                    viewModel.showingRemoveConfirmation = true
+//                    showingRemoveConfirmation = true
 //                }
 //            } else {
 //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-//                    viewModel.showingRemoveConfirmation = true
+//                    showingRemoveConfirmation = true
 //                }
 //            }
 //        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))

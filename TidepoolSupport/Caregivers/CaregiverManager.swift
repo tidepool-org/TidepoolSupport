@@ -12,11 +12,6 @@ import os.log
 class CaregiverManager: ObservableObject {
     
     @Published var caregivers: [Caregiver] = []
-    
-    @Published var selectedCaregiver: Caregiver?
-    @Published var showingCaregiverActions: Bool = false
-    @Published var showingRemoveConfirmation: Bool = false
-    @Published var isCreatingInvitation: Bool = false
     @Published var caregiversPendingRemoval: [Caregiver] = []
     
     private static let caregiverManagerIdentifier = "CaregiverManager"
