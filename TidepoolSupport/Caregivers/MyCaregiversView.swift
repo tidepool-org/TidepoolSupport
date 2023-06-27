@@ -11,19 +11,18 @@ import TidepoolKit
 
 struct MyCaregiversView: View {
     @EnvironmentObject private var displayGlucosePreference: DisplayGlucosePreference
-
+    
     @Environment(\.appName) private var appName
     @Environment(\.guidanceColors) private var guidanceColors
     
     @ObservedObject var caregiverManager: CaregiverManager
+    
     @State private var isCreatingInvitation: Bool = false
     @State private var selectedCaregiver: Caregiver?
     @State private var showingCaregiverActions: Bool = false
     @State private var showingRemoveConfirmation: Bool = false
-
     
     let primaryButton = SetupButton(type: .custom)
-    
     
     var body: some View {
         List {
@@ -106,22 +105,22 @@ struct MyCaregiversView: View {
         }
         .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
         .navigationBarTitleDisplayMode(.large)
-//        VStack(spacing: 0) {
-//            if (selectedCaregiver?.status == .declined) {
-//                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-//                    // TODO
-//                }
-//                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-//                    showingRemoveConfirmation = true
-//                }
-//            } else {
-//                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-//                    showingRemoveConfirmation = true
-//                }
-//            }
-//        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))
+        //        VStack(spacing: 0) {
+        //            if (selectedCaregiver?.status == .declined) {
+        //                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
+        //                    // TODO
+        //                }
+        //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
+        //                    showingRemoveConfirmation = true
+        //                }
+        //            } else {
+        //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
+        //                    showingRemoveConfirmation = true
+        //                }
+        //            }
+        //        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))
     }
-
+    
     var header: some View {
         VStack(alignment: .leading, spacing: 15) {
             Text(String(format: LocalizedString("These people can view your %1$@ activity.", comment: "Format string for section header on My Caregivers page"), appName))
