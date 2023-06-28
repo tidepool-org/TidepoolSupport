@@ -38,7 +38,6 @@ class CaregiverManager: ObservableObject {
     
     func removeCaregiver(caregiver: Caregiver) async {
         caregiversPendingRemoval.append(caregiver)
-        await Task.sleep(NSEC_PER_SEC * 1)
         
         if let caregiverIndexToRemove = caregivers.firstIndex(of: caregiver) {
             if caregiver.status == InvitationStatus.accepted {
