@@ -47,7 +47,7 @@ struct AlertConfigurationView: View {
                 .actionButtonStyle()
                 .padding()
             }
-            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(.drop(radius: 5)))
+            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
         }
         .edgesIgnoringSafeArea(.bottom)
         .navigationTitle(LocalizedString("Notifications", comment: "Navigation title for notification configuration page of caregiver invitation"))
