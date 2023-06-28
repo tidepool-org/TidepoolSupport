@@ -8,12 +8,13 @@
 import Foundation
 
 
-enum InvitationStatus {
+enum InvitationStatus: Equatable {
     case pending
     case accepted
+    case declined
 }
 
-struct Caregiver: Identifiable {
+struct Caregiver: Identifiable, Equatable {
     let name: String
     let email: String
     let status: InvitationStatus

@@ -21,6 +21,8 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
 
     public var tapi: TAPI?
     private var environment: TEnvironment?
+    
+    private lazy var caregiverManager: CaregiverManager = CaregiverManager(api: tapi)
 
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
@@ -227,7 +229,7 @@ extension TidepoolSupport  {
 
     func myCaregiversMenu(api: TAPI) -> some View {
         NavigationLink("My Caregivers") {
-            MyCaregiversView(caregiverManager: CaregiverManager(caregivers: [], api: api))
+            MyCaregiversView(caregiverManager: caregiverManager)
         }
     }
 }

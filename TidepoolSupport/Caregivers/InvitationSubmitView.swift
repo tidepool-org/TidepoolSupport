@@ -16,7 +16,7 @@ struct InvitationSubmitView: View {
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
     @State var cancelConfirmationShown: Bool = false
-
+    
     enum SendState {
         case idle
         case error(Error)

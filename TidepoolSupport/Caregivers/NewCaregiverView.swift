@@ -20,7 +20,7 @@ struct NewCaregiverView: View {
     }
     @FocusState private var focusedField: FocusedField?
 
-    init(api: TAPI, isCreatingInvitation: Binding<Bool>) {
+    init(api: TAPI?, isCreatingInvitation: Binding<Bool>) {
         self._viewModel = StateObject(wrappedValue: InvitationViewModel(api: api))
         self._isCreatingInvitation = isCreatingInvitation
     }
