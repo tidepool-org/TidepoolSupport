@@ -21,6 +21,7 @@ struct MyCaregiversView: View {
     @State private var selectedCaregiver: Caregiver?
     @State private var showingCaregiverActions: Bool = false
     @State private var showingRemoveConfirmation: Bool = false
+    @State private var showingResendConfirmation: Bool = false
     
     let primaryButton = SetupButton(type: .custom)
     
@@ -63,7 +64,7 @@ struct MyCaregiversView: View {
                     .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .visible) {
                         if selectedCaregiver?.status == .declined {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-                                // TODO: Logic needed here. Need to discuss TPermissions resurrection from original invite.
+                                showingResendConfirmation = true
                             }
                         }
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
@@ -85,6 +86,21 @@ struct MyCaregiversView: View {
                     },
                            message: { caregiver in
                         Text(String(format: LocalizedString("%1$@ will lose all access to your data. Are you sure you want to remove this caregiver?", comment: "Format string for message on remove caregiver alert confirmation"), caregiver.name))
+                    })
+                    .alert(LocalizedString("Resend Invitation", comment: "Alert title for resend invitation confirmation."),
+                           isPresented: $showingResendConfirmation,
+                           presenting: selectedCaregiver,
+                           actions: { caregiver in
+                        Button(role: .destructive) {
+                            Task {
+                                await caregiverManager.resendInvite(caregiver: caregiver)
+                            }
+                        } label: {
+                            Text(LocalizedString("Resend Invite", comment: "Button title on alert for resend invitation confirmation"))
+                        }
+                    },
+                           message: { caregiver in
+                        Text(String(format: LocalizedString("Are you sure you want to resend a share invitation to %1$@ ?", comment: "Format string for message on resend invitation alert confirmation"), caregiver.name))
                     })
                 }
                 NavigationLink(

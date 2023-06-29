@@ -53,6 +53,15 @@ class CaregiverManager: ObservableObject {
         }
     }
     
+    func resendInvite(caregiver: Caregiver) async {
+        do {
+            let inviteKey = caregiver.id
+            let _ = try await api?.resendInvite(key: inviteKey)
+        } catch {
+            log.error("resendInvite error: %{public}@",error.localizedDescription)
+        }
+    }
+    
     private func removeCaregiverPermissions(caregiver: Caregiver) async {
         do {
             let permissions = TPermissions.init()
