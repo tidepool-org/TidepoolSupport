@@ -61,8 +61,8 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
-                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .visible) {
-                        if selectedCaregiver?.status == .declined {
+                    .confirmationDialog(Text(selectedCaregiver?.name ?? "").bold(), isPresented: $showingCaregiverActions, titleVisibility: .visible) {
+                        if selectedCaregiver?.status == .pending {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                                 showingResendConfirmation = true
                             }
@@ -70,7 +70,7 @@ struct MyCaregiversView: View {
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
                             showingRemoveConfirmation = true
                         }
-                        
+
                     }
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
                            isPresented: $showingRemoveConfirmation,
@@ -121,20 +121,6 @@ struct MyCaregiversView: View {
         }
         .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
         .navigationBarTitleDisplayMode(.large)
-        //        VStack(spacing: 0) {
-        //            if (selectedCaregiver?.status == .declined) {
-        //                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-        //                    // TODO
-        //                }
-        //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-        //                    showingRemoveConfirmation = true
-        //                }
-        //            } else {
-        //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-        //                    showingRemoveConfirmation = true
-        //                }
-        //            }
-        //        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))
     }
     
     var header: some View {
@@ -157,6 +143,20 @@ struct MyCaregiversView: View {
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }
+    
+    var confirmationTray: some View {
+        VStack(spacing: 0) {
+            if (selectedCaregiver?.status == .pending) {
+                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
+                    showingResendConfirmation = true
+                }
+            }
+            Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
+                showingRemoveConfirmation = true
+            }
+        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))
+    }
+    
 }
 
 struct MyCaregiversView_Previews: PreviewProvider {
