@@ -50,6 +50,8 @@ struct MyCaregiversView: View {
                                 switch caregiver.status {
                                 case InvitationStatus.pending:
                                     Text("Invite Sent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
+                                case InvitationStatus.resent:
+                                    Text("Invite Sent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
                                 case InvitationStatus.declined:
                                     Text("Invite Declined").font(.caption).foregroundColor(guidanceColors.critical).padding(2).padding(.horizontal, 2).background(guidanceColors.critical.opacity(0.3).cornerRadius(2))
                                 default:
@@ -61,7 +63,10 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
-                    .confirmationDialog(Text(selectedCaregiver?.name ?? "").bold(), isPresented: $showingCaregiverActions, titleVisibility: .visible) {
+//                    .sheet(isPresented: $showingCaregiverActions) {
+//                        confirmationTray
+//                    }
+                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .hidden) {
                         if selectedCaregiver?.status == .pending {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                                 showingResendConfirmation = true
@@ -70,7 +75,6 @@ struct MyCaregiversView: View {
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
                             showingRemoveConfirmation = true
                         }
-
                     }
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
                            isPresented: $showingRemoveConfirmation,
@@ -94,6 +98,8 @@ struct MyCaregiversView: View {
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.resendInvite(caregiver: caregiver)
+                                caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
+                                await caregiverManager.fetchCaregivers()
                             }
                         } label: {
                             Text(LocalizedString("Resend Invite", comment: "Button title on alert for resend invitation confirmation"))
