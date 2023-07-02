@@ -22,6 +22,8 @@ struct MyCaregiversView: View {
     @State private var showingCaregiverActions: Bool = false
     @State private var showingRemoveConfirmation: Bool = false
     @State private var showingResendConfirmation: Bool = false
+    @State private var showingResendSuccess: Bool = false
+    @State private var showingRemoveSuccess: Bool = false
     
     let primaryButton = SetupButton(type: .custom)
     
@@ -63,9 +65,6 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
-//                    .sheet(isPresented: $showingCaregiverActions) {
-//                        confirmationTray
-//                    }
                     .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .hidden) {
                         if selectedCaregiver?.status == .pending {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
@@ -83,6 +82,8 @@ struct MyCaregiversView: View {
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.removeCaregiver(caregiver: caregiver)
+                                showingRemoveSuccess = true
+                                // TODO: Error case and confirmationDialog here
                             }
                         } label: {
                             Text(LocalizedString("Remove", comment: "Button title on alert for remove caregiver confirmation"))
@@ -100,6 +101,8 @@ struct MyCaregiversView: View {
                                 await caregiverManager.resendInvite(caregiver: caregiver)
                                 caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
                                 await caregiverManager.fetchCaregivers()
+                                showingResendSuccess = true
+                                // TODO: Error case and confirmationDialog here
                             }
                         } label: {
                             Text(LocalizedString("Resend Invite", comment: "Button title on alert for resend invitation confirmation"))
@@ -120,6 +123,16 @@ struct MyCaregiversView: View {
                         .foregroundColor(.accentColor)
                     })
                 .isDetailLink(false)
+            }
+        }
+        // TODO: Need to block user access to other Caregivers during remove/resendSuccessTray.
+        VStack(spacing: 0) {
+            if showingRemoveSuccess {
+                removeSuccessTray
+            } else if showingResendSuccess {
+                resendSuccessTray
+            } else {
+                EmptyView()
             }
         }
         .task {
@@ -150,19 +163,50 @@ struct MyCaregiversView: View {
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }
     
-    var confirmationTray: some View {
+    var removeSuccessTray: some View {
         VStack(spacing: 0) {
-            if (selectedCaregiver?.status == .pending) {
-                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-                    showingResendConfirmation = true
-                }
+            VStack(spacing: 10) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.accentColor)
+                    .font(Font.system(.largeTitle))
+                Text(LocalizedString("Access Removed", comment: "Success message for caregiver removal"))
+                    .bold()
             }
-            Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-                showingRemoveConfirmation = true
+            Button {
+                showingRemoveSuccess = false
+            } label: {
+                Text(LocalizedString("Done", comment: "Button title to continue"))
             }
-        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))
+            .actionButtonStyle(.primary)
+            .textCase(nil)
+            .padding()
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
+        
     }
     
+    var resendSuccessTray: some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 10) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.accentColor)
+                    .font(Font.system(.largeTitle))
+                Text(LocalizedString("Invite Resent", comment: "Success message for caregiver resend"))
+                    .bold()
+            }
+            Button {
+                showingResendSuccess = false
+            } label: {
+                    Text(LocalizedString("Done", comment: "Button title to continue"))
+            }
+            .actionButtonStyle(.primary)
+            .textCase(nil)
+            .padding()
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
+    }
 }
 
 struct MyCaregiversView_Previews: PreviewProvider {
