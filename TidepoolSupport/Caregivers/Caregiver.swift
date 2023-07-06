@@ -12,6 +12,7 @@ enum InvitationStatus: Equatable {
     case pending
     case accepted
     case declined
+    case resent
 }
 
 struct Caregiver: Identifiable, Equatable {

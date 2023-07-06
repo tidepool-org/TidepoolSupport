@@ -20,6 +20,8 @@ class CaregiverManager: ObservableObject {
     private let nicknameStorage = UserDefaults.standard
     private let backendInvitesToIgnore = ["bigdata@tidepool.org", "bigdata+CWD@tidepool.org"]
     
+    let resentInviteFlagStorage = UserDefaults.standard
+    
     var api: TAPI?
     
     init(api: TAPI?) {
@@ -50,6 +52,15 @@ class CaregiverManager: ObservableObject {
         }
         if let caregiverIndexToRemove = caregiversPendingRemoval.firstIndex(of: caregiver) {
             caregiversPendingRemoval.remove(at: caregiverIndexToRemove)
+        }
+    }
+    
+    func resendInvite(caregiver: Caregiver) async {
+        do {
+            let inviteKey = caregiver.id
+            let _ = try await api?.resendInvite(key: inviteKey)
+        } catch {
+            log.error("resendInvite error: %{public}@",error.localizedDescription)
         }
     }
     
@@ -106,15 +117,18 @@ class CaregiverManager: ObservableObject {
                 if backendInvitesToIgnore.contains(email){return}
                 let nickName = nicknameStorage.string(forKey: invitee.email) ?? ""
                 let status: InvitationStatus
-                
-                switch invitee.status {
-                    /// Currently a user must create a web account before the 'ignore' option is offered resulting in a declined status.
-                    /// In this use-case, the invitee will have a full name, however,
-                    /// this is not currently updated as this UX may be refactored to redirect to the mobile app.
-                case "declined":
-                    status = InvitationStatus.declined
-                default:
-                    status = InvitationStatus.pending
+                if resentInviteFlagStorage.bool(forKey: invitee.key) {
+                    status = InvitationStatus.resent
+                } else {
+                    switch invitee.status {
+                        /// Currently a user must create a web account before the 'ignore' option is offered resulting in a declined status.
+                        /// In this use-case, the invitee will have a full name, however,
+                        /// this is not currently updated as this UX may be refactored to redirect to the mobile app.
+                    case "declined":
+                        status = InvitationStatus.declined
+                    default:
+                        status = InvitationStatus.pending
+                    }
                 }
                 
                 /// In the 'pending' use-case, invitee does not yet have an account,

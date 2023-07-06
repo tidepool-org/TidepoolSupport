@@ -21,6 +21,9 @@ struct MyCaregiversView: View {
     @State private var selectedCaregiver: Caregiver?
     @State private var showingCaregiverActions: Bool = false
     @State private var showingRemoveConfirmation: Bool = false
+    @State private var showingResendConfirmation: Bool = false
+    @State private var showingResendSuccess: Bool = false
+    @State private var showingRemoveSuccess: Bool = false
     
     let primaryButton = SetupButton(type: .custom)
     
@@ -49,6 +52,8 @@ struct MyCaregiversView: View {
                                 switch caregiver.status {
                                 case InvitationStatus.pending:
                                     Text("Invite Sent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
+                                case InvitationStatus.resent:
+                                    Text("Invite Sent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
                                 case InvitationStatus.declined:
                                     Text("Invite Declined").font(.caption).foregroundColor(guidanceColors.critical).padding(2).padding(.horizontal, 2).background(guidanceColors.critical.opacity(0.3).cornerRadius(2))
                                 default:
@@ -60,16 +65,15 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
-                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .visible) {
-                        if selectedCaregiver?.status == .declined {
+                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .hidden) {
+                        if selectedCaregiver?.status == .pending {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-                                // TODO: Logic needed here. Need to discuss TPermissions resurrection from original invite.
+                                showingResendConfirmation = true
                             }
                         }
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
                             showingRemoveConfirmation = true
                         }
-                        
                     }
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
                            isPresented: $showingRemoveConfirmation,
@@ -78,6 +82,8 @@ struct MyCaregiversView: View {
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.removeCaregiver(caregiver: caregiver)
+                                showingRemoveSuccess = true
+                                // TODO: Error case and confirmationDialog here
                             }
                         } label: {
                             Text(LocalizedString("Remove", comment: "Button title on alert for remove caregiver confirmation"))
@@ -85,6 +91,25 @@ struct MyCaregiversView: View {
                     },
                            message: { caregiver in
                         Text(String(format: LocalizedString("%1$@ will lose all access to your data. Are you sure you want to remove this caregiver?", comment: "Format string for message on remove caregiver alert confirmation"), caregiver.name))
+                    })
+                    .alert(LocalizedString("Resend Invitation", comment: "Alert title for resend invitation confirmation."),
+                           isPresented: $showingResendConfirmation,
+                           presenting: selectedCaregiver,
+                           actions: { caregiver in
+                        Button(role: .destructive) {
+                            Task {
+                                await caregiverManager.resendInvite(caregiver: caregiver)
+                                caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
+                                await caregiverManager.fetchCaregivers()
+                                showingResendSuccess = true
+                                // TODO: Error case and confirmationDialog here
+                            }
+                        } label: {
+                            Text(LocalizedString("Resend Invite", comment: "Button title on alert for resend invitation confirmation"))
+                        }
+                    },
+                           message: { caregiver in
+                        Text(String(format: LocalizedString("Are you sure you want to resend a share invitation to %1$@ ?", comment: "Format string for message on resend invitation alert confirmation"), caregiver.name))
                     })
                 }
                 NavigationLink(
@@ -100,25 +125,21 @@ struct MyCaregiversView: View {
                 .isDetailLink(false)
             }
         }
+        // TODO: Need to block user access to other Caregivers during remove/resendSuccessTray.
+        VStack(spacing: 0) {
+            if showingRemoveSuccess {
+                removeSuccessTray
+            } else if showingResendSuccess {
+                resendSuccessTray
+            } else {
+                EmptyView()
+            }
+        }
         .task {
             await caregiverManager.fetchCaregivers()
         }
         .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
         .navigationBarTitleDisplayMode(.large)
-        //        VStack(spacing: 0) {
-        //            if (selectedCaregiver?.status == .declined) {
-        //                Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-        //                    // TODO
-        //                }
-        //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-        //                    showingRemoveConfirmation = true
-        //                }
-        //            } else {
-        //                Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-        //                    showingRemoveConfirmation = true
-        //                }
-        //            }
-        //        }.padding(.bottom).background(Color(.secondarySystemGroupedBackground).shadow(radius: 5))
     }
     
     var header: some View {
@@ -140,6 +161,51 @@ struct MyCaregiversView: View {
             }
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
+    }
+    
+    var removeSuccessTray: some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 10) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.accentColor)
+                    .font(Font.system(.largeTitle))
+                Text(LocalizedString("Access Removed", comment: "Success message for caregiver removal"))
+                    .bold()
+            }
+            Button {
+                showingRemoveSuccess = false
+            } label: {
+                Text(LocalizedString("Done", comment: "Button title to continue"))
+            }
+            .actionButtonStyle(.primary)
+            .textCase(nil)
+            .padding()
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
+        
+    }
+    
+    var resendSuccessTray: some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 10) {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.accentColor)
+                    .font(Font.system(.largeTitle))
+                Text(LocalizedString("Invite Resent", comment: "Success message for caregiver resend"))
+                    .bold()
+            }
+            Button {
+                showingResendSuccess = false
+            } label: {
+                    Text(LocalizedString("Done", comment: "Button title to continue"))
+            }
+            .actionButtonStyle(.primary)
+            .textCase(nil)
+            .padding()
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
     }
 }
 
