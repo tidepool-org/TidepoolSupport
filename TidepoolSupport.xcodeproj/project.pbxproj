@@ -315,6 +315,8 @@
 			dependencies = (
 			);
 			name = TidepoolSupport;
+			packageProductDependencies = (
+			);
 			productName = TidepoolVersionCheck;
 			productReference = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */;
 			productType = "com.apple.product-type.framework";
@@ -387,6 +389,8 @@
 				Base,
 			);
 			mainGroup = 1DFFB92827150D2C0075AEAA;
+			packageReferences = (
+			);
 			productRefGroup = 1DFFB93327150D2C0075AEAA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
