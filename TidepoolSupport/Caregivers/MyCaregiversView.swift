@@ -24,6 +24,8 @@ struct MyCaregiversView: View {
     @State private var showingResendConfirmation: Bool = false
     @State private var showingResendSuccess: Bool = false
     @State private var showingRemoveSuccess: Bool = false
+    @State private var showingTroubleDialog: Bool = false
+    @State private var troubleTitle: String = ""
     
     let primaryButton = SetupButton(type: .custom)
     
@@ -82,8 +84,12 @@ struct MyCaregiversView: View {
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.removeCaregiver(caregiver: caregiver)
-                                showingRemoveSuccess = true
-                                // TODO: Error case and confirmationDialog here
+                                if caregiverManager.removeError {
+                                    troubleTitle = "Remove Error"
+                                    showingTroubleDialog = true
+                                } else {
+                                    showingRemoveSuccess = true
+                                }
                             }
                         } label: {
                             Text(LocalizedString("Remove", comment: "Button title on alert for remove caregiver confirmation"))
@@ -99,10 +105,14 @@ struct MyCaregiversView: View {
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.resendInvite(caregiver: caregiver)
-                                caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
-                                await caregiverManager.fetchCaregivers()
-                                showingResendSuccess = true
-                                // TODO: Error case and confirmationDialog here
+                                if caregiverManager.resendError {
+                                    troubleTitle = "Resend Error"
+                                    showingTroubleDialog = true
+                                } else {
+                                    caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
+                                    await caregiverManager.fetchCaregivers()
+                                    showingResendSuccess = true
+                                }
                             }
                         } label: {
                             Text(LocalizedString("Resend Invite", comment: "Button title on alert for resend invitation confirmation"))
@@ -110,6 +120,23 @@ struct MyCaregiversView: View {
                     },
                            message: { caregiver in
                         Text(String(format: LocalizedString("Are you sure you want to resend a share invitation to %1$@ ?", comment: "Format string for message on resend invitation alert confirmation"), caregiver.name))
+                    })
+                    .alert(troubleTitle,
+                           isPresented: $showingTroubleDialog,
+                           actions: {
+                        Button(role: .cancel) {
+                            if caregiverManager.removeError {
+                                caregiverManager.removeError = false
+                            } else {
+                                caregiverManager.resendError = false
+                            }
+                            showingTroubleDialog = false
+                        } label: {
+                            Text(LocalizedString("OK", comment: "Button title for trouble alert"))
+                        }
+                    },
+                           message: {
+                        Text("We weren’t able to complete this action. Please try again.")
                     })
                 }
                 NavigationLink(

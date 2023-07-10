@@ -13,6 +13,8 @@ class CaregiverManager: ObservableObject {
     
     @Published var caregivers: [Caregiver] = []
     @Published var caregiversPendingRemoval: [Caregiver] = []
+    @Published var resendError: Bool = false
+    @Published var removeError: Bool = false
     
     private static let caregiverManagerIdentifier = "CaregiverManager"
     private let log = OSLog(category: caregiverManagerIdentifier)
@@ -55,28 +57,37 @@ class CaregiverManager: ObservableObject {
         }
     }
     
+    @MainActor
     func resendInvite(caregiver: Caregiver) async {
         do {
             let inviteKey = caregiver.id
             let _ = try await api?.resendInvite(key: inviteKey)
         } catch {
+            /// FIXME: Backend currently completing the action, but returning invalid JSON response.
+            //            resendError = true
             log.error("resendInvite error: %{public}@",error.localizedDescription)
         }
     }
     
+    @MainActor
     private func removeCaregiverPermissions(caregiver: Caregiver) async {
         do {
             let permissions = TPermissions.init()
             let _ = try await api?.grantPermissionsInGroup(userId: caregiver.id, permissions: permissions)
         } catch {
+            /// FIXME: Backend currently completing the action, but returning invalid JSON response.
+            //            removeError = true
             log.error("removeCaregiverPermissions error: %{public}@",error.localizedDescription)
         }
     }
     
+    @MainActor
     private func removeInvitation(caregiverEmail: String) async {
         do {
             let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
         } catch {
+            /// FIXME: Backend currently completing the action, but returning invalid JSON response.
+            //            removeError = true
             log.error("removeInvitation error: %{public}@",error.localizedDescription)
         }
     }
