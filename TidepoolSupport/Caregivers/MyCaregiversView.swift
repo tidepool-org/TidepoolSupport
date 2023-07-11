@@ -84,8 +84,7 @@ struct MyCaregiversView: View {
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.removeCaregiver(caregiver: caregiver)
-                                if caregiverManager.removeError {
-                                    troubleTitle = "Remove Error"
+                                if (caregiverManager.errorType != nil) {
                                     showingTroubleDialog = true
                                 } else {
                                     showingRemoveSuccess = true
@@ -105,8 +104,7 @@ struct MyCaregiversView: View {
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.resendInvite(caregiver: caregiver)
-                                if caregiverManager.resendError {
-                                    troubleTitle = "Resend Error"
+                                if (caregiverManager.errorType != nil) {
                                     showingTroubleDialog = true
                                 } else {
                                     caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
@@ -121,22 +119,18 @@ struct MyCaregiversView: View {
                            message: { caregiver in
                         Text(String(format: LocalizedString("Are you sure you want to resend a share invitation to %1$@ ?", comment: "Format string for message on resend invitation alert confirmation"), caregiver.name))
                     })
-                    .alert(troubleTitle,
+                    .alert(caregiverManager.errorType?.title ?? "Error",
                            isPresented: $showingTroubleDialog,
                            actions: {
                         Button(role: .cancel) {
-                            if caregiverManager.removeError {
-                                caregiverManager.removeError = false
-                            } else {
-                                caregiverManager.resendError = false
-                            }
+                            caregiverManager.errorType = nil
                             showingTroubleDialog = false
                         } label: {
                             Text(LocalizedString("OK", comment: "Button title for trouble alert"))
                         }
                     },
                            message: {
-                        Text("We weren’t able to complete this action. Please try again.")
+                        Text(String(format: LocalizedString("%1$@ Please try again.", comment: "Format string for message error alert"), caregiverManager.errorType?.description ?? "We weren’t able to complete this action."))
                     })
                 }
                 NavigationLink(
@@ -151,15 +145,12 @@ struct MyCaregiversView: View {
                     })
                 .isDetailLink(false)
             }
-        }
-        // TODO: Need to block user access to other Caregivers during remove/resendSuccessTray.
+        }.disabled(showingRemoveSuccess || showingResendSuccess)
         VStack(spacing: 0) {
             if showingRemoveSuccess {
                 removeSuccessTray
             } else if showingResendSuccess {
                 resendSuccessTray
-            } else {
-                EmptyView()
             }
         }
         .task {
@@ -209,8 +200,7 @@ struct MyCaregiversView: View {
             .padding()
         }
         .padding()
-        .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
-        
+        .background(Color(UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.bottom).shadow(radius: 5))
     }
     
     var resendSuccessTray: some View {
@@ -232,7 +222,7 @@ struct MyCaregiversView: View {
             .padding()
         }
         .padding()
-        .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
+        .background(Color(UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.bottom).shadow(radius: 5))
     }
 }
 

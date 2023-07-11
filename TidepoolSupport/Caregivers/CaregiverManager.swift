@@ -11,10 +11,28 @@ import os.log
 
 class CaregiverManager: ObservableObject {
     
+    enum ErrorType {
+        case resendInvite
+        case removeCaregiver
+        
+        var title: String {
+            switch self {
+            case .resendInvite: return "Resend Error"
+            case .removeCaregiver: return "Remove Error"
+            }
+        }
+        
+        var description: String {
+            switch self {
+            case .resendInvite: return "Error resending invite."
+            case .removeCaregiver: return "Error removing caregiver."
+            }
+        }
+    }
+    
     @Published var caregivers: [Caregiver] = []
     @Published var caregiversPendingRemoval: [Caregiver] = []
-    @Published var resendError: Bool = false
-    @Published var removeError: Bool = false
+    @Published var errorType: ErrorType? = nil
     
     private static let caregiverManagerIdentifier = "CaregiverManager"
     private let log = OSLog(category: caregiverManagerIdentifier)
@@ -40,6 +58,7 @@ class CaregiverManager: ObservableObject {
         self.caregivers = caregivers
     }
     
+    @MainActor
     func removeCaregiver(caregiver: Caregiver) async {
         caregiversPendingRemoval.append(caregiver)
         
@@ -63,8 +82,7 @@ class CaregiverManager: ObservableObject {
             let inviteKey = caregiver.id
             let _ = try await api?.resendInvite(key: inviteKey)
         } catch {
-            /// FIXME: Backend currently completing the action, but returning invalid JSON response.
-            //            resendError = true
+            errorType = ErrorType.resendInvite
             log.error("resendInvite error: %{public}@",error.localizedDescription)
         }
     }
@@ -75,8 +93,7 @@ class CaregiverManager: ObservableObject {
             let permissions = TPermissions.init()
             let _ = try await api?.grantPermissionsInGroup(userId: caregiver.id, permissions: permissions)
         } catch {
-            /// FIXME: Backend currently completing the action, but returning invalid JSON response.
-            //            removeError = true
+            errorType = ErrorType.removeCaregiver
             log.error("removeCaregiverPermissions error: %{public}@",error.localizedDescription)
         }
     }
@@ -86,8 +103,7 @@ class CaregiverManager: ObservableObject {
         do {
             let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
         } catch {
-            /// FIXME: Backend currently completing the action, but returning invalid JSON response.
-            //            removeError = true
+            errorType = ErrorType.removeCaregiver
             log.error("removeInvitation error: %{public}@",error.localizedDescription)
         }
     }
