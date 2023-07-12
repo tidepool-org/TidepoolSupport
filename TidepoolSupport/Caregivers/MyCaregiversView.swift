@@ -19,13 +19,18 @@ struct MyCaregiversView: View {
     
     @State private var isCreatingInvitation: Bool = false
     @State private var selectedCaregiver: Caregiver?
-    @State private var showingCaregiverActions: Bool = false
-    @State private var showingRemoveConfirmation: Bool = false
-    @State private var showingResendConfirmation: Bool = false
-    @State private var showingResendSuccess: Bool = false
-    @State private var showingRemoveSuccess: Bool = false
-    @State private var showingTroubleDialog: Bool = false
     @State private var troubleTitle: String = ""
+    @State private var showingCaregiverActions: Bool = false
+    
+    enum Alert {
+        case showingRemoveConfirmation
+        case showingResendConfirmation
+        case showingResendSuccess
+        case showingRemoveSuccess
+        case showingTroubleDialog
+    }
+    
+    @State var presentedAlert: Alert? = nil
     
     let primaryButton = SetupButton(type: .custom)
     
@@ -70,24 +75,28 @@ struct MyCaregiversView: View {
                     .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .hidden) {
                         if selectedCaregiver?.status == .pending {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
-                                showingResendConfirmation = true
+                                presentedAlert = .showingResendConfirmation
                             }
                         }
                         Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
-                            showingRemoveConfirmation = true
+                            presentedAlert = .showingRemoveConfirmation
                         }
                     }
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
-                           isPresented: $showingRemoveConfirmation,
+                           isPresented: Binding(get: {
+                        presentedAlert == .showingRemoveConfirmation
+                    }, set: { Value in
+                        presentedAlert = nil
+                    }),
                            presenting: selectedCaregiver,
                            actions: { caregiver in
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.removeCaregiver(caregiver: caregiver)
                                 if (caregiverManager.errorType != nil) {
-                                    showingTroubleDialog = true
+                                    presentedAlert = .showingTroubleDialog
                                 } else {
-                                    showingRemoveSuccess = true
+                                    presentedAlert = .showingRemoveSuccess
                                 }
                             }
                         } label: {
@@ -98,18 +107,22 @@ struct MyCaregiversView: View {
                         Text(String(format: LocalizedString("%1$@ will lose all access to your data. Are you sure you want to remove this caregiver?", comment: "Format string for message on remove caregiver alert confirmation"), caregiver.name))
                     })
                     .alert(LocalizedString("Resend Invitation", comment: "Alert title for resend invitation confirmation."),
-                           isPresented: $showingResendConfirmation,
+                           isPresented: Binding(get: {
+                        presentedAlert == .showingResendConfirmation
+                    }, set: { Value in
+                        presentedAlert = nil
+                    }),
                            presenting: selectedCaregiver,
                            actions: { caregiver in
                         Button(role: .destructive) {
                             Task {
                                 await caregiverManager.resendInvite(caregiver: caregiver)
                                 if (caregiverManager.errorType != nil) {
-                                    showingTroubleDialog = true
+                                    presentedAlert = .showingTroubleDialog
                                 } else {
                                     caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
                                     await caregiverManager.fetchCaregivers()
-                                    showingResendSuccess = true
+                                    presentedAlert = .showingResendSuccess
                                 }
                             }
                         } label: {
@@ -120,11 +133,15 @@ struct MyCaregiversView: View {
                         Text(String(format: LocalizedString("Are you sure you want to resend a share invitation to %1$@ ?", comment: "Format string for message on resend invitation alert confirmation"), caregiver.name))
                     })
                     .alert(caregiverManager.errorType?.title ?? "Error",
-                           isPresented: $showingTroubleDialog,
+                           isPresented: Binding(get: {
+                        presentedAlert == .showingTroubleDialog
+                    }, set: { Value in
+                        presentedAlert = nil
+                    }),
                            actions: {
                         Button(role: .cancel) {
                             caregiverManager.errorType = nil
-                            showingTroubleDialog = false
+                            presentedAlert = nil
                         } label: {
                             Text(LocalizedString("OK", comment: "Button title for trouble alert"))
                         }
@@ -145,19 +162,19 @@ struct MyCaregiversView: View {
                     })
                 .isDetailLink(false)
             }
-        }.disabled(showingRemoveSuccess || showingResendSuccess)
+        }.disabled(presentedAlert == .showingRemoveSuccess || presentedAlert == .showingResendSuccess)
         VStack(spacing: 0) {
-            if showingRemoveSuccess {
+            if presentedAlert == .showingRemoveSuccess {
                 removeSuccessTray
-            } else if showingResendSuccess {
+            } else if presentedAlert == .showingResendSuccess {
                 resendSuccessTray
             }
-        }
-        .task {
-            await caregiverManager.fetchCaregivers()
-        }
-        .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
-        .navigationBarTitleDisplayMode(.large)
+        }.animation(.default, value: presentedAlert).transition(.move(edge: .bottom))
+            .task {
+                await caregiverManager.fetchCaregivers()
+            }
+            .navigationTitle(LocalizedString("My Caregivers", comment: "Navigation title for My Caregivers page"))
+            .navigationBarTitleDisplayMode(.large)
     }
     
     var header: some View {
@@ -191,7 +208,7 @@ struct MyCaregiversView: View {
                     .bold()
             }
             Button {
-                showingRemoveSuccess = false
+                presentedAlert = nil
             } label: {
                 Text(LocalizedString("Done", comment: "Button title to continue"))
             }
@@ -213,9 +230,9 @@ struct MyCaregiversView: View {
                     .bold()
             }
             Button {
-                showingResendSuccess = false
+                presentedAlert = nil
             } label: {
-                    Text(LocalizedString("Done", comment: "Button title to continue"))
+                Text(LocalizedString("Done", comment: "Button title to continue"))
             }
             .actionButtonStyle(.primary)
             .textCase(nil)
