@@ -24,8 +24,8 @@ class CaregiverManager: ObservableObject {
         
         var description: String {
             switch self {
-            case .resendInvite: return "Error resending invite."
-            case .removeCaregiver: return "Error removing caregiver."
+            case .resendInvite: return LocalizedString("Error resending invite.", comment: "Resend invite error")
+            case .removeCaregiver: return LocalizedString("Error removing caregiver.", comment: "Remove caregiver error")
             }
         }
     }
@@ -82,7 +82,7 @@ class CaregiverManager: ObservableObject {
             let inviteKey = caregiver.id
             let _ = try await api?.resendInvite(key: inviteKey)
         } catch {
-            errorType = ErrorType.resendInvite
+            errorType = .resendInvite
             log.error("resendInvite error: %{public}@",error.localizedDescription)
         }
     }
@@ -93,7 +93,7 @@ class CaregiverManager: ObservableObject {
             let permissions = TPermissions.init()
             let _ = try await api?.grantPermissionsInGroup(userId: caregiver.id, permissions: permissions)
         } catch {
-            errorType = ErrorType.removeCaregiver
+            errorType = .removeCaregiver
             log.error("removeCaregiverPermissions error: %{public}@",error.localizedDescription)
         }
     }
@@ -103,7 +103,7 @@ class CaregiverManager: ObservableObject {
         do {
             let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
         } catch {
-            errorType = ErrorType.removeCaregiver
+            errorType = .removeCaregiver
             log.error("removeInvitation error: %{public}@",error.localizedDescription)
         }
     }

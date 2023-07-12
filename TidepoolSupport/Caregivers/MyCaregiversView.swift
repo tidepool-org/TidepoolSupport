@@ -19,18 +19,21 @@ struct MyCaregiversView: View {
     
     @State private var isCreatingInvitation: Bool = false
     @State private var selectedCaregiver: Caregiver?
-    @State private var troubleTitle: String = ""
     @State private var showingCaregiverActions: Bool = false
     
     enum Alert {
         case showingRemoveConfirmation
         case showingResendConfirmation
-        case showingResendSuccess
-        case showingRemoveSuccess
         case showingTroubleDialog
     }
     
+    enum BottomTray {
+        case showingResendSuccess
+        case showingRemoveSuccess
+    }
+    
     @State var presentedAlert: Alert? = nil
+    @State var presentedBottomTray: BottomTray? = nil
     
     let primaryButton = SetupButton(type: .custom)
     
@@ -85,7 +88,7 @@ struct MyCaregiversView: View {
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
                            isPresented: Binding(get: {
                         presentedAlert == .showingRemoveConfirmation
-                    }, set: { Value in
+                    }, set: { _ in
                         presentedAlert = nil
                     }),
                            presenting: selectedCaregiver,
@@ -96,7 +99,8 @@ struct MyCaregiversView: View {
                                 if (caregiverManager.errorType != nil) {
                                     presentedAlert = .showingTroubleDialog
                                 } else {
-                                    presentedAlert = .showingRemoveSuccess
+                                    presentedAlert = nil
+                                    presentedBottomTray = .showingRemoveSuccess
                                 }
                             }
                         } label: {
@@ -109,7 +113,7 @@ struct MyCaregiversView: View {
                     .alert(LocalizedString("Resend Invitation", comment: "Alert title for resend invitation confirmation."),
                            isPresented: Binding(get: {
                         presentedAlert == .showingResendConfirmation
-                    }, set: { Value in
+                    }, set: { _ in
                         presentedAlert = nil
                     }),
                            presenting: selectedCaregiver,
@@ -122,7 +126,8 @@ struct MyCaregiversView: View {
                                 } else {
                                     caregiverManager.resentInviteFlagStorage.set(true, forKey: caregiver.id)
                                     await caregiverManager.fetchCaregivers()
-                                    presentedAlert = .showingResendSuccess
+                                    presentedAlert = nil
+                                    presentedBottomTray = .showingResendSuccess
                                 }
                             }
                         } label: {
@@ -135,7 +140,7 @@ struct MyCaregiversView: View {
                     .alert(caregiverManager.errorType?.title ?? "Error",
                            isPresented: Binding(get: {
                         presentedAlert == .showingTroubleDialog
-                    }, set: { Value in
+                    }, set: { _ in
                         presentedAlert = nil
                     }),
                            actions: {
@@ -162,11 +167,11 @@ struct MyCaregiversView: View {
                     })
                 .isDetailLink(false)
             }
-        }.disabled(presentedAlert == .showingRemoveSuccess || presentedAlert == .showingResendSuccess)
+        }.disabled(presentedBottomTray == .showingRemoveSuccess || presentedBottomTray == .showingResendSuccess)
         VStack(spacing: 0) {
-            if presentedAlert == .showingRemoveSuccess {
+            if presentedBottomTray == .showingRemoveSuccess {
                 removeSuccessTray
-            } else if presentedAlert == .showingResendSuccess {
+            } else if presentedBottomTray == .showingResendSuccess {
                 resendSuccessTray
             }
         }.animation(.default, value: presentedAlert).transition(.move(edge: .bottom))
@@ -208,7 +213,7 @@ struct MyCaregiversView: View {
                     .bold()
             }
             Button {
-                presentedAlert = nil
+                presentedBottomTray = nil
             } label: {
                 Text(LocalizedString("Done", comment: "Button title to continue"))
             }
@@ -230,7 +235,7 @@ struct MyCaregiversView: View {
                     .bold()
             }
             Button {
-                presentedAlert = nil
+                presentedBottomTray = nil
             } label: {
                 Text(LocalizedString("Done", comment: "Button title to continue"))
             }
