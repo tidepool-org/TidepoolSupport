@@ -12,6 +12,7 @@ import LoopKit
 
 struct InvitationSubmitView: View {
     @EnvironmentObject private var glucosePreference: DisplayGlucosePreference
+    @Environment(\.guidanceColors) private var guidanceColors
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
@@ -191,13 +192,18 @@ struct InvitationSubmitView: View {
                 .disabled(sendState.isSent || sendState.isSending)
             }
         }
-        .confirmationDialog(LocalizedString("Close Invitation?", comment: "Title of confirmation dialog for closing invitation"), isPresented: $cancelConfirmationShown) {
-            Button(LocalizedString("Close Invite", comment: "Button to confirm closing invitation"), role: .destructive) {
+        .alert(LocalizedString("Close Invitation?", comment: "Alert title for close invitation confirmation."),
+               isPresented: $cancelConfirmationShown,
+               actions: {
+            Button(role: .destructive) {
                 isCreatingInvitation = false
+            } label: {
+                Text(LocalizedString("Close Invite", comment: "Button title on alert for close invitation confirmation"))
             }
-        } message: {
+        },
+               message: {
             Text(LocalizedString("If you leave now, you will need to create this invitation again.", comment: "Message of confirmation dialog for closing invitation"))
-        }
+        })
     }
 
     func errorView(_ error: Error) -> some View {
@@ -207,7 +213,7 @@ struct InvitationSubmitView: View {
                     .bold()
             } icon: {
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundColor(.red)
+                    .foregroundColor(guidanceColors.warning) /// Tidepool alarm orange
             }
             Text((error as? LocalizedError)?.recoverySuggestion ?? error.localizedDescription)
         }
@@ -215,12 +221,10 @@ struct InvitationSubmitView: View {
 
     var header: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text(LocalizedString("Review the information below. Then tap Send Invite to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
+            Text(LocalizedString("Review your information below. Then tap Send Invitation to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
                 .textCase(nil)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.primary)
-            Divider()
-                .overlay(.primary)
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }

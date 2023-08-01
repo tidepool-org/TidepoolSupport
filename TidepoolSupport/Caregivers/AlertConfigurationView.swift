@@ -42,7 +42,7 @@ struct AlertConfigurationView: View {
                 NavigationLink {
                     InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
-                    Text(LocalizedString("Continue", comment: "Button title for navigating to next page of caregiver invitation form"))
+                    Text(LocalizedString("Save Notifications", comment: "Button title for navigating to next page of caregiver invitation form"))
                 }
                 .actionButtonStyle()
                 .padding()
@@ -140,8 +140,6 @@ struct AlertConfigurationView: View {
                 .textCase(nil)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.primary)
-            Divider()
-                .overlay(.primary)
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }
