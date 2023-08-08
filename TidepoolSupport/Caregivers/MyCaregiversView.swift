@@ -19,6 +19,7 @@ struct MyCaregiversView: View {
     
     @State private var isCreatingInvitation: Bool = false
     @State private var selectedCaregiver: Caregiver?
+    @State private var showingCaregiverActions: Bool = false
     
     enum Alert {
         case showingRemoveConfirmation
@@ -29,7 +30,6 @@ struct MyCaregiversView: View {
     enum BottomTray {
         case showingResendSuccess
         case showingRemoveSuccess
-        case showingCaregiverActions
     }
     
     @State var presentedAlert: Alert? = nil
@@ -44,7 +44,7 @@ struct MyCaregiversView: View {
                 ForEach(caregiverManager.caregivers) { caregiver in
                     Button {
                         selectedCaregiver = caregiver
-                        presentedBottomTray = .showingCaregiverActions
+                        showingCaregiverActions = true
                     } label: {
                         HStack(spacing: 24) {
                             VStack(alignment: .leading, spacing: 4) {
@@ -75,6 +75,16 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
+                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .visible) {
+                        if selectedCaregiver?.status == .pending {
+                            Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
+                                presentedAlert = .showingResendConfirmation
+                            }
+                        }
+                        Button(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"), role: .destructive) {
+                            presentedAlert = .showingRemoveConfirmation
+                        }
+                    }
                     .alert(LocalizedString("Remove Caregiver?", comment: "Alert title for remove caregiver confirmation."),
                            isPresented: Binding(get: {
                         presentedAlert == .showingRemoveConfirmation
@@ -157,14 +167,12 @@ struct MyCaregiversView: View {
                     })
                 .isDetailLink(false)
             }
-        }.disabled(presentedBottomTray == .showingRemoveSuccess || presentedBottomTray == .showingResendSuccess || presentedBottomTray == .showingCaregiverActions)
+        }.disabled(presentedBottomTray == .showingRemoveSuccess || presentedBottomTray == .showingResendSuccess)
         VStack(spacing: 0) {
             if presentedBottomTray == .showingRemoveSuccess {
                 removeSuccessTray
             } else if presentedBottomTray == .showingResendSuccess {
                 resendSuccessTray
-            } else if presentedBottomTray == .showingCaregiverActions {
-                caregiverActionsTray
             }
         }.animation(.default, value: presentedAlert).transition(.move(edge: .bottom))
             .task {
@@ -190,39 +198,6 @@ struct MyCaregiversView: View {
             }
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
-    }
-    
-    var caregiverActionsTray: some View {
-        VStack(spacing: 12) {
-            Text(String(format: LocalizedString("%1$@", comment: "Format string for displaying selected caregiver's name."), selectedCaregiver?.name ?? "")).font(.title2).fontWeight(.semibold)
-            if selectedCaregiver?.status == .pending {
-                Button {
-                    presentedBottomTray = nil
-                    presentedAlert = .showingResendConfirmation
-                } label: {
-                    Text(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action"))
-                }
-                .actionButtonStyle(.primary)
-                .textCase(nil)
-            }
-            Button {
-                presentedBottomTray = nil
-                presentedAlert = .showingRemoveConfirmation
-            } label: {
-                Text(LocalizedString("Remove Caregiver", comment: "Button title for remove caregiver action"))
-            }
-            .actionButtonStyle(.destructive)
-            .textCase(nil)
-            Button {
-                presentedBottomTray = nil
-            } label: {
-                Text(LocalizedString("Cancel", comment: "Button title to cancel"))
-            }
-            .actionButtonStyle(.secondary)
-            .textCase(nil)
-        }
-        .padding()
-        .background(Color(UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.bottom).shadow(radius: 5))
     }
     
     var removeSuccessTray: some View {
