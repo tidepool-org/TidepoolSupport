@@ -63,7 +63,7 @@ struct MyCaregiversView: View {
                                 case InvitationStatus.pending:
                                     Text("Invite Sent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
                                 case InvitationStatus.resent:
-                                    Text("Invite Sent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
+                                    Text("Invite Resent").font(.caption).foregroundColor(.accentColor).padding(2).padding(.horizontal, 2).background(Color.accentColor.opacity(0.3).cornerRadius(2))
                                 case InvitationStatus.declined:
                                     Text("Invite Declined").font(.caption).foregroundColor(guidanceColors.critical).padding(2).padding(.horizontal, 2).background(guidanceColors.critical.opacity(0.3).cornerRadius(2))
                                 default:
@@ -75,7 +75,7 @@ struct MyCaregiversView: View {
                         }
                     }
                     .padding(.vertical, 2)
-                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .hidden) {
+                    .confirmationDialog(selectedCaregiver?.name ?? "", isPresented: $showingCaregiverActions, titleVisibility: .visible) {
                         if selectedCaregiver?.status == .pending {
                             Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                                 presentedAlert = .showingResendConfirmation
@@ -195,9 +195,6 @@ struct MyCaregiversView: View {
                         .font(.body.italic())
                         .padding(.top, 20)
                 }.frame(maxWidth: .infinity)
-            } else {
-                Divider()
-                    .overlay(.primary)
             }
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))

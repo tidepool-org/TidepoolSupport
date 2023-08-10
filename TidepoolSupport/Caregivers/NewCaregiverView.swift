@@ -75,8 +75,6 @@ struct NewCaregiverView: View {
                 .textCase(nil)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.primary)
-            Divider()
-                .overlay(.primary)
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }

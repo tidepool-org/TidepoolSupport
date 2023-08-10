@@ -58,13 +58,13 @@ class InvitationViewModel: ObservableObject {
         return Array(stride(from: TimeInterval(minutes: 30), through: TimeInterval(hours: 2), by: TimeInterval(minutes: 5)))
     }
 
-    @Published var notLoopingEnabled: Bool = false
+    @Published var notLoopingEnabled: Bool = true
     @Published var notLoopingDelay: TimeInterval = TimeInterval(hours: 1)
     var notLoopingDelayValues: [Double] {
         return Array(stride(from: TimeInterval(minutes: 30), through: TimeInterval(hours: 2), by: TimeInterval(minutes: 5)))
     }
 
-    @Published var noCommunicationEnabled: Bool = false
+    @Published var noCommunicationEnabled: Bool = true
     @Published var noCommunicationDelay: TimeInterval = TimeInterval(60 * 60)
     var noCommunicationDelayValues: [Double] {
         return Array(stride(from: TimeInterval(minutes: 30), through: TimeInterval(hours: 2), by: TimeInterval(minutes: 5)))
