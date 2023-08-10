@@ -42,7 +42,7 @@ struct AlertConfigurationView: View {
                 NavigationLink {
                     InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
-                    Text(LocalizedString("Save Notifications", comment: "Button title for navigating to next page of caregiver invitation form"))
+                    Text(LocalizedString("Confirm Notifications", comment: "Button title for navigating to next page of caregiver invitation form"))
                 }
                 .actionButtonStyle()
                 .padding()
