@@ -83,10 +83,6 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         // noop
     }
 
-    public func configurationMenuItems() -> [AnyView] {
-        return []
-    }
-
     private var _productSelection: String?
 }
 
