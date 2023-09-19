@@ -17,7 +17,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
 
     public typealias RawStateValue = [String: Any]
 
-    public static let supportIdentifier = "TidepoolSupport"
+    public static let pluginIdentifier = "TidepoolSupport"
 
     public var tapi: TAPI?
     private var environment: TEnvironment?
@@ -35,7 +35,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     
     private var alertIssuer: AlertIssuer? { return delegate }
     
-    private let log = OSLog(category: supportIdentifier)
+    private let log = OSLog(category: pluginIdentifier)
     
     public var showsDeleteTestDataUI: Bool {
         selectedProduct == .none
@@ -68,8 +68,8 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         return rawValue
     }
 
-    public func initializationComplete(for services: [LoopKit.Service]) {
-        if let tidepoolService = services.first(where: { $0 as? TidepoolService != nil }) as? TidepoolService {
+    public func initializationComplete(for pluggables: [Pluggable]) {
+        if let tidepoolService = pluggables.first(where: { $0 as? TidepoolService != nil }) as? TidepoolService {
             self.tapi = tidepoolService.tapi
             Task {
                 if let session = await tapi?.session {
@@ -161,7 +161,7 @@ extension TidepoolSupport {
             return
         }
         
-        let alertIdentifier = Alert.Identifier(managerIdentifier: Self.supportIdentifier, alertIdentifier: versionUpdate.rawValue)
+        let alertIdentifier = Alert.Identifier(managerIdentifier: Self.pluginIdentifier, alertIdentifier: versionUpdate.rawValue)
         let alertContent: LoopKit.Alert.Content
         if firstAlert {
             alertContent = Alert.Content(title: versionUpdate.localizedDescription,
@@ -189,7 +189,7 @@ extension TidepoolSupport {
     }
     
     private func noAlertNecessary(_ versionUpdate: VersionUpdate) {
-        let alertIdentifier = Alert.Identifier(managerIdentifier: Self.supportIdentifier, alertIdentifier: versionUpdate.rawValue)
+        let alertIdentifier = Alert.Identifier(managerIdentifier: Self.pluginIdentifier, alertIdentifier: versionUpdate.rawValue)
         alertIssuer?.retractAlert(identifier: alertIdentifier)
         lastVersionCheckAlertDate = nil
     }
