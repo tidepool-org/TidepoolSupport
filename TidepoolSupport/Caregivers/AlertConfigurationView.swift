@@ -21,7 +21,7 @@ struct AlertConfigurationView: View {
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
-    @State var cancelConfirmationShown: Bool = false
+    @State var showCancelConfirmationAlert: Bool = false
 
     struct ThresholdValue: Identifiable {
         var id: Double {
@@ -40,31 +40,37 @@ struct AlertConfigurationView: View {
             form
             VStack {
                 NavigationLink {
-                    InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
+                    InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation, showCancelConfirmationAlert: $showCancelConfirmationAlert)
                 } label: {
-                    Text(LocalizedString("Confirm Notifications", comment: "Button title for navigating to next page of caregiver invitation form"))
+                    Text(LocalizedString("Save Notifications", comment: "Button title for navigating to next page of caregiver invitation form"))
                 }
-                .actionButtonStyle()
+                .buttonStyle(ActionButtonStyle())
                 .padding()
             }
-            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
+            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5)
+                .edgesIgnoringSafeArea(.bottom))
         }
-        .edgesIgnoringSafeArea(.bottom)
         .navigationTitle(LocalizedString("Notifications", comment: "Navigation title for notification configuration page of caregiver invitation"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(LocalizedString("Cancel", comment: "Button title to cancel sending of caregiver invitation")) {
-                    cancelConfirmationShown = true
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showCancelConfirmationAlert = true
+                } label: {
+                    Text("Cancel")
                 }
+
             }
         }
-        .confirmationDialog(LocalizedString("Close Invitation?", comment: "Title of confirmation dialog for closing invitation"), isPresented: $cancelConfirmationShown) {
-            Button(LocalizedString("Close Invite", comment: "Button to confirm closing invitation"), role: .destructive) {
+        .interactiveDismissDisabled()
+        .alert(Text("Close Invitation?"), isPresented: $showCancelConfirmationAlert) {
+            Button("Cancel", role: .cancel, action: {})
+            
+            Button("Close Invite") {
                 isCreatingInvitation = false
             }
         } message: {
-            Text(LocalizedString("If you leave now, you will need to create this invitation again.", comment: "Message of confirmation dialog for closing invitation"))
+            Text("If you leave now, you will need to create this invitation again.")
         }
     }
 
@@ -136,7 +142,7 @@ struct AlertConfigurationView: View {
 
     var header: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text(LocalizedString("Configure the notifications you would like your caregiver to receive. Caregivers will be able to change this configuration later on.", comment: "Text of section header on the new caregiver alert configuration page"))
+            Text(LocalizedString("Set up the notifications you would like your caregiver to receive. Caregivers will be able to change this configuration later on.", comment: "Text of section header on the new caregiver alert configuration page"))
                 .textCase(nil)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.primary)

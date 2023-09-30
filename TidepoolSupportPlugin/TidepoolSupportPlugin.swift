@@ -12,6 +12,7 @@ import TidepoolSupport
 class TidepoolSupportPlugin: NSObject, SupportUIPlugin {
     private let log = OSLog(category: "TidepoolSupportPlugin")
 
+    @MainActor
     public var support: SupportUI = TidepoolSupport()
 
     override init() {

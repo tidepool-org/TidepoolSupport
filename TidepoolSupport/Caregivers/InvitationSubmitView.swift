@@ -16,31 +16,13 @@ struct InvitationSubmitView: View {
 
     @ObservedObject var viewModel: InvitationViewModel
     @Binding var isCreatingInvitation: Bool
-    @State var cancelConfirmationShown: Bool = false
+    @State var showCancelConfirmationAlert: Bool = false
     
-    enum SendState {
+    enum SendState: Equatable {
         case idle
-        case error(Error)
+        case error(String)
         case sending
         case sent
-
-        var isSending: Bool {
-            switch self {
-            case .sending:
-                return true
-            default:
-                return false
-            }
-        }
-
-        var isSent: Bool {
-            switch self {
-            case .sent:
-                return true
-            default:
-                return false
-            }
-        }
     }
 
     func formatGlucose(_ glucose: Double) -> String {
@@ -153,7 +135,7 @@ struct InvitationSubmitView: View {
                                 }
                             } catch {
                                 withAnimation {
-                                    sendState = .error(error)
+                                    sendState = .error((error as? LocalizedError)?.recoverySuggestion ?? error.localizedDescription)
                                 }
                             }
                         }
@@ -170,43 +152,44 @@ struct InvitationSubmitView: View {
                     case .sent:
                         Text(LocalizedString("Done", comment: "Button title to continue"))
                     default:
-                        Text(LocalizedString("Send Invitation", comment: "Button title to send caregiver invitation"))
+                        Text(LocalizedString("Send Invite", comment: "Button title to send caregiver invitation"))
                     }
                 }
-                .actionButtonStyle(.primary)
+                .buttonStyle(ActionButtonStyle())
                 .textCase(nil)
-                .disabled(sendState.isSending)
+                .disabled(sendState == .sending)
                 .padding()
             }
-            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5))
+            .animation(.default, value: sendState)
+            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5)
+                .edgesIgnoringSafeArea(.bottom))
         }
-        .edgesIgnoringSafeArea(.bottom)
         .navigationTitle(LocalizedString("Send Invitation", comment: "Navigation bar title on submit caregiver invitation page"))
         .navigationBarTitleDisplayMode(.large)
-        .navigationBarBackButtonHidden(sendState.isSent || sendState.isSending)
+        .navigationBarBackButtonHidden(sendState == .sent || sendState == .sending)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(LocalizedString("Cancel", comment: "Button title to cancel sending of caregiver invitation")) {
-                    cancelConfirmationShown = true
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showCancelConfirmationAlert = true
+                } label: {
+                    Text("Cancel")
                 }
-                .disabled(sendState.isSent || sendState.isSending)
+                .disabled(sendState == .sent || sendState == .sending)
             }
         }
-        .alert(LocalizedString("Close Invitation?", comment: "Alert title for close invitation confirmation."),
-               isPresented: $cancelConfirmationShown,
-               actions: {
-            Button(role: .destructive) {
+        .interactiveDismissDisabled()
+        .alert(Text("Close Invitation?"), isPresented: $showCancelConfirmationAlert) {
+            Button("Cancel", role: .cancel, action: {})
+            
+            Button("Close Invite") {
                 isCreatingInvitation = false
-            } label: {
-                Text(LocalizedString("Close Invite", comment: "Button title on alert for close invitation confirmation"))
             }
-        },
-               message: {
-            Text(LocalizedString("If you leave now, you will need to create this invitation again.", comment: "Message of confirmation dialog for closing invitation"))
-        })
+        } message: {
+            Text("If you leave now, you will need to create this invitation again.")
+        }
     }
 
-    func errorView(_ error: Error) -> some View {
+    func errorView(_ error: String) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Label {
                 Text(LocalizedString("Invite failed to send.", comment: "Failure message when caregiver invitation fails during sending."))
@@ -215,13 +198,13 @@ struct InvitationSubmitView: View {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundColor(guidanceColors.warning) /// Tidepool alarm orange
             }
-            Text((error as? LocalizedError)?.recoverySuggestion ?? error.localizedDescription)
+            Text(error)
         }
     }
 
     var header: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text(LocalizedString("Review your information below. Then tap Send Invitation to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
+            Text(LocalizedString("Review your information below. Then tap Send Invite to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
                 .textCase(nil)
                 .font(.body.weight(.semibold))
                 .foregroundColor(.primary)

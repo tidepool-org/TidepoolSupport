@@ -8,7 +8,7 @@
 import Foundation
 
 
-enum InvitationStatus: Equatable {
+enum InvitationStatus: String, Equatable {
     case pending
     case accepted
     case declined
@@ -20,6 +20,10 @@ struct Caregiver: Identifiable, Equatable {
     let email: String
     let status: InvitationStatus
     let id: String
+    
+    func updateStatus(status: InvitationStatus) -> Caregiver {
+        Caregiver(name: name, email: email, status: status, id: id)
+    }
 }
 
 extension Caregiver {

@@ -21,10 +21,16 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
     
     public var pluginIdentifier: String { Self.supportIdentifier }
 
-    public var tapi: TAPI?
+    public var tapi: TAPI? {
+        didSet {
+            Task { @MainActor in
+                self.caregiverManager.api = tapi
+            }
+        }
+    }
     private var environment: TEnvironment?
     
-    private lazy var caregiverManager: CaregiverManager = CaregiverManager(api: tapi)
+    private let caregiverManager: CaregiverManager
 
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
@@ -52,11 +58,15 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         }
     }
 
+    @MainActor
     public init(tapi: TAPI? = nil, environment: TEnvironment? = nil) {
         self.tapi = tapi
         self.environment = environment
+        
+        self.caregiverManager = CaregiverManager(api: tapi)
     }
 
+    @MainActor
     public convenience init?(rawState: RawStateValue) {
         self.init()
         self.lastVersionInfo = (rawState["lastVersionInfo"] as? String).flatMap { VersionInfo(from: $0) }
