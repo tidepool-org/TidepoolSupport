@@ -13,9 +13,12 @@ struct NewCaregiverView: View {
     @Environment(\.dismiss) private var dismiss
 
     @StateObject var viewModel: InvitationViewModel
-    @State private var formComplete: Bool = false
     @State private var showCancelConfirmationAlert: Bool = false
     @Binding var isCreatingInvitation: Bool
+
+    private var formComplete: Bool {
+        viewModel.nickname.count >= 2 && viewModel.isEmailValid
+    }
 
     enum FocusedField {
         case nickname, email
@@ -35,31 +38,23 @@ struct NewCaregiverView: View {
                     TextField(text: $viewModel.nickname) {
                         Text(LocalizedString("Caregiver Nickname", comment: "Placeholder text for caregiver nickname field of invite caregiver form"))
                     }
-                    .showRequiredLabel(true)
                     .focused($focusedField, equals: .nickname)
-                    .textInputAutocapitalization(.words)
-                    .onChange(of: viewModel.nickname) { newValue in
-                        validateInputs()
-                    }
+                    .textContentType(.name)
                     
                     TextField(text: $viewModel.email) {
                         Text(LocalizedString("Email", comment: "Placeholder text for email field of invite caregiver form"))
                     }
-                    .showRequiredLabel(true)
                     .focused($focusedField, equals: .email)
                     .keyboardType(.emailAddress)
+                    .textContentType(.emailAddress)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
-                    .onChange(of: viewModel.email) { newValue in
-                        validateInputs()
-                    }
                 }
             }
             
             continueTray
         }
         .onAppear {
-            validateInputs()
             focusedField = .nickname
         }
         .navigationTitle(LocalizedString("Invite a New Caregiver", comment: "Navigation title for first page of invite caregiver form"))
@@ -95,10 +90,6 @@ struct NewCaregiverView: View {
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }
-
-    func validateInputs() {
-        formComplete = viewModel.nickname.count >= 2 && viewModel.isEmailValid
-    }
     
     var continueTray: some View {
         NavigationLink {
@@ -106,27 +97,14 @@ struct NewCaregiverView: View {
         } label: {
             Text(LocalizedString("Continue", comment: "Button title to continue to next page of invite caregiver form"))
         }
+        .disabled(!formComplete)
+        .animation(.default, value: formComplete)
         .buttonStyle(ActionButtonStyle())
         .padding()
         .textCase(nil)
         .background(Color(UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.bottom).shadow(radius: 5))
     }
 
-}
-
-extension View {
-    @ViewBuilder
-    func showRequiredLabel(_ show: Bool) -> some View {
-        if show {
-            self
-                .overlay(alignment: .trailing) {
-                    Text("Required")
-                        .foregroundStyle(Color.secondary)
-                }
-        } else {
-            self
-        }
-    }
 }
 
 struct NewCaregiver_Previews: PreviewProvider {

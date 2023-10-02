@@ -269,6 +269,7 @@ struct MyCaregiversView: View {
                     .isDetailLink(false)
                 }
             }
+            .animation(.default, value: caregiverManager.caregivers)
             .disabled(presentedBottomTray == .showingRemoveSuccess || presentedBottomTray == .showingResendSuccess)
             
             VStack(spacing: 0) {

@@ -58,7 +58,6 @@ class CaregiverManager: ObservableObject {
     }
     
     func fetchAllCaregivers() async {
-        caregivers = []
         await fetchCurrentCaregivers()
         await fetchPendingInvites()
     }
@@ -75,7 +74,10 @@ class CaregiverManager: ObservableObject {
                 let id = user.userid
                 let name = user.profile?.fullName
                 
-                caregivers.append(Caregiver(name: name ?? "", email: email, status: status, id: id))
+                let newCaregiver = Caregiver(name: name ?? "", email: email, status: status, id: id)
+                if !caregivers.contains(newCaregiver) {
+                    caregivers.append(newCaregiver)
+                }
             }
         } catch {
             log.error("fetchExistingTrusteeUsers error: %{public}@",error.localizedDescription)
@@ -93,14 +95,16 @@ class CaregiverManager: ObservableObject {
                     return
                 }
                 
-                caregivers.append(
-                    Caregiver(
-                        name: invitee.nickname ?? "",
-                        email: email,
-                        status: status,
-                        id: invitee.key
-                    )
+                let newCaregiver = Caregiver(
+                    name: invitee.nickname ?? "",
+                    email: email,
+                    status: status,
+                    id: invitee.key
                 )
+                
+                if !caregivers.contains(newCaregiver) {
+                    caregivers.append(newCaregiver)
+                }
             }
         } catch {
             log.error("fetchPendingInvites error: %{public}@",error.localizedDescription)

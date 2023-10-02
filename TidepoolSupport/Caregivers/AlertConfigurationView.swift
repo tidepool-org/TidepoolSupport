@@ -40,7 +40,7 @@ struct AlertConfigurationView: View {
             form
             VStack {
                 NavigationLink {
-                    InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation, showCancelConfirmationAlert: $showCancelConfirmationAlert)
+                    InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
                     Text(LocalizedString("Confirm Notifications", comment: "Button title for navigating to next page of caregiver invitation form"))
                 }
