@@ -294,15 +294,14 @@ struct MyCaregiversView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text(String(format: LocalizedString("These people can view your %1$@ activity.", comment: "Format string for section header on My Caregivers page"), appName))
                 .textCase(nil)
-                .font(.body.weight(.semibold))
+                .font(.body)
                 .foregroundColor(.primary)
-            if caregiverManager.caregivers.count == 0 {
-                VStack {
-                    Text(LocalizedString("You haven’t added any caregivers yet!", comment: "Informative text shown on My Caregivers page when no caregiver invitations or followers exist"))
-                        .textCase(nil)
-                        .font(.body.italic())
-                        .padding(.top, 20)
-                }.frame(maxWidth: .infinity)
+            if caregiverManager.caregivers.isEmpty {
+                Text(LocalizedString("You haven’t added any caregivers yet!", comment: "Informative text shown on My Caregivers page when no caregiver invitations or followers exist"))
+                    .textCase(nil)
+                    .font(.body.italic())
+                    .padding(.top, 20)
+                    .frame(maxWidth: .infinity)
             }
         }
         .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))

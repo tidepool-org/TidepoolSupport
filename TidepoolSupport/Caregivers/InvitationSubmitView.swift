@@ -203,13 +203,11 @@ struct InvitationSubmitView: View {
     }
 
     var header: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text(LocalizedString("Review your information below. Then tap Send Invite to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
-                .textCase(nil)
-                .font(.body.weight(.semibold))
-                .foregroundColor(.primary)
-        }
-        .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
+        Text(LocalizedString("Review your information below. Then tap Send Invite to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
+            .textCase(nil)
+            .font(.body)
+            .foregroundColor(.primary)
+            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }
 
 }

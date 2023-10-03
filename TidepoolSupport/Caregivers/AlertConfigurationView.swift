@@ -141,13 +141,11 @@ struct AlertConfigurationView: View {
     }
 
     var header: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text(LocalizedString("Set up the notifications you would like your caregiver to receive. Caregivers will be able to change this configuration later on.", comment: "Text of section header on the new caregiver alert configuration page"))
-                .textCase(nil)
-                .font(.body.weight(.semibold))
-                .foregroundColor(.primary)
-        }
-        .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
+        Text(LocalizedString("Set up the notifications you would like your caregiver to receive. Caregivers will be able to change this configuration later on.", comment: "Text of section header on the new caregiver alert configuration page"))
+            .textCase(nil)
+            .font(.body)
+            .foregroundColor(.primary)
+            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
     }
 
     var noCommunicationFooter: some View {

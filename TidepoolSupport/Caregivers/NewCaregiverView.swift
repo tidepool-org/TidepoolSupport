@@ -33,7 +33,7 @@ struct NewCaregiverView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             Form {
-                Section(header: header)
+                Section(header: header, footer: footer)
                 {
                     TextField(text: $viewModel.nickname) {
                         Text(LocalizedString("Caregiver Nickname", comment: "Placeholder text for caregiver nickname field of invite caregiver form"))
@@ -82,13 +82,17 @@ struct NewCaregiverView: View {
     }
 
     var header: some View {
-        VStack(alignment: .leading, spacing: 15) {
-            Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Continue to setup their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
-                .textCase(nil)
-                .font(.body.weight(.semibold))
-                .foregroundColor(.primary)
-        }
-        .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
+        Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Continue to setup their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
+            .textCase(nil)
+            .font(.body)
+            .foregroundColor(.primary)
+            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
+    }
+    
+    var footer: some View {
+        Text("Both fields are required for a new invite.")
+            .font(.caption)
+            .foregroundColor(.secondary)
     }
     
     var continueTray: some View {
