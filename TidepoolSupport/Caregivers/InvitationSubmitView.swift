@@ -168,7 +168,7 @@ struct InvitationSubmitView: View {
         .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden(sendState == .sent || sendState == .sending)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     showCancelConfirmationAlert = true
                 } label: {

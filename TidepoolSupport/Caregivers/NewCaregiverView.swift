@@ -60,7 +60,7 @@ struct NewCaregiverView: View {
         .navigationTitle(LocalizedString("Invite a New Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     showCancelConfirmationAlert = true
                 } label: {
