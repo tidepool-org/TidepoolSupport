@@ -40,7 +40,7 @@ class TidepoolSupportTests: XCTestCase {
         await tapi.setURLSessionConfiguration(urlSessionConfiguration)
 
         let environment = TEnvironment(host: "test.org", port: 443)
-        support = TidepoolSupport(tapi: tapi, environment: environment)
+        support = await TidepoolSupport(tapi: tapi, environment: environment)
     }
 
     override func tearDown() {
