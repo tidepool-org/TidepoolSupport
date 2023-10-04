@@ -9,16 +9,19 @@ import Foundation
 import TidepoolKit
 import os.log
 
+@MainActor
 class CaregiverManager: ObservableObject {
     
-    enum ErrorType {
+    enum ErrorType: Error {
         case resendInvite
         case removeCaregiver
+        case createInvite
         
         var title: String {
             switch self {
             case .resendInvite: return "Resend Error"
             case .removeCaregiver: return "Remove Error"
+            case .createInvite: return "Invite Error"
             }
         }
         
@@ -26,6 +29,7 @@ class CaregiverManager: ObservableObject {
             switch self {
             case .resendInvite: return LocalizedString("Error resending invite.", comment: "Resend invite error")
             case .removeCaregiver: return LocalizedString("Error removing caregiver.", comment: "Remove caregiver error")
+            case .createInvite: return LocalizedString("Error inviting caregiver.", comment: "Invite caregiver error")
             }
         }
     }
@@ -37,10 +41,7 @@ class CaregiverManager: ObservableObject {
     private static let caregiverManagerIdentifier = "CaregiverManager"
     private let log = OSLog(category: caregiverManagerIdentifier)
     
-    private let nicknameStorage = UserDefaults.standard
     private let backendInvitesToIgnore = ["bigdata@tidepool.org", "bigdata+CWD@tidepool.org"]
-    
-    let resentInviteFlagStorage = UserDefaults.standard
     
     var api: TAPI?
     
@@ -48,17 +49,103 @@ class CaregiverManager: ObservableObject {
         self.api = api
     }
     
-    @MainActor
-    func fetchCaregivers() async {
-        var caregivers = [Caregiver]()
+    func inviteCaregiver(email: String, nickname: String?, permissions: TPermissions) async throws -> TInvite {
+        guard let api else {
+            throw ErrorType.createInvite
+        }
         
-        await fetchExistingTrusteeUsers(caregivers: &caregivers)
-        await fetchPendingInvites(caregivers: &caregivers)
-        
-        self.caregivers = caregivers
+        return try await api.sendInvite(request: TInviteRequest(email: email, nickname: nickname, permissions: permissions))
     }
     
-    @MainActor
+    func fetchAllCaregivers() async {
+        await fetchCurrentCaregivers()
+        await fetchPendingInvites()
+    }
+    
+    private func fetchCurrentCaregivers() async {
+        do {
+            let trusteeUsers = try await api?.getUsers() ?? []
+            
+            trusteeUsers.forEach { user in
+                guard let email = user.emails.first, !backendInvitesToIgnore.contains(email) else {
+                    return
+                }
+                let status = InvitationStatus.accepted
+                let id = user.userid
+                let name = user.profile?.fullName
+                
+                let newCaregiver = Caregiver(name: name ?? "", email: email, status: status, id: id)
+                if !caregivers.contains(newCaregiver) {
+                    caregivers.append(newCaregiver)
+                }
+            }
+        } catch {
+            log.error("fetchExistingTrusteeUsers error: %{public}@",error.localizedDescription)
+        }
+    }
+    
+    private func fetchPendingInvites() async {
+        do {
+            let pendingInvites = try await api?.getPendingInvitesSent().sorted(by: { $0.created < $1.created }) ?? []
+            pendingInvites.forEach { invitee in
+                let email = invitee.email
+                let status = InvitationStatus(rawValue: invitee.status) ?? .pending
+                
+                guard !backendInvitesToIgnore.contains(email) else {
+                    return
+                }
+                
+                let newCaregiver = Caregiver(
+                    name: invitee.nickname ?? "",
+                    email: email,
+                    status: status,
+                    id: invitee.key
+                )
+                
+                if !caregivers.contains(newCaregiver) {
+                    caregivers.append(newCaregiver)
+                }
+            }
+        } catch {
+            log.error("fetchPendingInvites error: %{public}@",error.localizedDescription)
+        }
+    }
+    
+    func resendInvite(caregiver: Caregiver) async {
+        do {
+            let inviteKey = caregiver.id
+            let _ = try await api?.resendInvite(key: inviteKey)
+            guard let (index, caregiver) = caregivers.enumerated().first(where: { $0.element.id == caregiver.id }) else {
+                return
+            }
+            let newCaregiver = caregiver.updateStatus(status: .resent)
+            caregivers.remove(at: index)
+            caregivers.insert(newCaregiver, at: index)
+        } catch {
+            errorType = .resendInvite
+            log.error("resendInvite error: %{public}@",error.localizedDescription)
+        }
+    }
+    
+    private func removeCaregiverPermissions(caregiver: Caregiver) async {
+        do {
+            let permissions = TPermissions.init()
+            let _ = try await api?.grantPermissionsInGroup(userId: caregiver.id, permissions: permissions)
+        } catch {
+            errorType = .removeCaregiver
+            log.error("removeCaregiverPermissions error: %{public}@",error.localizedDescription)
+        }
+    }
+    
+    private func removeInvitation(caregiverEmail: String) async {
+        do {
+            let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
+        } catch {
+            errorType = .removeCaregiver
+            log.error("removeInvitation error: %{public}@",error.localizedDescription)
+        }
+    }
+        
     func removeCaregiver(caregiver: Caregiver) async {
         caregiversPendingRemoval.append(caregiver)
         
@@ -73,97 +160,6 @@ class CaregiverManager: ObservableObject {
         }
         if let caregiverIndexToRemove = caregiversPendingRemoval.firstIndex(of: caregiver) {
             caregiversPendingRemoval.remove(at: caregiverIndexToRemove)
-        }
-    }
-    
-    @MainActor
-    func resendInvite(caregiver: Caregiver) async {
-        do {
-            let inviteKey = caregiver.id
-            let _ = try await api?.resendInvite(key: inviteKey)
-        } catch {
-            errorType = .resendInvite
-            log.error("resendInvite error: %{public}@",error.localizedDescription)
-        }
-    }
-    
-    @MainActor
-    private func removeCaregiverPermissions(caregiver: Caregiver) async {
-        do {
-            let permissions = TPermissions.init()
-            let _ = try await api?.grantPermissionsInGroup(userId: caregiver.id, permissions: permissions)
-        } catch {
-            errorType = .removeCaregiver
-            log.error("removeCaregiverPermissions error: %{public}@",error.localizedDescription)
-        }
-    }
-    
-    @MainActor
-    private func removeInvitation(caregiverEmail: String) async {
-        do {
-            let _ = try await api?.cancelInvite(invitedByEmail: caregiverEmail)
-        } catch {
-            errorType = .removeCaregiver
-            log.error("removeInvitation error: %{public}@",error.localizedDescription)
-        }
-    }
-    
-    private func fetchExistingTrusteeUsers(caregivers: inout [Caregiver]) async {
-        do {
-            let trusteeUsers = try await api?.getUsers() ?? []
-            
-            trusteeUsers.forEach { user in
-                let email = user.emails.first
-                let status = InvitationStatus.accepted
-                let id = user.userid
-                var fullName = ""
-                
-                var nickName = nicknameStorage.string(forKey: user.emails.first ?? "")
-                if user.profile != nil {
-                    fullName = user.profile?.fullName ?? ""
-                }
-                
-                /// Default to profile full name if no nickname exists
-                if (nickName == nil) {
-                    nickName = fullName
-                }
-                
-                caregivers.append(Caregiver(name: nickName ?? "", email: email ?? "", status: status, id: id))
-            }
-        } catch {
-            log.error("fetchExistingTrusteeUsers error: %{public}@",error.localizedDescription)
-        }
-        
-    }
-    
-    private func fetchPendingInvites(caregivers: inout [Caregiver]) async {
-        do {
-            let pendingInvites = try await api?.getPendingInvitesSent() ?? []
-            pendingInvites.forEach { invitee in
-                let email = invitee.email
-                if backendInvitesToIgnore.contains(email){return}
-                let nickName = nicknameStorage.string(forKey: invitee.email) ?? ""
-                let status: InvitationStatus
-                if resentInviteFlagStorage.bool(forKey: invitee.key) {
-                    status = InvitationStatus.resent
-                } else {
-                    switch invitee.status {
-                        /// Currently a user must create a web account before the 'ignore' option is offered resulting in a declined status.
-                        /// In this use-case, the invitee will have a full name, however,
-                        /// this is not currently updated as this UX may be refactored to redirect to the mobile app.
-                    case "declined":
-                        status = InvitationStatus.declined
-                    default:
-                        status = InvitationStatus.pending
-                    }
-                }
-                
-                /// In the 'pending' use-case, invitee does not yet have an account,
-                /// therefore, does not have a userId, unique invitation key is a placeholder for now.
-                caregivers.append(Caregiver(name: nickName, email: email, status: status, id: invitee.key))
-            }
-        } catch {
-            log.error("fetchPendingInvites error: %{public}@",error.localizedDescription)
         }
     }
 }

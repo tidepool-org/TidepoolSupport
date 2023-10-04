@@ -14,12 +14,10 @@ import Combine
 class InvitationViewModel: ObservableObject {
     struct InvitationViewModelError: Error {}
 
-    var api: TAPI?
+    let caregiverManager: CaregiverManager
 
     @Published var nickname: String = ""
     @Published var email: String = ""
-    
-    private let nicknameStorage = UserDefaults.standard
 
     var isEmailValid: Bool {
         let emailFormat = "(?:[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[\\p{L}0-9!#$%\\&'*+/=?\\^_`{|}" + "~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\" + "x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[\\p{L}0-9](?:[a-" + "z0-9-]*[\\p{L}0-9])?\\.)+[\\p{L}0-9](?:[\\p{L}0-9-]*[\\p{L}0-9])?|\\[(?:(?:25[0-5" + "]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-" + "9][0-9]?|[\\p{L}0-9-]*[\\p{L}0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21" + "-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
@@ -79,20 +77,12 @@ class InvitationViewModel: ObservableObject {
 
     private var subscribers: Set<AnyCancellable> = []
 
-    init(api: TAPI?) {
-        self.api = api
+    init(caregiverManager: CaregiverManager) {
+        self.caregiverManager = caregiverManager
     }
-
+    
     func submit() async throws -> TInvite {
-        //try await mockSubmit()
-        // MARK: Temporary local storage save for nickname
-        nicknameStorage.set(nickname, forKey: email)
-        guard let api else {
-            throw InvitationViewModelError()
-        }
-        let request = TInviteRequest(email: email, permissions: TPermissions(view: TPermissionFlag()))
-        let invite = try await api.sendInvite(request: request)
-        return invite
+        return try await caregiverManager.inviteCaregiver(email: email, nickname: nickname, permissions: TPermissions(view: TPermissionFlag()))
     }
 
     // Mock stuff
@@ -127,7 +117,8 @@ extension MockNetworkError : LocalizedError {
 }
 
 extension InvitationViewModel {
+    @MainActor
     static var mock: InvitationViewModel {
-        InvitationViewModel(api: TAPI.mock)
+        InvitationViewModel(caregiverManager: CaregiverManager(api: .mock))
     }
 }
