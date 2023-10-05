@@ -24,6 +24,10 @@ struct Caregiver: Identifiable, Equatable {
     func updateStatus(status: InvitationStatus) -> Caregiver {
         Caregiver(name: name, email: email, status: status, id: id)
     }
+    
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
 extension Caregiver {

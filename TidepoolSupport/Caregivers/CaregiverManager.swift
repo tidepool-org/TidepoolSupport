@@ -58,41 +58,43 @@ class CaregiverManager: ObservableObject {
     }
     
     func fetchAllCaregivers() async {
-        await fetchCurrentCaregivers()
-        await fetchPendingInvites()
+        async let current = await fetchCurrentCaregivers()
+        async let pending = await fetchPendingInvites()
+        
+        if await caregivers != current + pending {
+            await caregivers = current + pending
+        }
     }
     
-    private func fetchCurrentCaregivers() async {
+    private func fetchCurrentCaregivers() async -> [Caregiver] {
         do {
             let trusteeUsers = try await api?.getUsers() ?? []
             
-            trusteeUsers.forEach { user in
+            return trusteeUsers.compactMap { user in
                 guard let email = user.emails.first, !backendInvitesToIgnore.contains(email) else {
-                    return
+                    return nil
                 }
                 let status = InvitationStatus.accepted
                 let id = user.userid
                 let name = user.profile?.fullName
                 
-                let newCaregiver = Caregiver(name: name ?? "", email: email, status: status, id: id)
-                if !caregivers.contains(newCaregiver) {
-                    caregivers.append(newCaregiver)
-                }
+                return Caregiver(name: name ?? "", email: email, status: status, id: id)
             }
         } catch {
             log.error("fetchExistingTrusteeUsers error: %{public}@",error.localizedDescription)
+            return []
         }
     }
     
-    private func fetchPendingInvites() async {
+    private func fetchPendingInvites() async -> [Caregiver] {
         do {
             let pendingInvites = try await api?.getPendingInvitesSent().sorted(by: { $0.created < $1.created }) ?? []
-            pendingInvites.forEach { invitee in
+            return pendingInvites.compactMap { invitee in
                 let email = invitee.email
                 let status = InvitationStatus(rawValue: invitee.status) ?? .pending
                 
                 guard !backendInvitesToIgnore.contains(email) else {
-                    return
+                    return nil
                 }
                 
                 let newCaregiver = Caregiver(
@@ -103,11 +105,14 @@ class CaregiverManager: ObservableObject {
                 )
                 
                 if !caregivers.contains(newCaregiver) {
-                    caregivers.append(newCaregiver)
+                    return newCaregiver
+                } else {
+                    return nil
                 }
             }
         } catch {
             log.error("fetchPendingInvites error: %{public}@",error.localizedDescription)
+            return []
         }
     }
     

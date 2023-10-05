@@ -12,6 +12,7 @@ import LoopKit
 
 struct InvitationSubmitView: View {
     @EnvironmentObject private var glucosePreference: DisplayGlucosePreference
+    @Environment(\.appName) private var appName
     @Environment(\.guidanceColors) private var guidanceColors
 
     @ObservedObject var viewModel: InvitationViewModel
@@ -203,7 +204,7 @@ struct InvitationSubmitView: View {
     }
 
     var header: some View {
-        Text(LocalizedString("Review your information below. Then tap Send Invite to invite your caregiver to view your data.", comment: "Text of section header on the send invitation page"))
+        Text(String(format: LocalizedString("Review your information below. Then tap Send Invite to invite a caregiver to follow your %1$@ activity.", comment: "Text of section header on the send invitation page"), appName))
             .textCase(nil)
             .font(.body)
             .foregroundColor(.primary)
