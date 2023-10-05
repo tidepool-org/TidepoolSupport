@@ -292,7 +292,7 @@ struct MyCaregiversView: View {
     
     var header: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text(String(format: LocalizedString("These people can view your %1$@ activity.", comment: "Format string for section header on My Caregivers page"), appName))
+            Text(String(format: LocalizedString("These people can follow your %1$@ activity.", comment: "Format string for section header on My Caregivers page"), appName))
                 .textCase(nil)
                 .font(.body)
                 .foregroundColor(.primary)
