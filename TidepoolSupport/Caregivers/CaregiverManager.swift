@@ -97,12 +97,18 @@ class CaregiverManager: ObservableObject {
                     return nil
                 }
                 
-                return Caregiver(
+                let newCaregiver = Caregiver(
                     name: invitee.nickname ?? "",
                     email: email,
                     status: status,
                     id: invitee.key
                 )
+                
+                if !caregivers.contains(newCaregiver) {
+                    return newCaregiver
+                } else {
+                    return nil
+                }
             }
         } catch {
             log.error("fetchPendingInvites error: %{public}@",error.localizedDescription)
