@@ -17,11 +17,11 @@ struct NewCaregiverView: View {
     @Binding var isCreatingInvitation: Bool
 
     private var formComplete: Bool {
-        viewModel.nickname.count >= 2 && viewModel.isEmailValid
+        viewModel.nickname.count >= 2 && viewModel.isEmailValid && (viewModel.caregiverManager.profile != nil || viewModel.fullName.count >= 2)
     }
 
     enum FocusedField {
-        case nickname, email
+        case nickname, email, fullName
     }
     @FocusState private var focusedField: FocusedField?
 
@@ -33,6 +33,16 @@ struct NewCaregiverView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             Form {
+                if viewModel.caregiverManager.profile?.fullName == nil {
+                    Section(header: fullNameHeader) {
+                        TextField(text: $viewModel.fullName) {
+                            Text(LocalizedString("Your Full Name", comment: "Placeholder text for your full name field of invite caregiver form"))
+                        }
+                        .focused($focusedField, equals: .fullName)
+                        .textContentType(.name)
+                    }
+                }
+                
                 Section(header: header, footer: footer)
                 {
                     TextField(text: $viewModel.nickname) {
@@ -55,7 +65,7 @@ struct NewCaregiverView: View {
             continueTray
         }
         .onAppear {
-            focusedField = .nickname
+            focusedField = viewModel.caregiverManager.profile == nil ? .fullName : .nickname
         }
         .navigationTitle(LocalizedString("Invite a Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
@@ -80,6 +90,14 @@ struct NewCaregiverView: View {
             Text("If you leave now, you will need to create this invitation again.")
         }
     }
+    
+    var fullNameHeader: some View {
+        Text("We need to know your name so that followers can identify you.")
+            .textCase(nil)
+            .font(.body)
+            .foregroundColor(.primary)
+            .listRowInsets(EdgeInsets(top: 10, leading: 0, bottom: 18, trailing: 0))
+    }
 
     var header: some View {
         Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Continue to set up their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
@@ -90,7 +108,7 @@ struct NewCaregiverView: View {
     }
     
     var footer: some View {
-        Text("Both fields are required for a new invite.")
+        Text("All fields are required for a new invite.")
             .font(.caption)
             .foregroundColor(.secondary)
     }
