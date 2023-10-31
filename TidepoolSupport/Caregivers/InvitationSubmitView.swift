@@ -201,6 +201,7 @@ struct InvitationSubmitView: View {
             }
             Text(error)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var header: some View {

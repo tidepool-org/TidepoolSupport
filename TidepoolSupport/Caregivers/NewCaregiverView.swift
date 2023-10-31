@@ -57,7 +57,7 @@ struct NewCaregiverView: View {
         .onAppear {
             focusedField = .nickname
         }
-        .navigationTitle(LocalizedString("Invite a New Caregiver", comment: "Navigation title for first page of invite caregiver form"))
+        .navigationTitle(LocalizedString("Invite a Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -82,7 +82,7 @@ struct NewCaregiverView: View {
     }
 
     var header: some View {
-        Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Continue to setup their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
+        Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Continue to set up their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
             .textCase(nil)
             .font(.body)
             .foregroundColor(.primary)
