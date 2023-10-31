@@ -262,7 +262,7 @@ struct MyCaregiversView: View {
                         label: {
                             HStack {
                                 Image(systemName: "plus.circle.fill")
-                                Text(LocalizedString("Invite a new caregiver", comment: "Navigation link title to invite a new caregiver"))
+                                Text(LocalizedString("Invite a caregiver", comment: "Navigation link title to invite a caregiver"))
                             }
                             .foregroundColor(.accentColor)
                         })

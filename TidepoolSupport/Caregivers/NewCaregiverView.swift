@@ -57,7 +57,7 @@ struct NewCaregiverView: View {
         .onAppear {
             focusedField = .nickname
         }
-        .navigationTitle(LocalizedString("Invite a New Caregiver", comment: "Navigation title for first page of invite caregiver form"))
+        .navigationTitle(LocalizedString("Invite a Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
