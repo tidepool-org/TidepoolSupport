@@ -16,7 +16,6 @@ class InvitationViewModel: ObservableObject {
 
     let caregiverManager: CaregiverManager
 
-    @Published var fullName: String = ""
     @Published var nickname: String = ""
     @Published var email: String = ""
 
@@ -83,11 +82,7 @@ class InvitationViewModel: ObservableObject {
     }
     
     func submit() async throws -> TInvite {
-        if !fullName.isEmpty {
-            _ = try await caregiverManager.api?.setProfile(request: TProfile(fullName: fullName))
-        }
-        
-        return try await caregiverManager.inviteCaregiver(email: email, nickname: nickname, permissions: TPermissions(view: TPermissionFlag()))
+        try await caregiverManager.inviteCaregiver(email: email, nickname: nickname, permissions: TPermissions(view: TPermissionFlag()))
     }
 
     // Mock stuff
