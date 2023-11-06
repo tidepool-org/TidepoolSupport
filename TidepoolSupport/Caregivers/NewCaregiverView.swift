@@ -21,7 +21,7 @@ struct NewCaregiverView: View {
     }
 
     enum FocusedField {
-        case nickname, email
+        case nickname, email, fullName
     }
     @FocusState private var focusedField: FocusedField?
 
@@ -55,7 +55,7 @@ struct NewCaregiverView: View {
             continueTray
         }
         .onAppear {
-            focusedField = .nickname
+            focusedField = viewModel.caregiverManager.profile == nil ? .fullName : .nickname
         }
         .navigationTitle(LocalizedString("Invite a Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
@@ -80,7 +80,7 @@ struct NewCaregiverView: View {
             Text("If you leave now, you will need to create this invitation again.")
         }
     }
-
+    
     var header: some View {
         Text(String(format: LocalizedString("To share your %1$@ activity with a new caregiver, enter their name and email address. Then tap Continue to set up their alerts and alarms.", comment: "Format string for section header on New Caregiver page"), appName))
             .textCase(nil)

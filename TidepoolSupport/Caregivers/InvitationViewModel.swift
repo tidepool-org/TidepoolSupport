@@ -82,7 +82,7 @@ class InvitationViewModel: ObservableObject {
     }
     
     func submit() async throws -> TInvite {
-        return try await caregiverManager.inviteCaregiver(email: email, nickname: nickname, permissions: TPermissions(view: TPermissionFlag()))
+        try await caregiverManager.inviteCaregiver(email: email, nickname: nickname, permissions: TPermissions(view: TPermissionFlag()))
     }
 
     // Mock stuff

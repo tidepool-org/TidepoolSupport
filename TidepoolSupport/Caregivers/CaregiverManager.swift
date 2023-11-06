@@ -36,6 +36,7 @@ class CaregiverManager: ObservableObject {
     
     @Published var caregivers: [Caregiver] = []
     @Published var caregiversPendingRemoval: [Caregiver] = []
+    @Published var profile: TProfile? = nil
     @Published var errorType: ErrorType? = nil
     
     private static let caregiverManagerIdentifier = "CaregiverManager"
@@ -58,12 +59,14 @@ class CaregiverManager: ObservableObject {
     }
     
     func fetchAllCaregivers() async {
-        async let current = await fetchCurrentCaregivers()
-        async let pending = await fetchPendingInvites()
+        let current = await fetchCurrentCaregivers()
+        let pending = await fetchPendingInvites()
         
-        if await caregivers != current + pending {
-            await caregivers = current + pending
+        if caregivers != current + pending {
+            caregivers = current + pending
         }
+        
+        profile = try? await api?.getProfile()
     }
     
     private func fetchCurrentCaregivers() async -> [Caregiver] {
@@ -98,17 +101,13 @@ class CaregiverManager: ObservableObject {
                 }
                 
                 let newCaregiver = Caregiver(
-                    name: invitee.nickname ?? "",
+                    name: invitee.context?.nickname ?? "",
                     email: email,
                     status: status,
                     id: invitee.key
                 )
                 
-                if !caregivers.contains(newCaregiver) {
-                    return newCaregiver
-                } else {
-                    return nil
-                }
+                return newCaregiver
             }
         } catch {
             log.error("fetchPendingInvites error: %{public}@",error.localizedDescription)
