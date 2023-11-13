@@ -107,7 +107,8 @@ struct InvitationSubmitView: View {
             VStack(spacing: 0) {
                 switch sendState {
                 case .error(let error):
-                    errorView(error)
+                    WarningView(title: Text(LocalizedString("Invite Failed to Send", comment: "Failure message when caregiver invitation fails during sending.")), caption: Text(error))
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .padding([.top, .horizontal])
                 case .sent:
                     VStack(spacing: 10) {
@@ -188,20 +189,6 @@ struct InvitationSubmitView: View {
         } message: {
             Text("If you leave now, you will need to create this invitation again.")
         }
-    }
-
-    func errorView(_ error: String) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Label {
-                Text(LocalizedString("Invite failed to send.", comment: "Failure message when caregiver invitation fails during sending."))
-                    .bold()
-            } icon: {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundColor(guidanceColors.warning) /// Tidepool alarm orange
-            }
-            Text(error)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var header: some View {
