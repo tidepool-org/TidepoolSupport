@@ -31,6 +31,7 @@
 		845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */; };
 		845C74782B7D7B3100F71F90 /* TidepoolLoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */; };
 		845C74792B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */; };
+		845C747B2B7D7EE600F71F90 /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 845C747A2B7D7EE600F71F90 /* LoopUITestingKit */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
@@ -154,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845C747B2B7D7EE600F71F90 /* LoopUITestingKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,6 +410,9 @@
 			dependencies = (
 			);
 			name = TidepoolLoopUITests;
+			packageProductDependencies = (
+				845C747A2B7D7EE600F71F90 /* LoopUITestingKit */,
+			);
 			productName = TidepoolLoopUITests;
 			productReference = 845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -1124,6 +1129,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		845C747A2B7D7EE600F71F90 /* LoopUITestingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 845C743E2B7D689400F71F90 /* XCRemoteSwiftPackageReference "LoopUITestingKit" */;
+			productName = LoopUITestingKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1DFFB92927150D2C0075AEAA /* Project object */;
 }
