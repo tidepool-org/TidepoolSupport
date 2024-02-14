@@ -28,7 +28,9 @@
 		1DFFB976271627470075AEAA /* TidepoolSupportPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB95B27150E460075AEAA /* TidepoolSupportPlugin.swift */; };
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
-		845C74502B7D6CBF00F71F90 /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 845C744F2B7D6CBF00F71F90 /* LoopUITestingKit */; };
+		845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */; };
+		845C74782B7D7B3100F71F90 /* TidepoolLoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */; };
+		845C74792B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
@@ -98,11 +100,11 @@
 		1DFFB96F271627430075AEAA /* TidepoolSupportPlugin.loopplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TidepoolSupportPlugin.loopplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFFB971271627430075AEAA /* TidepoolSupportPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TidepoolSupportPlugin.h; sourceTree = "<group>"; };
 		1DFFB97A2716382D0075AEAA /* OSLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
-		845C74452B7D6CB500F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8474348D2B7C12D30084BE98 /* TidepoolLoopUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TidepoolLoopUITests.swift; sourceTree = "<group>"; };
-		847434C42B7C172D0084BE98 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
+		845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
+		845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TidepoolLoopUITests.swift; sourceTree = "<group>"; };
+		845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
-		847434E02B7C35F90084BE98 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
 		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,11 +150,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		845C74422B7D6CB500F71F90 /* Frameworks */ = {
+		845C74662B7D7B2000F71F90 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				845C74502B7D6CBF00F71F90 /* LoopUITestingKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +168,7 @@
 				1DFFB94A27150D3F0075AEAA /* TidepoolSupportUI */,
 				1DFFB93E27150D2D0075AEAA /* TidepoolSupportTests */,
 				1DFFB970271627430075AEAA /* TidepoolSupportPlugin */,
-				847434672B7C094D0084BE98 /* TidepoolLoopUITests */,
+				845C746A2B7D7B2100F71F90 /* TidepoolLoopUITests */,
 				1DFFB93327150D2C0075AEAA /* Products */,
 				1DFFB98227163A300075AEAA /* Frameworks */,
 			);
@@ -179,7 +180,7 @@
 				1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */,
 				1DFFB93A27150D2D0075AEAA /* TidepoolSupportTests.xctest */,
 				1DFFB96F271627430075AEAA /* TidepoolSupportPlugin.loopplugin */,
-				845C74452B7D6CB500F71F90 /* TidepoolLoopUITests.xctest */,
+				845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -282,20 +283,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		847434672B7C094D0084BE98 /* TidepoolLoopUITests */ = {
+		845C746A2B7D7B2100F71F90 /* TidepoolLoopUITests */ = {
 			isa = PBXGroup;
 			children = (
-				847434E02B7C35F90084BE98 /* TidepoolLoopUITestPlan.xctestplan */,
-				8474348D2B7C12D30084BE98 /* TidepoolLoopUITests.swift */,
-				847434C62B7C17640084BE98 /* Screens */,
+				845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */,
+				845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */,
+				845C74762B7D7B3100F71F90 /* Screens */,
 			);
 			path = TidepoolLoopUITests;
 			sourceTree = "<group>";
 		};
-		847434C62B7C17640084BE98 /* Screens */ = {
+		845C74762B7D7B3100F71F90 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				847434C42B7C172D0084BE98 /* OnboardingScreen.swift */,
+				845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -394,24 +395,21 @@
 			productReference = 1DFFB96F271627430075AEAA /* TidepoolSupportPlugin.loopplugin */;
 			productType = "com.apple.product-type.framework";
 		};
-		845C74442B7D6CB500F71F90 /* TidepoolLoopUITests */ = {
+		845C74682B7D7B2000F71F90 /* TidepoolLoopUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 845C744B2B7D6CB500F71F90 /* Build configuration list for PBXNativeTarget "TidepoolLoopUITests" */;
+			buildConfigurationList = 845C746F2B7D7B2100F71F90 /* Build configuration list for PBXNativeTarget "TidepoolLoopUITests" */;
 			buildPhases = (
-				845C74412B7D6CB500F71F90 /* Sources */,
-				845C74422B7D6CB500F71F90 /* Frameworks */,
-				845C74432B7D6CB500F71F90 /* Resources */,
+				845C74652B7D7B2000F71F90 /* Sources */,
+				845C74662B7D7B2000F71F90 /* Frameworks */,
+				845C74672B7D7B2000F71F90 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = TidepoolLoopUITests;
-			packageProductDependencies = (
-				845C744F2B7D6CBF00F71F90 /* LoopUITestingKit */,
-			);
 			productName = TidepoolLoopUITests;
-			productReference = 845C74452B7D6CB500F71F90 /* TidepoolLoopUITests.xctest */;
+			productReference = 845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -433,7 +431,7 @@
 					1DFFB96E271627430075AEAA = {
 						CreatedOnToolsVersion = 13.0;
 					};
-					845C74442B7D6CB500F71F90 = {
+					845C74682B7D7B2000F71F90 = {
 						CreatedOnToolsVersion = 15.2;
 						LastSwiftMigration = 1520;
 					};
@@ -458,7 +456,7 @@
 				1DFFB93127150D2C0075AEAA /* TidepoolSupport */,
 				1DFFB93927150D2D0075AEAA /* TidepoolSupportTests */,
 				1DFFB96E271627430075AEAA /* TidepoolSupportPlugin */,
-				845C74442B7D6CB500F71F90 /* TidepoolLoopUITests */,
+				845C74682B7D7B2000F71F90 /* TidepoolLoopUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -485,10 +483,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		845C74432B7D6CB500F71F90 /* Resources */ = {
+		845C74672B7D7B2000F71F90 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845C74792B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,10 +542,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		845C74412B7D6CB500F71F90 /* Sources */ = {
+		845C74652B7D7B2000F71F90 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */,
+				845C74782B7D7B3100F71F90 /* TidepoolLoopUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,7 +845,7 @@
 			};
 			name = Release;
 		};
-		845C744C2B7D6CB500F71F90 /* Debug */ = {
+		845C74702B7D7B2100F71F90 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -869,7 +870,7 @@
 			};
 			name = Debug;
 		};
-		845C744D2B7D6CB500F71F90 /* Testflight */ = {
+		845C74712B7D7B2100F71F90 /* Testflight */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -893,7 +894,7 @@
 			};
 			name = Testflight;
 		};
-		845C744E2B7D6CB500F71F90 /* Release */ = {
+		845C74722B7D7B2100F71F90 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1101,12 +1102,12 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		845C744B2B7D6CB500F71F90 /* Build configuration list for PBXNativeTarget "TidepoolLoopUITests" */ = {
+		845C746F2B7D7B2100F71F90 /* Build configuration list for PBXNativeTarget "TidepoolLoopUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				845C744C2B7D6CB500F71F90 /* Debug */,
-				845C744D2B7D6CB500F71F90 /* Testflight */,
-				845C744E2B7D6CB500F71F90 /* Release */,
+				845C74702B7D7B2100F71F90 /* Debug */,
+				845C74712B7D7B2100F71F90 /* Testflight */,
+				845C74722B7D7B2100F71F90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1123,14 +1124,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		845C744F2B7D6CBF00F71F90 /* LoopUITestingKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 845C743E2B7D689400F71F90 /* XCRemoteSwiftPackageReference "LoopUITestingKit" */;
-			productName = LoopUITestingKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1DFFB92927150D2C0075AEAA /* Project object */;
 }

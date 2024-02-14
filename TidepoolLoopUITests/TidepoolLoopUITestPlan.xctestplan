@@ -20,7 +20,7 @@
     {
       "target" : {
         "containerPath" : "container:TidepoolSupport\/TidepoolSupport.xcodeproj",
-        "identifier" : "847434652B7C094D0084BE98",
+        "identifier" : "845C74682B7D7B2000F71F90",
         "name" : "TidepoolLoopUITests"
       }
     },
