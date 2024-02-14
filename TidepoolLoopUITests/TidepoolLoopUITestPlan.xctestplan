@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "F8C5C817-35AA-4B46-AC86-E516A344585F",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:..\/Loop\/Loop.xcodeproj",
+      "identifier" : "43776F8B1B8022E90074EA36",
+      "name" : "Loop"
+    },
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:TidepoolSupport\/TidepoolSupport.xcodeproj",
+        "identifier" : "847434652B7C094D0084BE98",
+        "name" : "TidepoolLoopUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Loop\/Loop.xcodeproj",
+        "identifier" : "840B7A7D2B7BFF58000ED932",
+        "name" : "LoopUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
