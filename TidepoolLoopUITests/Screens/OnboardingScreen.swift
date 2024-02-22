@@ -58,8 +58,10 @@ class OnboardingScreen: BaseScreen {
     }
     
     private func allowSimulatorAlert() {
-        waitForExistence(simulatorAlert)
-        useSimulatorConfirmationButton.tap()
+        sleep(UInt32(Common.TestSettings.elementTimeout))
+        if simulatorAlert.exists {
+            useSimulatorConfirmationButton.tap()
+        }
     }
     
     private func allowNotificationsAuthorization() {

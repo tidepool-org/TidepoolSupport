@@ -33,8 +33,7 @@ final class TidepoolLoopUITests: XCTestCase {
 
     func testSkippingOnboardingLeadsToHomepageWithSimulators() {
         onboardingScreen.skipAllOfOnboarding()
-        sleep(3) // sleep for a little to allow for HUD to update
-        waitForExistence(homeScreen.hudStatusClosedLoop)
+        waitForExistence(homeScreen.hudStatusClosedLoop, timeout: 10)
         homeScreen.openSettings()
         settingsScreen.openPumpManager()
         waitForExistence(settingsScreen.pumpSimulatorTitle)
