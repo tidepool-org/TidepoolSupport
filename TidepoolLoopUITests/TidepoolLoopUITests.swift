@@ -35,8 +35,6 @@ final class TidepoolLoopUITests: XCTestCase {
     }
 
     func testSkippingOnboardingLeadsToHomepageWithSimulators() {
-        baseScreen.deleteApp()
-        app.launch()
         onboardingScreen.skipAllOfOnboarding()
         waitForExistence(homeScreen.hudStatusClosedLoop)
         homeScreen.openSettings()
