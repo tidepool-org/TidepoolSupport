@@ -106,6 +106,7 @@
 		845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TidepoolLoopUITests.swift; sourceTree = "<group>"; };
 		845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
+		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopSharedUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopSharedUITestPlan.xctestplan; sourceTree = "<group>"; };
 		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */,
+				84B5A09E2B86DDD1003A85F5 /* TidepoolLoopSharedUITestPlan.xctestplan */,
 				845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */,
 				845C74762B7D7B3100F71F90 /* Screens */,
 			);

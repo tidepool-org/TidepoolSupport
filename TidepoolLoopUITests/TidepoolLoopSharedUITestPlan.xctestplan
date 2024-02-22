@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "F8C5C817-35AA-4B46-AC86-E516A344585F",
+      "id" : "5342FF40-52D9-4B1B-8D44-7F73783B2E86",
       "name" : "Configuration 1",
       "options" : {
 
@@ -19,19 +19,14 @@
         "value" : "org.tidepool.Loop"
       }
     ],
-    "targetForVariableExpansion" : {
-      "containerPath" : "container:..\/Loop\/Loop.xcodeproj",
-      "identifier" : "43776F8B1B8022E90074EA36",
-      "name" : "Loop"
-    },
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:..\/Loop\/Loop.xcodeproj",
-        "identifier" : "840B7A7D2B7BFF58000ED932",
-        "name" : "LoopUITests"
+        "containerPath" : "container:TidepoolSupport\/TidepoolSupport.xcodeproj",
+        "identifier" : "845C74682B7D7B2000F71F90",
+        "name" : "TidepoolLoopUITests"
       }
     }
   ],
