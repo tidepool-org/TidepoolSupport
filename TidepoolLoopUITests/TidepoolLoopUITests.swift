@@ -11,19 +11,17 @@ import XCTest
 
 @MainActor
 final class TidepoolLoopUITests: XCTestCase {
-    var app: XCUIApplication!
+    let app = XCUIApplication(bundleIdentifier: Common.TestSettings.bundleIdentifier)
+    
     var baseScreen: BaseScreen!
     var onboardingScreen: OnboardingScreen!
     var homeScreen: HomeScreen!
     var settingsScreen: SettingsScreen!
     var systemSettingsScreen: SystemSettingsScreen!
     var pumpSimulatorScreen: PumpSimulatorScreen!
-    var common: Common!
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        let common = Common()
-        app = XCUIApplication(bundleIdentifier: common.bundleIdentifier)
         app.launch()
         baseScreen = BaseScreen(app: app)
         onboardingScreen = OnboardingScreen(app: app)
@@ -31,7 +29,6 @@ final class TidepoolLoopUITests: XCTestCase {
         settingsScreen = SettingsScreen(app: app)
         systemSettingsScreen = SystemSettingsScreen(app: app)
         pumpSimulatorScreen = PumpSimulatorScreen(app: app)
-        self.common = common
     }
 
     func testSkippingOnboardingLeadsToHomepageWithSimulators() {
