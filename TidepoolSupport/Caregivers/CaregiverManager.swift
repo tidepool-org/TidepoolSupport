@@ -94,10 +94,14 @@ class CaregiverManager: ObservableObject {
             let pendingInvites = try await api?.getPendingInvitesSent().sorted(by: { $0.created < $1.created }) ?? []
             return pendingInvites.compactMap { invitee in
                 let email = invitee.email
-                let status = InvitationStatus(rawValue: invitee.status) ?? .pending
+                var status = InvitationStatus(rawValue: invitee.status) ?? .pending
                 
                 guard !backendInvitesToIgnore.contains(email) else {
                     return nil
+                }
+                
+                if let expiresAt = invitee.expiresAt, expiresAt <= Date() {
+                    status = .expired
                 }
                 
                 let newCaregiver = Caregiver(
