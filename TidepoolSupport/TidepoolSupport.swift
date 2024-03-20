@@ -244,15 +244,16 @@ extension TidepoolSupport  {
 
 extension TidepoolSupport {
     public enum Product: String {
+        case marketingDemo
         case none
+        case palmtree
         case studyProduct1
         case studyProduct2
-        case marketingDemo
         
         public var skipsOnboarding: Bool {
             switch self {
-            case .none, .studyProduct1: return false
-            case .studyProduct2, .marketingDemo: return true
+            case .none, .palmtree, .studyProduct1: return false
+            case .marketingDemo, .studyProduct2: return true
             }
         }
         
@@ -269,7 +270,7 @@ extension TidepoolSupport {
         var filteredURLs: [URL] = []
 
         switch selectedProduct {
-        case .none:
+        case .none, .palmtree:
             filteredURLs = scenarioURLs
         case .studyProduct1:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-1-") }
