@@ -278,14 +278,13 @@ extension TidepoolSupport {
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("13-hour-BG-trace") }
         }
 
-        return filteredURLs.map {
-            LoopScenario(
-                name: $0                                            // /Scenarios/HF-1-Scenario_1.json
-                    .deletingPathExtension()                        // /Scenarios/HF-1-Scenario_1
-                    .lastPathComponent                              // HF-1-Scenario_1
-                    .replacingOccurrences(of: "HF-1-", with: "")    // Scenario_1
-                    .replacingOccurrences(of: "HF-2-", with: "")    // Scenario_1
-                    .replacingOccurrences(of: "_", with: " "),      // Scenario 1,
+        return filteredURLs.compactMap {
+            try? LoopScenario(
+                name: $0                                                                 // /Scenarios/Palmtree-1-Scenario_1.json
+                    .deletingPathExtension()                                             // /Scenarios/Palmtree-1-Scenario_1
+                    .lastPathComponent                                                   // HF-1-Scenario_1
+                    .replacing("[a-z_]+-[0-9]+-", options: [.caseInsensitive], with: "") // Scenario_1
+                    .replacingOccurrences(of: "_", with: " "),                           // Scenario 1
                 url: $0
             )
         }
@@ -298,5 +297,13 @@ extension TidepoolSupport {
     public func loopDidReset() {
         UserDefaults.appGroup?.productSelection = _productSelection
         _productSelection = nil
+    }
+}
+
+extension String {
+    func replacing(_ regex: String, options: NSRegularExpression.Options, with replacement: String) throws -> String {
+        let expression = try NSRegularExpression(pattern: regex, options: options)
+        let range = NSMakeRange(0, self.count)
+        return expression.stringByReplacingMatches(in: self, options: [], range: range, withTemplate: replacement)
     }
 }
