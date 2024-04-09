@@ -247,14 +247,16 @@ extension TidepoolSupport {
         case marketingDemo
         case none
         case palmtree
-        case studyProduct1
-        case studyProduct2
         
         public var skipsOnboarding: Bool {
             switch self {
-            case .none, .palmtree, .studyProduct1: return false
-            case .marketingDemo, .studyProduct2: return true
+            case .none, .palmtree: return false
+            case .marketingDemo: return true
             }
+        }
+        
+        public var skipTidepoolService: Bool {
+            return false
         }
         
         public var maskDevices: Bool {
@@ -272,10 +274,6 @@ extension TidepoolSupport {
         switch selectedProduct {
         case .none, .palmtree:
             filteredURLs = scenarioURLs
-        case .studyProduct1:
-            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-1-") }
-        case .studyProduct2:
-            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("HF-2-") }
         case .marketingDemo:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("13-hour-BG-trace") }
         }
