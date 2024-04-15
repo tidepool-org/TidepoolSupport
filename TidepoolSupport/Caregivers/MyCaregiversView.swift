@@ -47,8 +47,8 @@ struct MyCaregiversView: View {
                 
             Text(caregiver.email).font(.footnote)
                 .foregroundColor(.secondary)
-
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     var confirmationDialogTitle: String {
@@ -71,15 +71,13 @@ struct MyCaregiversView: View {
                             HStack(spacing: 24) {
                                 nameStack(for: caregiver)
                                 
-                                Spacer()
-                                
                                 if caregiverManager.caregiversPendingRemoval.contains(caregiver) {
                                     ProgressView()
                                         .progressViewStyle(.circular)
                                         .frame(width: 26, height: 26)
                                 } else {
                                     switch caregiver.status {
-                                    case InvitationStatus.pending:
+                                    case .pending:
                                         Text("Invite Sent")
                                             .font(.caption)
                                             .foregroundColor(.accentColor)
@@ -90,7 +88,7 @@ struct MyCaregiversView: View {
                                                     .opacity(0.3)
                                                     .cornerRadius(2)
                                             )
-                                    case InvitationStatus.resent:
+                                    case .resent:
                                         Text("Invite Resent")
                                             .font(.caption)
                                             .foregroundColor(.accentColor)
@@ -101,7 +99,7 @@ struct MyCaregiversView: View {
                                                     .opacity(0.3)
                                                     .cornerRadius(2)
                                             )
-                                    case InvitationStatus.declined:
+                                    case .declined:
                                         Text("Invite Declined")
                                             .font(.caption)
                                             .foregroundColor(guidanceColors.critical)
@@ -112,7 +110,18 @@ struct MyCaregiversView: View {
                                                     .opacity(0.3)
                                                     .cornerRadius(2)
                                             )
-                                    default:
+                                    case .expired:
+                                        Text("Invite Expired")
+                                            .font(.caption)
+                                            .foregroundColor(guidanceColors.critical)
+                                            .padding(2)
+                                            .padding(.horizontal, 2)
+                                            .background(
+                                                guidanceColors.critical
+                                                    .opacity(0.3)
+                                                    .cornerRadius(2)
+                                            )
+                                    case .accepted:
                                         EmptyView()
                                     }
                                     Image(systemName: "ellipsis")
@@ -126,7 +135,7 @@ struct MyCaregiversView: View {
                             isPresented: $showingCaregiverActions,
                             titleVisibility: .visible
                         ) {
-                            if selectedCaregiver?.status == .pending {
+                            if selectedCaregiver?.status == .expired {
                                 Button(LocalizedString("Resend Invitation", comment: "Button title for caregiver resend invite action")) {
                                     presentedAlert = .showingResendConfirmation
                                 }
