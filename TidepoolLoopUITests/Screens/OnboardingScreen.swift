@@ -13,7 +13,7 @@ class OnboardingScreen: BaseScreen {
     // MARK: Elements
 
     var welcomeTitleText: XCUIElement {
-        app.staticTexts.element(matching: .staticText, identifier: "welcome data 0")
+        app.staticTexts["Welcome to Tidepool Loop"]
     }
     
     var simulatorAlert: XCUIElement {
@@ -58,10 +58,11 @@ class OnboardingScreen: BaseScreen {
     }
     
     private func allowSimulatorAlert() {
-        sleep(UInt32(Common.TestSettings.elementTimeout))
-        if simulatorAlert.exists {
+//        sleep(UInt32(Common.TestSettings.elementTimeout))
+        waitForExistence(simulatorAlert)
+//        if simulatorAlert.exists {
             useSimulatorConfirmationButton.tap()
-        }
+//        }
     }
     
     private func allowNotificationsAuthorization() {
