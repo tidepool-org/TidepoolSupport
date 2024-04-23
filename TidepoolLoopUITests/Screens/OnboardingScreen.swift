@@ -66,7 +66,7 @@ class OnboardingScreen: BaseScreen {
     }
     
     private func allowNotificationsAuthorization() {
-        waitForExistence(alertAllowButton)
+        waitForExistence(alertAllowButton, timeout: 10)
         alertAllowButton.tap()
     }
     
