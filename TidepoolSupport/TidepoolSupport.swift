@@ -259,6 +259,7 @@ extension TidepoolSupport {
         public var skipTidepoolService: Bool {
             switch self {
             case .palmtree1: return false
+            case .none: return false
             default: return true
             }
         }
