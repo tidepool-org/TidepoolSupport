@@ -257,7 +257,11 @@ extension TidepoolSupport {
         }
         
         public var skipTidepoolService: Bool {
-            return false
+            switch self {
+            case .palmtree1: return false
+            case .none: return false
+            default: return true
+            }
         }
         
         public var maskDevices: Bool {
