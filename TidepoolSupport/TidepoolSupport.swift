@@ -53,9 +53,10 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         switch selectedProduct {
         case .marketingDemo:
             return DeviceWhitelist(cgmDevices: ["MockCGMManager"], pumpDevices: ["MockPumpManager"])
-        case .palmtree1, 
-             .palmtree2:
-            return DeviceWhitelist(cgmDevices: ["DemoDexcomCGMManager"], pumpDevices: ["ZodiacPump", "ZodiacDemo"])
+        case .palmtree1:
+            return DeviceWhitelist(cgmDevices: ["DemoDexcomCGMManager"], pumpDevices: ["ZodiacPump"])
+        case .palmtree2:
+            return DeviceWhitelist(cgmDevices: ["DemoDexcomCGMManager"], pumpDevices: ["ZodiacDemo"])
         case .none:
             return DeviceWhitelist()
         }
