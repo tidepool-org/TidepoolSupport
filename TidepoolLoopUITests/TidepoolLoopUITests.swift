@@ -27,7 +27,7 @@ final class TidepoolLoopUITests: XCTestCase {
         onboardingScreen = OnboardingScreen(app: app)
         homeScreen = HomeScreen(app: app)
         settingsScreen = SettingsScreen(app: app)
-        systemSettingsScreen = SystemSettingsScreen(app: app)
+        systemSettingsScreen = SystemSettingsScreen()
         pumpSimulatorScreen = PumpSimulatorScreen(app: app)
     }
 
