@@ -53,7 +53,11 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         switch selectedProduct {
         case .marketingDemo:
             return DeviceWhitelist(cgmDevices: ["MockCGMManager"], pumpDevices: ["MockPumpManager"])
-        default:
+        case .palmtree1:
+            return DeviceWhitelist(cgmDevices: ["DemoDexcomCGMManager"], pumpDevices: ["ZodiacPump"])
+        case .palmtree2:
+            return DeviceWhitelist(cgmDevices: ["DemoDexcomCGMManager"], pumpDevices: ["ZodiacDemo"])
+        case .none:
             return DeviceWhitelist()
         }
     }
@@ -257,7 +261,11 @@ extension TidepoolSupport {
         }
         
         public var skipTidepoolService: Bool {
-            return false
+            switch self {
+            case .palmtree1: return false
+            case .none: return false
+            default: return true
+            }
         }
         
         public var maskDevices: Bool {
