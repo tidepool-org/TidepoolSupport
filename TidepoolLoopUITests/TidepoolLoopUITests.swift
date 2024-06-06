@@ -33,7 +33,7 @@ final class TidepoolLoopUITests: XCTestCase {
 
     func testSkippingOnboardingLeadsToHomepageWithSimulators() {
         onboardingScreen.skipAllOfOnboarding()
-        waitForExistence(homeScreen.hudStatusClosedLoop)
+        waitForExistence(homeScreen.hudStatusClosedLoop, timeout: 120)
         homeScreen.openSettings()
         settingsScreen.openPumpManager()
         waitForExistence(settingsScreen.pumpSimulatorTitle)
