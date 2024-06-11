@@ -230,7 +230,7 @@ extension TidepoolSupport  {
             }
             menuItems.append(CustomMenuItem(section: .support, view: AnyView(view)))
         }
-        if let tapi {
+        if let tapi, selectedProduct != .palmtree1 {
             menuItems.append(
                 CustomMenuItem(
                     section: .custom(localizedTitle: LocalizedString("Share Activity", comment: "Settings menu section title for share activity")),
