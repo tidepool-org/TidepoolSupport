@@ -19,7 +19,8 @@
         "value" : "org.tidepool.Loop"
       }
     ],
-    "testTimeoutsEnabled" : true
+    "testTimeoutsEnabled" : true,
+    "uiTestingScreenshotsLifetime" : "keepAlways"
   },
   "testTargets" : [
     {
