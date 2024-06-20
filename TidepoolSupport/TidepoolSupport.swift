@@ -288,7 +288,7 @@ extension TidepoolSupport {
         case .palmtree2:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("Palmtree-2") }
         case .marketingDemo:
-            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("13-hour-BG-trace") }
+            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("13-hour-BG-trace") || $0.lastPathComponent.hasPrefix("Marketing") }
         }
 
         return filteredURLs.compactMap {
