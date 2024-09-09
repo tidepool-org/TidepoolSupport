@@ -58,28 +58,28 @@ class OnboardingScreen: BaseScreen {
     }
     
     private func allowSimulatorAlert() {
-        waitForExistence(simulatorAlert, timeout: 120, assert: false)
+        waitForExistence(simulatorAlert)
         if simulatorAlert.exists {
             useSimulatorConfirmationButton.tap()
         }
     }
     
     private func allowNotificationsAuthorization() {
-        waitForExistence(alertAllowButton, timeout: 120, assert: false)
+        waitForExistence(alertAllowButton)
         if alertAllowButton.exists {
             alertAllowButton.tap()
         }
     }
     
     private func allowCriticalAlertsAuthorization() {
-        waitForExistence(alertAllowButton, timeout: 120, assert: false)
+        waitForExistence(alertAllowButton)
         if alertAllowButton.exists {
             alertAllowButton.tap()
         }
     }
     
     private func allowHealthKitAuthorization() {
-        waitForExistence(turnOnAllHealthCategoriesText, timeout: 120, assert: false)
+        waitForExistence(turnOnAllHealthCategoriesText)
         if turnOnAllHealthCategoriesText.exists {
             turnOnAllHealthCategoriesText.tap()
             healthDoneButton.tap()
