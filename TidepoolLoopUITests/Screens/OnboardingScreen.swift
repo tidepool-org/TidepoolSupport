@@ -60,21 +60,21 @@ class OnboardingScreen: BaseScreen {
     private func allowSimulatorAlert() {
         waitForExistence(simulatorAlert)
         if simulatorAlert.exists {
-            useSimulatorConfirmationButton.tap()
+            useSimulatorConfirmationButton.forceTap()
         }
     }
     
     private func allowNotificationsAuthorization() {
         waitForExistence(alertAllowButton)
         if alertAllowButton.exists {
-            alertAllowButton.tap()
+            alertAllowButton.forceTap()
         }
     }
     
     private func allowCriticalAlertsAuthorization() {
         waitForExistence(alertAllowButton)
         if alertAllowButton.exists {
-            alertAllowButton.tap()
+            alertAllowButton.forceTap()
         }
     }
     
