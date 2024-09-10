@@ -20,8 +20,7 @@
       "identifier" : "43776F8B1B8022E90074EA36",
       "name" : "Loop"
     },
-    "testTimeoutsEnabled" : true,
-    "uiTestingScreenshotsLifetime" : "keepAlways"
+    "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
