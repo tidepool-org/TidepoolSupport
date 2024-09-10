@@ -29,8 +29,7 @@
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */; };
-		845C74782B7D7B3100F71F90 /* TidepoolLoopUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */; };
-		845C74792B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */; };
+		845C74782B7D7B3100F71F90 /* TidepoolLoopSharedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */; };
 		845C747B2B7D7EE600F71F90 /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 845C747A2B7D7EE600F71F90 /* LoopUITestingKit */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
@@ -103,10 +102,9 @@
 		1DFFB97A2716382D0075AEAA /* OSLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
 		845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
-		845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TidepoolLoopUITests.swift; sourceTree = "<group>"; };
-		845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
+		845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TidepoolLoopSharedUITests.swift; sourceTree = "<group>"; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
-		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopSharedUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopSharedUITestPlan.xctestplan; sourceTree = "<group>"; };
+		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
 		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,9 +287,8 @@
 		845C746A2B7D7B2100F71F90 /* TidepoolLoopUITests */ = {
 			isa = PBXGroup;
 			children = (
-				845C74752B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan */,
-				84B5A09E2B86DDD1003A85F5 /* TidepoolLoopSharedUITestPlan.xctestplan */,
-				845C74742B7D7B3000F71F90 /* TidepoolLoopUITests.swift */,
+				84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */,
+				845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */,
 				845C74762B7D7B3100F71F90 /* Screens */,
 			);
 			path = TidepoolLoopUITests;
@@ -494,7 +491,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				845C74792B7D7B3100F71F90 /* TidepoolLoopUITestPlan.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,7 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */,
-				845C74782B7D7B3100F71F90 /* TidepoolLoopUITests.swift in Sources */,
+				845C74782B7D7B3100F71F90 /* TidepoolLoopSharedUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
