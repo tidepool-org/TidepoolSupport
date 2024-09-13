@@ -228,7 +228,9 @@ extension TidepoolSupport  {
             let view = AdverseEventReportButton(adverseEventReportViewModel: viewModel) { url in
                 delegate.openURL(url: url)
             }
-            menuItems.append(CustomMenuItem(section: .support, view: AnyView(view)))
+            // https://tidepool.atlassian.net/browse/LOOP-5046
+            // Re-add after clinical trial release
+//            menuItems.append(CustomMenuItem(section: .support, view: AnyView(view)))
         }
         if let tapi {
             menuItems.append(
