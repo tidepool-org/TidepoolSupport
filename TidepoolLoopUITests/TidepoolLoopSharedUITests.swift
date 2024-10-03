@@ -50,6 +50,7 @@ final class TidepoolLoopSharedUITests: XCTestCase {
         systemSettingsScreen.openSystemNotificationSettings()
         systemSettingsScreen.toggleAllowNotifications()
         systemSettingsScreen.toggleCriticalAlerts()
+        app.activate()
         homeScreen.openSettings()
         waitForExistence(settingsScreen.alertManagementAlertWarning)
         settingsScreen.openAlertManagement()
