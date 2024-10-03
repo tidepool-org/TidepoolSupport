@@ -46,7 +46,6 @@ class OnboardingScreen: BaseScreen {
     
     func skipAllOfOnboarding() {
         skipOnboarding()
-        allowSimulatorAlert()
         allowNotificationsAuthorization()
         allowCriticalAlertsAuthorization()
         allowHealthKitAuthorization()
@@ -54,16 +53,16 @@ class OnboardingScreen: BaseScreen {
 
     private func skipOnboarding() {
         waitForExistence(welcomeTitleText)
-        welcomeTitleText.press(forDuration: 2.5)
-    }
-    
-    private func allowSimulatorAlert() {
-        waitForExistence(simulatorAlert)
-        if simulatorAlert.exists {
-            useSimulatorConfirmationButton.forceTap()
+        let attemptUntil = Date().addingTimeInterval(60)
+        while Date() < attemptUntil {
+            welcomeTitleText.press(forDuration: 2.5)
+            if simulatorAlert.waitForExistence(timeout: 10) {
+                useSimulatorConfirmationButton.forceTap()
+                break
+            }
         }
     }
-    
+
     private func allowNotificationsAuthorization() {
         waitForExistence(alertAllowButton)
         if alertAllowButton.exists {
