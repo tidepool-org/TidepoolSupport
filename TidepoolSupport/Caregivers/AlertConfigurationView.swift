@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import HealthKit
+import LoopAlgorithm
 import LoopKitUI
 import LoopKit
 
@@ -32,7 +32,7 @@ struct AlertConfigurationView: View {
     }
 
     func formatGlucose(_ glucose: Double) -> String {
-        return glucosePreference.formatter.string(from: HKQuantity(unit: .milligramsPerDeciliter, doubleValue: glucose))!
+        return glucosePreference.formatter.string(from: LoopQuantity(unit: .milligramsPerDeciliter, doubleValue: glucose))!
     }
 
     var body: some View {
