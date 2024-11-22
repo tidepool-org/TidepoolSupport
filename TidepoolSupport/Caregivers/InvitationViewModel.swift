@@ -7,7 +7,6 @@
 
 import Foundation
 import TidepoolKit
-import HealthKit
 import LoopKit
 import Combine
 
