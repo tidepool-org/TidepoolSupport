@@ -99,20 +99,6 @@
         "identifier" : "B4D8557F241BC25000ED61FF",
         "name" : "RocheSoloKitUITests"
       }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:embecta-zodiac-loop-plugin\/ZodiacKit.xcodeproj",
-        "identifier" : "B4AD78F72A44A5C000FB4930",
-        "name" : "ZodiacKitTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:embecta-zodiac-loop-plugin\/ZodiacKit.xcodeproj",
-        "identifier" : "B4AD78D32A44A54B00FB4930",
-        "name" : "ZodiacKitUITests"
-      }
     }
   ],
   "version" : 1
