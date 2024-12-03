@@ -5,83 +5,60 @@
 //  Created by Cameron Ingham on 2/13/24.
 //
 
-import LoopUITestingKit
 import XCTest
 
-class OnboardingScreen: BaseScreen {
+class OnboardingScreen {
     
     // MARK: Elements
-
-    var welcomeTitleText: XCUIElement {
-        app.staticTexts["Welcome to Tidepool Loop"]
-    }
     
-    var simulatorAlert: XCUIElement {
-        app.alerts["Are you sure you want to skip the rest of onboarding (and use simulators)?"]
-    }
-    
-    var useSimulatorConfirmationButton: XCUIElement {
-        app.buttons["Yes"]
-    }
-    
-    var alertAllowButton:XCUIElement {
-        springboardApp.buttons["Allow"]
-    }
-    
-    var turnOnAllHealthCategoriesText: XCUIElement {
-        app.tables.staticTexts["Turn On All"]
-    }
-    
-    var healthDoneButton: XCUIElement {
-        app.navigationBars["Health Access"].buttons["Allow"]
-    }
+    private let welcomeTitleText = app.staticTexts["Welcome to Tidepool Loop"]
+    private let skipOnboardingAlert = app.alerts["Are you sure you want to skip the rest of onboarding (and use simulators)?"]
+    private let allowNotificationsAlert = springBoard.alerts["“Tidepool Loop” Would Like to Send You Notifications"]
+    private let allowCriticalAlertsAlert = springBoard.alerts["“Tidepool Loop” Would Like to Send You Critical Alerts"]
+    private let skipSectionAlert = app.alerts["Are you sure you want to skip through this section?"]
+    private let simulatorConfirmationButton = app.buttons["Yes"]
+    private let alertAllowButton = springBoard.buttons["Allow"]
+    private let turnOnAllHealthCategoriesText = app.tables.staticTexts["Turn On All"]
+    private let healthDoneButton = app.navigationBars["Health Access"].buttons["Allow"]
     
     // MARK: Actions
     
-    func skipAllOfOnboardingIfNeeded() {
-        if welcomeTitleText.exists {
-            skipAllOfOnboarding()
-        }
+    func welcomeTitleTextExists() -> Bool {
+        welcomeTitleText.waitForExistence(timeout: TestSetup.basicWait)
     }
     
-    func skipAllOfOnboarding() {
-        skipOnboarding()
-        allowNotificationsAuthorization()
-        allowCriticalAlertsAuthorization()
-        allowHealthKitAuthorization()
+    func tapConfirmSkipOnboarding() {
+        simulatorConfirmationButton.safeTap()
     }
-
-    private func skipOnboarding() {
-        waitForExistence(welcomeTitleText)
-        let attemptUntil = Date().addingTimeInterval(60)
-        while Date() < attemptUntil {
+    
+    func tapForDurationWelcomTitle() {
+        if welcomeTitleText.safeExists {
             welcomeTitleText.press(forDuration: 2.5)
-            if simulatorAlert.waitForExistence(timeout: 10) {
-                useSimulatorConfirmationButton.forceTap()
-                break
-            }
-        }
-    }
-
-    private func allowNotificationsAuthorization() {
-        waitForExistence(alertAllowButton)
-        if alertAllowButton.exists {
-            alertAllowButton.forceTap()
         }
     }
     
-    private func allowCriticalAlertsAuthorization() {
-        waitForExistence(alertAllowButton)
-        if alertAllowButton.exists {
-            alertAllowButton.forceTap()
+    func allowNotifications() {
+        if allowNotificationsAlert.waitForExistence(timeout: TestSetup.longWait) {
+            alertAllowButton.safeTap()
         }
     }
     
-    private func allowHealthKitAuthorization() {
-        waitForExistence(turnOnAllHealthCategoriesText)
-        if turnOnAllHealthCategoriesText.exists {
+    func allowCriticalAlerts() {
+        if allowCriticalAlertsAlert.waitForExistence(timeout: TestSetup.longWait) {
+            alertAllowButton.safeTap()
+        }
+    }
+    
+    func allowHealthKitAuthorization() {
+        if turnOnAllHealthCategoriesText.waitForExistence(timeout: TestSetup.longWait) {
             turnOnAllHealthCategoriesText.tap()
-            healthDoneButton.tap()
+            healthDoneButton.safeTap()
         }
+    }
+    
+    // MARK: Verifications
+    
+    var skipOnboardingAlertExists: Bool {
+        skipOnboardingAlert.safeExists
     }
 }

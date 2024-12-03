@@ -1,0 +1,141 @@
+//
+//  TidepoolLoopSharedUITests.swift
+//  TidepoolLoopUITests
+//
+//  Created by Cameron Ingham on 2/6/24.
+//  Copyright © 2024 LoopKit Authors. All rights reserved.
+//
+
+import XCTest
+
+final class TidepoolLoopSharedUITests: TestSetup {
+    let bolusSteps = BolusSteps()
+    let carbsEntrySteps = CarbsEntrySteps()
+    let cgmManagerSteps = CGMManagerSteps()
+    let commonSteps = CommonSteps()
+    let homeSteps = HomeSteps()
+    let notificationSteps = NotificationSteps()
+    let onboardingSteps = OnboardingSteps()
+    let pumpManagerSteps = PumpManagerSteps()
+    let settingsSteps = SettingsSteps()
+    let systemSettingsSteps = SystemSettingsSteps()
+    
+    func testSkippingOnboardingLeadsToHomepageWithSimulators() {
+        commonSteps.given_app_is_launched()
+        onboardingSteps.when_i_skip_all_of_onboarding()
+        homeSteps.then_closed_loop_displays()
+        homeSteps.when_i_open_settings()
+        settingsSteps.when_i_open_pump_manager()
+        pumpManagerSteps.then_pump_manager_displays()
+        pumpManagerSteps.when_i_close_pump_manager()
+        settingsSteps.when_i_open_cgm_manager()
+        cgmManagerSteps.then_cgm_manager_displays()
+        cgmManagerSteps.when_i_close_cgm_manager()
+        settingsSteps.when_i_close_settings_screen()
+        homeSteps.then_closed_loop_displays()
+    }
+    
+    // https://tidepool.atlassian.net/browse/LOOP-1605
+    func testAlertSettingsUI() {
+        commonSteps.given_app_is_launched_and_intialy_setup()
+        systemSettingsSteps.when_i_setup_app_notifications(allowNotifications: false, allowCriticalNotifications: false)
+        commonSteps.when_i_switch_to_tidepool_loop_app()
+        homeSteps.when_i_open_settings()
+        settingsSteps.then_alert_warning_image_displays()
+        settingsSteps.when_i_open_alert_management()
+        settingsSteps.then_permissions_alert_warning_image_displays()
+        settingsSteps.when_i_navigate_to_ios_permissions()
+        settingsSteps.then_ios_permissions_notifications_displays(notificationsEnabled: false)
+        settingsSteps.then_ios_permissions_critical_alerts_displays(notificationsEnabled: false)
+        settingsSteps.when_i_navigate_to_manage_ios_permissions()
+        systemSettingsSteps.when_i_setup_app_notifications(allowNotifications: true, allowCriticalNotifications: false)
+        commonSteps.when_i_return_to_tidepool_loop_app()
+        settingsSteps.then_ios_permissions_notifications_displays(notificationsEnabled: true)
+        settingsSteps.when_i_navigate_to_manage_ios_permissions()
+        systemSettingsSteps.when_i_setup_app_notifications(allowNotifications: true, allowCriticalNotifications: true)
+        commonSteps.when_i_return_to_tidepool_loop_app()
+        settingsSteps.then_ios_permissions_critical_alerts_displays(notificationsEnabled: true)
+    }
+    
+    // https://tidepool.atlassian.net/browse/LOOP-1713
+    func testConfigureClosedLoopManagement() {
+        commonSteps.given_app_is_launched_and_intialy_setup()
+        homeSteps.then_closed_loop_displays()
+        homeSteps.when_i_initiate_premeal_setup()
+        homeSteps.when_i_cancel_premeal_dialog()
+        homeSteps.when_i_open_settings()
+        settingsSteps.when_i_turn_x_closed_loop(turnOn: false)
+        settingsSteps.when_i_close_settings_screen()
+        homeSteps.then_open_loop_displays()
+        homeSteps.then_premeal_button_is_x(buttonEnabled: false)
+        homeSteps.when_i_tap_x_loop_icon(closedLoopOn: false)
+        homeSteps.then_closed_loop_x_alert_displays(onOff: "off")
+        homeSteps.when_i_dismiss_closed_loop_status_alert()
+        homeSteps.when_i_open_bolus_setup()
+        bolusSteps.then_simple_bolus_calculator_displays()
+        bolusSteps.when_i_close_bolus_screen()
+        homeSteps.when_i_open_carb_entry()
+        carbsEntrySteps.then_simple_meal_calculator_displays()
+        carbsEntrySteps.when_i_close_carbs_entry_screen()
+        homeSteps.when_i_open_settings()
+        settingsSteps.when_i_turn_x_closed_loop(turnOn: true)
+        settingsSteps.when_i_close_settings_screen()
+        homeSteps.then_closed_loop_displays()
+        homeSteps.then_premeal_button_is_x(buttonEnabled: true)
+        homeSteps.when_i_tap_x_loop_icon(closedLoopOn: true)
+        homeSteps.then_closed_loop_x_alert_displays(onOff: "on")
+        homeSteps.when_i_dismiss_closed_loop_status_alert()
+        homeSteps.when_i_open_bolus_setup()
+        bolusSteps.then_bolus_screen_displays()
+        bolusSteps.when_i_close_bolus_screen()
+        homeSteps.when_i_open_carb_entry()
+        carbsEntrySteps.then_carb_entry_screen_displays()
+    }
+    
+    // https://tidepool.atlassian.net/browse/LOOP-1636
+    func testPumpErrorAndStateHandlingStatusBarDisplay() {
+        commonSteps.given_app_is_launched_and_intialy_setup()
+        homeSteps.when_i_open_pump_manager()
+        pumpManagerSteps.when_i_suspend_insulin_delivery()
+        pumpManagerSteps.then_resume_insulin_delivery_displays()
+        pumpManagerSteps.when_i_close_pump_manager()
+        homeSteps.then_pump_pill_displays_value(displayedValue: "Insulin Suspended")
+        homeSteps.when_i_open_pump_manager()
+        pumpManagerSteps.when_i_resume_insulin_delivery()
+        pumpManagerSteps.then_suspend_insulin_delivery_displays()
+        pumpManagerSteps.when_i_open_pump_settings()
+        pumpManagerSteps.when_i_set_reservoir_remaining(remainingValue: "0")
+        pumpManagerSteps.when_i_navigate_back_to_pump_manager()
+        pumpManagerSteps.when_i_close_pump_manager()
+        homeSteps.then_pump_pill_displays_value(displayedValue: "No Insulin")
+        homeSteps.when_i_open_pump_manager()
+        pumpManagerSteps.when_i_open_pump_settings()
+        pumpManagerSteps.when_i_set_reservoir_remaining(remainingValue: "15")
+        pumpManagerSteps.when_i_navigate_back_to_pump_manager()
+        pumpManagerSteps.when_i_close_pump_manager()
+        homeSteps.then_pump_pill_displays_value(displayedValue: "15 units remaining")
+        homeSteps.when_i_open_pump_manager()
+        pumpManagerSteps.when_i_open_pump_settings()
+        pumpManagerSteps.when_i_set_reservoir_remaining(remainingValue: "45")
+        pumpManagerSteps.when_i_navigate_back_to_pump_manager()
+        pumpManagerSteps.when_i_close_pump_manager()
+        homeSteps.then_pump_pill_displays_value(displayedValue: "45 units remaining")
+        homeSteps.when_i_open_pump_manager()
+        pumpManagerSteps.when_i_open_pump_settings()
+        pumpManagerSteps.when_i_select_detect_occlussion()
+        pumpManagerSteps.when_i_navigate_back_to_pump_manager()
+        pumpManagerSteps.when_i_close_pump_manager()
+        homeSteps.then_pump_pill_displays_value(displayedValue: "Pump Occlusion")
+        homeSteps.when_i_open_bolus_setup()
+        bolusSteps.when_i_set_bolus_value(bolusValue: "2")
+        bolusSteps.when_i_deliver_and_authenticate_bolus()
+        notificationSteps.then_notification_title_body_displays(title: "Bolus Issue", body: "Pump is in an error state")
+        homeSteps.when_i_open_pump_manager()
+        pumpManagerSteps.when_i_open_pump_settings()
+        pumpManagerSteps.when_i_select_resolve_occlusion()
+        pumpManagerSteps.when_i_select_cause_pump_error()
+        pumpManagerSteps.when_i_navigate_back_to_pump_manager()
+        pumpManagerSteps.when_i_close_pump_manager()
+        homeSteps.then_pump_pill_displays_value(displayedValue: "Pump Error")
+    }
+}

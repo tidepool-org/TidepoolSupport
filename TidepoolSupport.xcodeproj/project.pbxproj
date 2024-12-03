@@ -29,8 +29,6 @@
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */; };
-		845C74782B7D7B3100F71F90 /* TidepoolLoopSharedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */; };
-		845C747B2B7D7EE600F71F90 /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 845C747A2B7D7EE600F71F90 /* LoopUITestingKit */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
@@ -44,6 +42,28 @@
 		C1B2EEB52A0D2A12001CF2FA /* InvitationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEAE2A0D2A11001CF2FA /* InvitationViewModel.swift */; };
 		C1B2EEB82A0D2A12001CF2FA /* Caregiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEB12A0D2A12001CF2FA /* Caregiver.swift */; };
 		C1B2EEB92A0D2A12001CF2FA /* CaregiverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEB22A0D2A12001CF2FA /* CaregiverManager.swift */; };
+		EC0875F42CF63FB200748C3B /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0875F32CF63FAF00748C3B /* Notifications.swift */; };
+		EC0875F62CF6404900748C3B /* NotificationSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0875F52CF6404400748C3B /* NotificationSteps.swift */; };
+		EC3C8BEF2CF20D2700666442 /* BolusScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BEE2CF20D2300666442 /* BolusScreen.swift */; };
+		EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */; };
+		EC3C8BF32CF21AC800666442 /* CarbsEntryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF22CF21ABB00666442 /* CarbsEntryScreen.swift */; };
+		EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */; };
+		EC8EEAC02CEB5E9B008A0D16 /* TestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEABF2CE63E25008A0D16 /* TestHelper.swift */; };
+		EC8EEAC12CEB62BA008A0D16 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB1E4022CE60FEC0078108C /* Utils.swift */; };
+		EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */; };
+		EC8EEAC52CEC85D0008A0D16 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC42CEC85CE008A0D16 /* HomeScreen.swift */; };
+		EC8EEAC72CEC884C008A0D16 /* PumpManagerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC62CEC8843008A0D16 /* PumpManagerScreen.swift */; };
+		EC8EEAC92CEC8B49008A0D16 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC82CEC8B45008A0D16 /* SettingsScreen.swift */; };
+		EC8EEACB2CEC8D05008A0D16 /* SystemSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACA2CEC8CFE008A0D16 /* SystemSettingsScreen.swift */; };
+		EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */; };
+		EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */; };
+		EC8EEAD12CEE2C40008A0D16 /* SettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */; };
+		EC8EEAD32CEE4727008A0D16 /* PumpManagerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */; };
+		EC8EEAD72CEF353F008A0D16 /* CGMManagerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD62CEF3537008A0D16 /* CGMManagerScreen.swift */; };
+		EC8EEAD92CEF357A008A0D16 /* CGMManagerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */; };
+		EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */; };
+		ECB1E3FD2CE60E740078108C /* TestSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB1E3FC2CE60E520078108C /* TestSetup.swift */; };
+		ECB1E4002CE60EC90078108C /* TidepoolLoopSharedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECB1E3FE2CE60EC90078108C /* TidepoolLoopSharedUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +122,6 @@
 		1DFFB97A2716382D0075AEAA /* OSLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
 		845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
-		845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TidepoolLoopSharedUITests.swift; sourceTree = "<group>"; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
 		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
 		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +141,28 @@
 		C1B2EEAE2A0D2A11001CF2FA /* InvitationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationViewModel.swift; sourceTree = "<group>"; };
 		C1B2EEB12A0D2A12001CF2FA /* Caregiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Caregiver.swift; sourceTree = "<group>"; };
 		C1B2EEB22A0D2A12001CF2FA /* CaregiverManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaregiverManager.swift; sourceTree = "<group>"; };
+		EC0875F32CF63FAF00748C3B /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		EC0875F52CF6404400748C3B /* NotificationSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSteps.swift; sourceTree = "<group>"; };
+		EC3C8BEE2CF20D2300666442 /* BolusScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BolusScreen.swift; sourceTree = "<group>"; };
+		EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BolusSteps.swift; sourceTree = "<group>"; };
+		EC3C8BF22CF21ABB00666442 /* CarbsEntryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsEntryScreen.swift; sourceTree = "<group>"; };
+		EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsEntrySteps.swift; sourceTree = "<group>"; };
+		EC8EEABF2CE63E25008A0D16 /* TestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelper.swift; sourceTree = "<group>"; };
+		EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSteps.swift; sourceTree = "<group>"; };
+		EC8EEAC42CEC85CE008A0D16 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		EC8EEAC62CEC8843008A0D16 /* PumpManagerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpManagerScreen.swift; sourceTree = "<group>"; };
+		EC8EEAC82CEC8B45008A0D16 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		EC8EEACA2CEC8CFE008A0D16 /* SystemSettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsScreen.swift; sourceTree = "<group>"; };
+		EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSteps.swift; sourceTree = "<group>"; };
+		EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSteps.swift; sourceTree = "<group>"; };
+		EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSteps.swift; sourceTree = "<group>"; };
+		EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpManagerSteps.swift; sourceTree = "<group>"; };
+		EC8EEAD62CEF3537008A0D16 /* CGMManagerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGMManagerScreen.swift; sourceTree = "<group>"; };
+		EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGMManagerSteps.swift; sourceTree = "<group>"; };
+		EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsSteps.swift; sourceTree = "<group>"; };
+		ECB1E3FC2CE60E520078108C /* TestSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSetup.swift; sourceTree = "<group>"; };
+		ECB1E3FE2CE60EC90078108C /* TidepoolLoopSharedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidepoolLoopSharedUITests.swift; sourceTree = "<group>"; };
+		ECB1E4022CE60FEC0078108C /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,14 +188,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		845C74662B7D7B2000F71F90 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				845C747B2B7D7EE600F71F90 /* LoopUITestingKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,8 +321,12 @@
 			isa = PBXGroup;
 			children = (
 				84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */,
-				845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */,
 				845C74762B7D7B3100F71F90 /* Screens */,
+				ECB1E4012CE60EDA0078108C /* Steps */,
+				ECB1E3FF2CE60EC90078108C /* Tests */,
+				EC8EEABF2CE63E25008A0D16 /* TestHelper.swift */,
+				ECB1E3FC2CE60E520078108C /* TestSetup.swift */,
+				ECB1E4022CE60FEC0078108C /* Utils.swift */,
 			);
 			path = TidepoolLoopUITests;
 			sourceTree = "<group>";
@@ -297,7 +334,15 @@
 		845C74762B7D7B3100F71F90 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				EC3C8BF22CF21ABB00666442 /* CarbsEntryScreen.swift */,
+				EC3C8BEE2CF20D2300666442 /* BolusScreen.swift */,
+				EC8EEAD62CEF3537008A0D16 /* CGMManagerScreen.swift */,
+				EC8EEAC42CEC85CE008A0D16 /* HomeScreen.swift */,
+				EC0875F32CF63FAF00748C3B /* Notifications.swift */,
 				845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */,
+				EC8EEAC62CEC8843008A0D16 /* PumpManagerScreen.swift */,
+				EC8EEAC82CEC8B45008A0D16 /* SettingsScreen.swift */,
+				EC8EEACA2CEC8CFE008A0D16 /* SystemSettingsScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -314,6 +359,31 @@
 				C1B2EE9E2A0C4F27001CF2FA /* NewCaregiverView.swift */,
 			);
 			path = Caregivers;
+			sourceTree = "<group>";
+		};
+		ECB1E3FF2CE60EC90078108C /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				ECB1E3FE2CE60EC90078108C /* TidepoolLoopSharedUITests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		ECB1E4012CE60EDA0078108C /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */,
+				EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */,
+				EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */,
+				EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */,
+				EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */,
+				EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */,
+				EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */,
+				EC0875F52CF6404400748C3B /* NotificationSteps.swift */,
+				EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */,
+				EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */,
+			);
+			path = Steps;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,7 +471,6 @@
 			buildConfigurationList = 845C746F2B7D7B2100F71F90 /* Build configuration list for PBXNativeTarget "TidepoolLoopUITests" */;
 			buildPhases = (
 				845C74652B7D7B2000F71F90 /* Sources */,
-				845C74662B7D7B2000F71F90 /* Frameworks */,
 				845C74672B7D7B2000F71F90 /* Resources */,
 			);
 			buildRules = (
@@ -549,8 +618,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */,
+				EC8EEAC12CEB62BA008A0D16 /* Utils.swift in Sources */,
+				EC0875F42CF63FB200748C3B /* Notifications.swift in Sources */,
+				EC8EEAD92CEF357A008A0D16 /* CGMManagerSteps.swift in Sources */,
+				EC8EEAC92CEC8B49008A0D16 /* SettingsScreen.swift in Sources */,
+				EC8EEAC02CEB5E9B008A0D16 /* TestHelper.swift in Sources */,
+				EC8EEAC52CEC85D0008A0D16 /* HomeScreen.swift in Sources */,
+				EC8EEAD72CEF353F008A0D16 /* CGMManagerScreen.swift in Sources */,
+				EC3C8BF32CF21AC800666442 /* CarbsEntryScreen.swift in Sources */,
 				845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */,
-				845C74782B7D7B3100F71F90 /* TidepoolLoopSharedUITests.swift in Sources */,
+				EC8EEAD12CEE2C40008A0D16 /* SettingsSteps.swift in Sources */,
+				EC8EEACB2CEC8D05008A0D16 /* SystemSettingsScreen.swift in Sources */,
+				EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */,
+				ECB1E3FD2CE60E740078108C /* TestSetup.swift in Sources */,
+				EC8EEAD32CEE4727008A0D16 /* PumpManagerSteps.swift in Sources */,
+				EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */,
+				EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */,
+				EC8EEAC72CEC884C008A0D16 /* PumpManagerScreen.swift in Sources */,
+				EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */,
+				EC0875F62CF6404900748C3B /* NotificationSteps.swift in Sources */,
+				EC3C8BEF2CF20D2700666442 /* BolusScreen.swift in Sources */,
+				ECB1E4002CE60EC90078108C /* TidepoolLoopSharedUITests.swift in Sources */,
+				EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -858,6 +948,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -865,6 +956,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tidepool.TidepoolLoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -883,6 +975,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -890,6 +983,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tidepool.TidepoolLoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -907,6 +1001,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
@@ -914,6 +1009,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tidepool.TidepoolLoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
