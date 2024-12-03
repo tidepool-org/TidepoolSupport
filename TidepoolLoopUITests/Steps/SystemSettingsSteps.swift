@@ -1,0 +1,21 @@
+//
+//  SystemSettingsSteps.swift
+//  TidepoolSupport
+//
+//  Created by Petr Žywczok on 21.11.2024.
+//
+import CucumberSwift
+
+func systemSettingsSteps() {
+    let systemSettingsScreen = SystemSettingsScreen()
+    
+    // MARK: Actions
+    
+    When("I (enable|disable) notifications and (enable|disable) critical alerts") { matches, _ in
+        systemSettings.launch()
+        systemSettingsScreen.openAppSettings(appName: "Tidepool Loop")
+        systemSettingsScreen.tapNotificationsButton()
+        systemSettingsScreen.toggleAllowNotifications(enableNotifications: matches[1] == "enable")
+        systemSettingsScreen.toggleCriticalAlerts(enableCriticalAlerts: matches[2] == "enable")
+    }
+}
