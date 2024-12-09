@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,9 +28,6 @@
 		1DFFB976271627470075AEAA /* TidepoolSupportPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB95B27150E460075AEAA /* TidepoolSupportPlugin.swift */; };
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
-		845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */; };
-		845C74782B7D7B3100F71F90 /* TidepoolLoopSharedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */; };
-		845C747B2B7D7EE600F71F90 /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = 845C747A2B7D7EE600F71F90 /* LoopUITestingKit */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
@@ -44,6 +41,19 @@
 		C1B2EEB52A0D2A12001CF2FA /* InvitationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEAE2A0D2A11001CF2FA /* InvitationViewModel.swift */; };
 		C1B2EEB82A0D2A12001CF2FA /* Caregiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEB12A0D2A12001CF2FA /* Caregiver.swift */; };
 		C1B2EEB92A0D2A12001CF2FA /* CaregiverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2EEB22A0D2A12001CF2FA /* CaregiverManager.swift */; };
+		EC0875F62CF6404900748C3B /* NotificationSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC0875F52CF6404400748C3B /* NotificationSteps.swift */; };
+		EC37EE9C2D073906009807CE /* CucumberSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EC37EE9B2D073906009807CE /* CucumberSwift */; };
+		EC37EEA32D073C3D009807CE /* Cucumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC37EEA22D073C3B009807CE /* Cucumber.swift */; };
+		EC37EEA62D075D29009807CE /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = EC37EEA52D075D29009807CE /* LoopUITestingKit */; };
+		EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */; };
+		EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */; };
+		EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */; };
+		EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */; };
+		EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */; };
+		EC8EEAD12CEE2C40008A0D16 /* SettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */; };
+		EC8EEAD32CEE4727008A0D16 /* PumpManagerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */; };
+		EC8EEAD92CEF357A008A0D16 /* CGMManagerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */; };
+		EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,8 +111,6 @@
 		1DFFB971271627430075AEAA /* TidepoolSupportPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TidepoolSupportPlugin.h; sourceTree = "<group>"; };
 		1DFFB97A2716382D0075AEAA /* OSLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
 		845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
-		845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TidepoolLoopSharedUITests.swift; sourceTree = "<group>"; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
 		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
 		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,7 +130,23 @@
 		C1B2EEAE2A0D2A11001CF2FA /* InvitationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvitationViewModel.swift; sourceTree = "<group>"; };
 		C1B2EEB12A0D2A12001CF2FA /* Caregiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Caregiver.swift; sourceTree = "<group>"; };
 		C1B2EEB22A0D2A12001CF2FA /* CaregiverManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaregiverManager.swift; sourceTree = "<group>"; };
+		EC0875F52CF6404400748C3B /* NotificationSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSteps.swift; sourceTree = "<group>"; };
+		EC37EE9D2D073BAD009807CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EC37EEA22D073C3B009807CE /* Cucumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cucumber.swift; sourceTree = "<group>"; };
+		EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BolusSteps.swift; sourceTree = "<group>"; };
+		EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsEntrySteps.swift; sourceTree = "<group>"; };
+		EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSteps.swift; sourceTree = "<group>"; };
+		EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSteps.swift; sourceTree = "<group>"; };
+		EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSteps.swift; sourceTree = "<group>"; };
+		EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSteps.swift; sourceTree = "<group>"; };
+		EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpManagerSteps.swift; sourceTree = "<group>"; };
+		EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGMManagerSteps.swift; sourceTree = "<group>"; };
+		EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsSteps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		EC37EE9E2D073BDA009807CE /* Features */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Features; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1DFFB92F27150D2C0075AEAA /* Frameworks */ = {
@@ -150,11 +174,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		845C74662B7D7B2000F71F90 /* Frameworks */ = {
+		ECFD2B6B2D070A2E00A54800 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				845C747B2B7D7EE600F71F90 /* LoopUITestingKit in Frameworks */,
+				EC37EEA62D075D29009807CE /* LoopUITestingKit in Frameworks */,
+				EC37EE9C2D073906009807CE /* CucumberSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,19 +312,13 @@
 		845C746A2B7D7B2100F71F90 /* TidepoolLoopUITests */ = {
 			isa = PBXGroup;
 			children = (
+				EC37EE9E2D073BDA009807CE /* Features */,
+				EC37EE9D2D073BAD009807CE /* Info.plist */,
 				84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */,
-				845C74742B7D7B3000F71F90 /* TidepoolLoopSharedUITests.swift */,
-				845C74762B7D7B3100F71F90 /* Screens */,
+				ECB1E4012CE60EDA0078108C /* Steps */,
+				EC37EEA22D073C3B009807CE /* Cucumber.swift */,
 			);
 			path = TidepoolLoopUITests;
-			sourceTree = "<group>";
-		};
-		845C74762B7D7B3100F71F90 /* Screens */ = {
-			isa = PBXGroup;
-			children = (
-				845C74732B7D7B3000F71F90 /* OnboardingScreen.swift */,
-			);
-			path = Screens;
 			sourceTree = "<group>";
 		};
 		C1B2EE992A0C4F12001CF2FA /* Caregivers */ = {
@@ -314,6 +333,23 @@
 				C1B2EE9E2A0C4F27001CF2FA /* NewCaregiverView.swift */,
 			);
 			path = Caregivers;
+			sourceTree = "<group>";
+		};
+		ECB1E4012CE60EDA0078108C /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */,
+				EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */,
+				EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */,
+				EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */,
+				EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */,
+				EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */,
+				EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */,
+				EC0875F52CF6404400748C3B /* NotificationSteps.swift */,
+				EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */,
+				EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */,
+			);
+			path = Steps;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -401,16 +437,20 @@
 			buildConfigurationList = 845C746F2B7D7B2100F71F90 /* Build configuration list for PBXNativeTarget "TidepoolLoopUITests" */;
 			buildPhases = (
 				845C74652B7D7B2000F71F90 /* Sources */,
-				845C74662B7D7B2000F71F90 /* Frameworks */,
 				845C74672B7D7B2000F71F90 /* Resources */,
+				ECFD2B6B2D070A2E00A54800 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				EC37EE9E2D073BDA009807CE /* Features */,
+			);
 			name = TidepoolLoopUITests;
 			packageProductDependencies = (
-				845C747A2B7D7EE600F71F90 /* LoopUITestingKit */,
+				EC37EE9B2D073906009807CE /* CucumberSwift */,
+				EC37EEA52D075D29009807CE /* LoopUITestingKit */,
 			);
 			productName = TidepoolLoopUITests;
 			productReference = 845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */;
@@ -451,7 +491,8 @@
 			);
 			mainGroup = 1DFFB92827150D2C0075AEAA;
 			packageReferences = (
-				845C743E2B7D689400F71F90 /* XCRemoteSwiftPackageReference "LoopUITestingKit" */,
+				EC37EE9A2D073906009807CE /* XCRemoteSwiftPackageReference "CucumberSwift" */,
+				EC37EEA42D075D29009807CE /* XCRemoteSwiftPackageReference "LoopUITestingKit" */,
 			);
 			productRefGroup = 1DFFB93327150D2C0075AEAA /* Products */;
 			projectDirPath = "";
@@ -549,8 +590,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				845C74772B7D7B3100F71F90 /* OnboardingScreen.swift in Sources */,
-				845C74782B7D7B3100F71F90 /* TidepoolLoopSharedUITests.swift in Sources */,
+				EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */,
+				EC8EEAD92CEF357A008A0D16 /* CGMManagerSteps.swift in Sources */,
+				EC8EEAD12CEE2C40008A0D16 /* SettingsSteps.swift in Sources */,
+				EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */,
+				EC8EEAD32CEE4727008A0D16 /* PumpManagerSteps.swift in Sources */,
+				EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */,
+				EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */,
+				EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */,
+				EC0875F62CF6404900748C3B /* NotificationSteps.swift in Sources */,
+				EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */,
+				EC37EEA32D073C3D009807CE /* Cucumber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,6 +756,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -735,6 +786,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -759,6 +811,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -781,6 +834,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -805,6 +859,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TidepoolSupportPlugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -832,6 +887,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TidepoolSupportPlugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -858,12 +914,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TidepoolLoopUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tidepool.TidepoolLoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -882,12 +942,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TidepoolLoopUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tidepool.TidepoolLoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -905,12 +969,16 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FUSE_BUILD_SCRIPT_PHASES = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TidepoolLoopUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tidepool.TidepoolLoopUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -995,6 +1063,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1019,6 +1088,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 75U4X84TEG;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1043,6 +1113,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TidepoolSupportPlugin/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1115,20 +1186,33 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		845C743E2B7D689400F71F90 /* XCRemoteSwiftPackageReference "LoopUITestingKit" */ = {
+		EC37EE9A2D073906009807CE /* XCRemoteSwiftPackageReference "CucumberSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tidepool-org/LoopUITestingKit.git";
+			repositoryURL = "https://github.com/Tyler-Keith-Thompson/CucumberSwift";
 			requirement = {
-				branch = main;
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+		EC37EEA42D075D29009807CE /* XCRemoteSwiftPackageReference "LoopUITestingKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tidepool-org/LoopUITestingKit";
+			requirement = {
+				branch = "petr/LOOP-5158-Add-screens-and-extensions";
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		845C747A2B7D7EE600F71F90 /* LoopUITestingKit */ = {
+		EC37EE9B2D073906009807CE /* CucumberSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 845C743E2B7D689400F71F90 /* XCRemoteSwiftPackageReference "LoopUITestingKit" */;
+			package = EC37EE9A2D073906009807CE /* XCRemoteSwiftPackageReference "CucumberSwift" */;
+			productName = CucumberSwift;
+		};
+		EC37EEA52D075D29009807CE /* LoopUITestingKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EC37EEA42D075D29009807CE /* XCRemoteSwiftPackageReference "LoopUITestingKit" */;
 			productName = LoopUITestingKit;
 		};
 /* End XCSwiftPackageProductDependency section */
