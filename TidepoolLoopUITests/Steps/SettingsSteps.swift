@@ -15,7 +15,8 @@ func settingsSteps()  {
     // MARK: Actions
     
      When("I open pump manager from settings") { _, _ in
-        settingsScreen.tapInsulinPump()
+         app.swipeUp()
+         settingsScreen.tapInsulinPump()
     }
     
      When("I open cgm manager from settings") { _, _ in

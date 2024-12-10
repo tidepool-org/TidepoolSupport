@@ -39,6 +39,6 @@ func commonSteps() {
     }
     
     When("I return to tidepool loop app") { _, _ in
-        systemSettingsScreen.tapReturnToTidepoolButton()
+        systemSettingsScreen.tapReturnToTidepoolButton(appName: appName)
     }
 }

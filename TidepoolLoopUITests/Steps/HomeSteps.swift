@@ -49,12 +49,12 @@ func homeSteps() {
     
     // MARK: Verifications
     
-    Then("closed loop displays") { _, _ in
-        XCTAssertTrue(homeScreen.hudStatusClosedLoopExists)
-    }
-    
-    Then("open loop displays") { _, _ in
-        XCTAssert(homeScreen.hudStatusOpenLoopExists)
+    Then("(open|closed) loop displays") { matches, _ in
+        if matches[1] == "closed" {
+            XCTAssertTrue(homeScreen.hudStatusClosedLoopExists)
+        } else {
+            XCTAssert(homeScreen.hudStatusOpenLoopExists)
+        }
     }
     
     Then("premeal button is (enabled|disabled)") { matches, _ in
@@ -65,7 +65,7 @@ func homeSteps() {
         XCTAssert(matches[1] == "on" ? homeScreen.closedLoopOnAlertTitleExists : homeScreen.closedLoopOffAlertTitleExists)
     }
     
-    Then("pump pill displays value {string}") { matches, _ in
+    Then("pump pill displays value \"(.*?)\"") { matches, _ in
         XCTAssert(homeScreen.getPumpPillValue().contains(matches[1]))
     }
 }

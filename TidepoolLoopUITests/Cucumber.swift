@@ -10,9 +10,12 @@ import LoopUITestingKit
 import XCTest
 import CucumberSwift
 
+
 let app = XCUIApplication(bundleIdentifier: ProcessInfo.processInfo.environment["bundleIdentifier"]!)
 let systemSettings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
 let springBoard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+
+var appName: String = ""
 
 extension Cucumber: StepImplementation {
     
@@ -27,11 +30,20 @@ extension Cucumber: StepImplementation {
     
     public func setupSteps() {
         BeforeScenario { scenario in
+            let bundleIdentifier = ProcessInfo.processInfo.environment["bundleIdentifier"]!
+            
             if !scenario.tags.isEmpty {
                 Swift.print(scenario.tags.map { "@\($0)" }.joined(separator: " "))
             }
             Swift.print("Scenario: \(scenario.title)")
-            app.uninstall()
+            appName = switch bundleIdentifier {
+                case "org.tidepool.Loop": "Tidepool Loop"
+                case "org.tidepool.coastal.Loop": "Tidepool Loop Coastal"
+                case "org.tidepool.diy.Loop": "TidepoolLoopDIY"
+                default: "Bundle Identifier \(bundleIdentifier) has no associated app name."
+            }
+            if appName.contains("no associated app name") { XCTFail(appName) }
+            app.uninstall(appName: appName)
         }
         
         carbsEntrySteps()
