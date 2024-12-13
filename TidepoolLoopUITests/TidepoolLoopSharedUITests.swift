@@ -69,6 +69,9 @@ final class TidepoolLoopSharedUITests: XCTestCase {
         waitForExistence(settingsScreen.alertPermissionsCriticalAlertsEnabled)
     }
     
+    // [LOOP-5056] TEMPORARILY DISABLED UNTIL PRESETS 2.0 WORK IS COMPLETE.
+    // [LOOP-5056] ACCESSIBILITY IDENTIFIERS WILL NEED TO BE UPDATED FOR THE NEW TOOLBAR UI.
+    // [LOOP-5056] TO BE MIGRATED TO CUCUMBER
     // https://tidepool.atlassian.net/browse/LOOP-1713
 //    func testConfigureClosedLoopManagement() {
 //        waitForExistence(homeScreen.hudStatusClosedLoop)
