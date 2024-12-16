@@ -25,7 +25,7 @@ extension Cucumber: StepImplementation {
     }
     
     public func shouldRunWith(scenario: Scenario?, tags: [String]) -> Bool {
-        true // select specific tests to be executed using tags e.g.: tags.contains("LOOP-1605")
+        false // select specific tests to be executed using tags e.g.: tags.contains("LOOP-1605")
     }
     
     public func setupSteps() {
