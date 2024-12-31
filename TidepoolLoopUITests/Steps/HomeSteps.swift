@@ -19,6 +19,10 @@ func homeSteps() {
         homeScreen.tapSettingsButton()
     }
     
+    When("I open Presets") { _, _ in
+        homeScreen.tapPresetsTabButton()
+    }
+    
     When("I initiate premeal setup") { _, _ in
         homeScreen.tapPreMealButton()
     }

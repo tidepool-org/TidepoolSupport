@@ -1,6 +1,7 @@
 Feature: Shared Tests
 
-Scenario: Skipping Onboarding Leads To Homepage With Simulators
+@LOOP-1561
+Scenario: Skip All Onboarding from the Tidepool Loop launch screen & onboard simulators from fresh Install
     Given app is launched
     When I skip all of onboarding
     Then closed loop displays
@@ -39,6 +40,7 @@ Scenario: Alert Settings UI
 Scenario: Configure Closed Loop Management
     Given app is launched and intialy setup
     Then closed loop displays
+    When I open Presets
     When I initiate premeal setup
       And I cancel premeal dialog
       And I open settings

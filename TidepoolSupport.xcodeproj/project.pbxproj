@@ -54,6 +54,7 @@
 		EC8EEAD32CEE4727008A0D16 /* PumpManagerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */; };
 		EC8EEAD92CEF357A008A0D16 /* CGMManagerSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */; };
 		EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */; };
+		ECF771E72D22888D00E3C8FF /* TherapySettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +143,7 @@
 		EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpManagerSteps.swift; sourceTree = "<group>"; };
 		EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGMManagerSteps.swift; sourceTree = "<group>"; };
 		EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsSteps.swift; sourceTree = "<group>"; };
+		ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapySettingsSteps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -338,6 +340,7 @@
 		ECB1E4012CE60EDA0078108C /* Steps */ = {
 			isa = PBXGroup;
 			children = (
+				ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */,
 				EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */,
 				EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */,
 				EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */,
@@ -600,6 +603,7 @@
 				EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */,
 				EC0875F62CF6404900748C3B /* NotificationSteps.swift in Sources */,
 				EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */,
+				ECF771E72D22888D00E3C8FF /* TherapySettingsSteps.swift in Sources */,
 				EC37EEA32D073C3D009807CE /* Cucumber.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1198,7 +1202,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tidepool-org/LoopUITestingKit";
 			requirement = {
-				branch = main;
+				branch = "petr/QAE-446-Add-test-Therapy-settings-overview";
 				kind = branch;
 			};
 		};

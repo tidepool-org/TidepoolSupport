@@ -22,7 +22,7 @@ func bolusSteps() {
     When("I set bolus value {float}") { matches, _ in
         bolusScreen.tapBolusEntryTextField()
         bolusScreen.clearBolusEntryTextField()
-        bolusScreen.setBolusEntryTextField(value: try String(matches.first(\.float)).replacing(".", with: ","))
+        bolusScreen.setBolusEntryTextField(value: try String(matches.first(\.float)).replacing(",", with: "."))
         bolusScreen.tapKeyboardDoneButton()
     }
     
