@@ -47,6 +47,8 @@
 		EC37EEA62D075D29009807CE /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = EC37EEA52D075D29009807CE /* LoopUITestingKit */; };
 		EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */; };
 		EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */; };
+		EC7D4DC62D37D0B800FCEE43 /* GlucoseSafetyLimitSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */; };
+		EC7D4DC82D37F00000FCEE43 /* CorrectionRangeSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeSteps.swift */; };
 		EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */; };
 		EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */; };
 		EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */; };
@@ -136,6 +138,8 @@
 		EC37EEA22D073C3B009807CE /* Cucumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cucumber.swift; sourceTree = "<group>"; };
 		EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BolusSteps.swift; sourceTree = "<group>"; };
 		EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsEntrySteps.swift; sourceTree = "<group>"; };
+		EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSafetyLimitSteps.swift; sourceTree = "<group>"; };
+		EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionRangeSteps.swift; sourceTree = "<group>"; };
 		EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSteps.swift; sourceTree = "<group>"; };
 		EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSteps.swift; sourceTree = "<group>"; };
 		EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSteps.swift; sourceTree = "<group>"; };
@@ -337,9 +341,19 @@
 			path = Caregivers;
 			sourceTree = "<group>";
 		};
+		EC7D4DC42D37D09900FCEE43 /* TherapySettings */ = {
+			isa = PBXGroup;
+			children = (
+				EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeSteps.swift */,
+				EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */,
+			);
+			path = TherapySettings;
+			sourceTree = "<group>";
+		};
 		ECB1E4012CE60EDA0078108C /* Steps */ = {
 			isa = PBXGroup;
 			children = (
+				EC7D4DC42D37D09900FCEE43 /* TherapySettings */,
 				ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */,
 				EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */,
 				EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */,
@@ -597,6 +611,7 @@
 				EC8EEAD92CEF357A008A0D16 /* CGMManagerSteps.swift in Sources */,
 				EC8EEAD12CEE2C40008A0D16 /* SettingsSteps.swift in Sources */,
 				EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */,
+				EC7D4DC62D37D0B800FCEE43 /* GlucoseSafetyLimitSteps.swift in Sources */,
 				EC8EEAD32CEE4727008A0D16 /* PumpManagerSteps.swift in Sources */,
 				EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */,
 				EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */,
@@ -605,6 +620,7 @@
 				EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */,
 				ECF771E72D22888D00E3C8FF /* TherapySettingsSteps.swift in Sources */,
 				EC37EEA32D073C3D009807CE /* Cucumber.swift in Sources */,
+				EC7D4DC82D37F00000FCEE43 /* CorrectionRangeSteps.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1202,7 +1218,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tidepool-org/LoopUITestingKit";
 			requirement = {
-				branch = "petr/QAE-446-Add-test-Therapy-settings-overview";
+				branch = main;
 				kind = branch;
 			};
 		};

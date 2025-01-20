@@ -44,18 +44,21 @@ extension Cucumber: StepImplementation {
             }
             if appName.contains("no associated app name") { XCTFail(appName) }
             app.uninstall(appName: appName)
+            app.launchArguments = ["-AppleLanguages", "(en-US)", "-AppleLocale", "\"en-US\""]
         }
         
-        carbsEntrySteps()
         bolusSteps()
-        systemSettingsSteps()
+        carbsEntrySteps()
         cGMManagerSteps()
-        pumpManagerSteps()
-        settingsSteps()
+        commonSteps()
+        correctionRangeSteps()
+        glucoseSafetyLimitSteps()
         homeSteps()
         notificationSteps()
         onboardingSteps()
-        commonSteps()
+        pumpManagerSteps()
+        settingsSteps()
+        systemSettingsSteps()
         therapySettingsSteps()
     }
 }
