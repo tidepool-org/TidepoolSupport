@@ -20,14 +20,15 @@ func bolusSteps() {
     }
     
     When("I set bolus value {float}") { matches, _ in
+        if bolusScreen.getBolusActionButtonLabel.contains("Enter Bolus") { bolusScreen.tapBolusActionButton() }
         bolusScreen.tapBolusEntryTextField()
         bolusScreen.clearBolusEntryTextField()
-        bolusScreen.setBolusEntryTextField(value: try String(matches.first(\.float)).replacing(".", with: ","))
+        bolusScreen.setBolusEntryTextField(value: try String(matches.first(\.float)).replacing(",", with: "."))
         bolusScreen.tapKeyboardDoneButton()
     }
     
     When("I deliver and authenticate bolus") { _, _ in
-        bolusScreen.tapDeliverBolusButton()
+        bolusScreen.tapBolusActionButton()
         bolusScreen.setPasscode()
     }
     

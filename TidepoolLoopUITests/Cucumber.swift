@@ -25,7 +25,7 @@ extension Cucumber: StepImplementation {
     }
     
     public func shouldRunWith(scenario: Scenario?, tags: [String]) -> Bool {
-        false // select specific tests to be executed using tags e.g.: tags.contains("LOOP-1605")
+        true // select specific tests to be executed using tags e.g.: tags.contains("LOOP-1605")
     }
     
     public func setupSteps() {
@@ -44,17 +44,21 @@ extension Cucumber: StepImplementation {
             }
             if appName.contains("no associated app name") { XCTFail(appName) }
             app.uninstall(appName: appName)
+            app.launchArguments = ["-AppleLanguages", "(en-US)", "-AppleLocale", "\"en-US\""]
         }
         
-        carbsEntrySteps()
         bolusSteps()
-        systemSettingsSteps()
+        carbsEntrySteps()
         cGMManagerSteps()
-        pumpManagerSteps()
-        settingsSteps()
+        commonSteps()
+        correctionRangeSteps()
+        glucoseSafetyLimitSteps()
         homeSteps()
         notificationSteps()
         onboardingSteps()
-        commonSteps()
+        pumpManagerSteps()
+        settingsSteps()
+        systemSettingsSteps()
+        therapySettingsSteps()
     }
 }

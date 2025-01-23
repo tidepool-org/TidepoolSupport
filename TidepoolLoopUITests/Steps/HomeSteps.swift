@@ -19,16 +19,12 @@ func homeSteps() {
         homeScreen.tapSettingsButton()
     }
     
-    When("I initiate premeal setup") { _, _ in
-        homeScreen.tapPreMealButton()
+    When("I open Presets") { _, _ in
+        homeScreen.tapPresetsTabButton()
     }
     
-    When("I cancel premeal dialog") { _, _ in
-        homeScreen.tapPreMealDialogCancelButton()
-    }
-    
-    When("I tap (closed|open) loop icon") { matches, _ in
-        matches[1] == "closed" ? homeScreen.tapLoopStatusClosed() : homeScreen.tapLoopStatusOpen()
+    When(/^I tap (closed|open) loop icon$/) { matches, _ in
+        matches.1 == "closed" ? homeScreen.tapLoopStatusClosed() : homeScreen.tapLoopStatusOpen()
     }
     
     When("I dismiss closed loop status alert") { _, _ in
@@ -49,23 +45,24 @@ func homeSteps() {
     
     // MARK: Verifications
     
-    Then("(open|closed) loop displays") { matches, _ in
-        if matches[1] == "closed" {
+    Then(/^glucose chart caret (doesn't display|displays)$/) { matches, _ in
+        XCTAssertTrue((matches.1 == "displays") == homeScreen.navigateToGlucoseDetailsImageExists)
+    }
+    
+    Then(/^(open|closed) loop displays$/) { matches, _ in
+        if matches.1 == "closed" {
             XCTAssertTrue(homeScreen.hudStatusClosedLoopExists)
         } else {
+            sleep(3)
             XCTAssert(homeScreen.hudStatusOpenLoopExists)
         }
     }
     
-    Then("premeal button is (enabled|disabled)") { matches, _ in
-        XCTAssertEqual(matches[1] == "enabled", homeScreen.preMealButtonEnabled)
+    Then(/^closed loop (on|off) alert displays$/) { matches, _ in
+        XCTAssert(matches.1 == "on" ? homeScreen.closedLoopOnAlertTitleExists : homeScreen.closedLoopOffAlertTitleExists)
     }
     
-    Then("closed loop (on|off) alert displays") { matches, _ in
-        XCTAssert(matches[1] == "on" ? homeScreen.closedLoopOnAlertTitleExists : homeScreen.closedLoopOffAlertTitleExists)
-    }
-    
-    Then("pump pill displays value \"(.*?)\"") { matches, _ in
-        XCTAssert(homeScreen.getPumpPillValue().contains(matches[1]))
+    Then(/^pump pill displays value \"(.*?)\"$/) { matches, _ in
+        XCTAssert(homeScreen.getPumpPillValue().contains(matches.1))
     }
 }

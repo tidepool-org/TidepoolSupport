@@ -1,6 +1,7 @@
 Feature: Shared Tests
 
-Scenario: Skipping Onboarding Leads To Homepage With Simulators
+@LOOP-1561
+Scenario: Skip All Onboarding from the Tidepool Loop launch screen & onboard simulators from fresh Install
     Given app is launched
     When I skip all of onboarding
     Then closed loop displays
@@ -39,13 +40,11 @@ Scenario: Alert Settings UI
 Scenario: Configure Closed Loop Management
     Given app is launched and intialy setup
     Then closed loop displays
-    When I initiate premeal setup
-      And I cancel premeal dialog
-      And I open settings
+    When I open settings
       And I turn off closed loop
       And I close settings screen
     Then open loop displays
-      And premeal button is disabled
+      And glucose chart caret doesn't display
     When I tap open loop icon
     Then closed loop off alert displays
     When I dismiss closed loop status alert
@@ -59,7 +58,7 @@ Scenario: Configure Closed Loop Management
       And I turn on closed loop
       And I close settings screen
     Then closed loop displays
-      And premeal button is enabled
+      And glucose chart caret displays
     When I tap closed loop icon
     Then closed loop displays
     When I dismiss closed loop status alert

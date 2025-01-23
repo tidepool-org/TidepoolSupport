@@ -24,6 +24,22 @@ func onboardingSteps() {
         skipOnboarding()
     }
     
+    When("I skip onboarding to Therapy Settings") { _, _ in
+        skipWelcomScreen()
+        onboardingScreen.tapForDurationDayInLife()
+        onboardingScreen.tapConfirmSkipOnboarding()
+    }
+    
+    When("I navigate to Therapy Settings from onboarding") { _, _ in
+        onboardingScreen.tapYourSettingsButton()
+        onboardingScreen.tapForDurationYourSettingsTitle()
+        onboardingScreen.tapConfirmSkipOnboarding()
+        app.swipeUp()
+        onboardingScreen.tapContinueYourSettingsButton()
+    }
+    
+    // MARK: Helpers
+    
     func skipOnboarding() {
         for _ in 1...3 {
             onboardingScreen.tapForDurationWelcomTitle()
@@ -32,5 +48,12 @@ func onboardingSteps() {
                 break
             }
         }
+    }
+    
+    func skipWelcomScreen() {
+        for _ in 1...6 {
+            onboardingScreen.tapContinueButton()
+        }
+        onboardingScreen.tapFinishButton()
     }
 }
