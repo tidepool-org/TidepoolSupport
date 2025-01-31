@@ -19,7 +19,7 @@ Scenario: Skip All Onboarding from the Tidepool Loop launch screen & onboard sim
 Scenario: Alert Settings UI
     Given app is launched and intialy setup
     When I disable notifications and disable critical alerts
-      And I switch to tidepool loop app
+      And I return to tidepool loop app
       And I open settings
     Then alert warning image displays
     When I open alert management
