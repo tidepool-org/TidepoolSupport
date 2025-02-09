@@ -116,3 +116,22 @@ Scenario: Pump Error And State Handling - Status Bar Displays
       And I navigate back to pump manager
       And I close pump manager
     Then pump pill displays value "Pump Error"
+
+@LOOP-1767
+Scenario: View Pump Status
+    Given app is launched and intialy setup
+    When I open settings
+    Then settings screen displays
+    When I open pump manager from settings
+    Then pump settings displays
+    And pump status card displays
+    When I select Done
+    Then settings screen displays
+    When I select Done
+    Then Home screen displays
+    When I select pump icon
+    Then pump settings displays
+    And pump status card displays
+    
+    
+
