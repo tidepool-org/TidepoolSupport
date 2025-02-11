@@ -22,25 +22,27 @@ func correctionRangeSteps() {
         }
     }
     
-    When("I add new correction range schedule item") { _, step in
-        let tableHeader = step.dataTable!.rows[0]
-        let tableData = step.dataTable!.rows[1]
-        guard let timeIndex = tableHeader.firstIndex(where: {$0.contains("Time")}) else {
-            return XCTFail("'Time' attribute not set.")
-        }
-        guard let minValIndex = tableHeader.firstIndex(where: {$0.contains("MinValue")}) else {
-            return XCTFail("'MinValue' attribute not set.")
-        }
-        guard let maxValIndex = tableHeader.firstIndex(where: {$0.contains("MaxValue")}) else {
-            return XCTFail("'MaxValue' attribute not set.")
+    When(/^I add new (Correction Range|Carb Ratios) schedule item$/) { matches, step in
+        let isCarbRatios = matches.1 == "Carb Ratios"
+        var valuesMap = [String: String]()
+        
+        for (index, key) in step.dataTable!.rows[0].enumerated() {
+            valuesMap[key] = step.dataTable!.rows[1][index]
         }
         
         therapySettingsScreen.tapAddButton()
-        therapySettingsScreen.setScheduleItemValues(time: tableData[timeIndex], minValue: tableData[minValIndex], maxValue: tableData[maxValIndex])
+        therapySettingsScreen.setScheduleItemValues(
+            [
+                (valuesMap["Time"] ?? "", 0),
+                (valuesMap[isCarbRatios ? "WholeNumber" : "MinValue"] ?? "", 1),
+                (valuesMap[isCarbRatios ? "Decimal" : "MaxValue"] ?? "", 2)
+            ]
+        )
         therapySettingsScreen.tapAddNewEntryButton()
     }
     
-    When(/^I edit (\d+)(st|nd|rd|th) scheduled item$/) { matches, step in
+    When(/^I edit (\d+)(st|nd|rd|th) scheduled item of (Correction Range|Carb Ratios)$/) { matches, step in
+        let isCarbRatios = matches.3 == "Carb Ratios"
         var valuesMap = [String: String]()
         
         for (index, key) in step.dataTable!.rows[0].enumerated() {
@@ -48,12 +50,14 @@ func correctionRangeSteps() {
         }
         
         if !therapySettingsScreen.pickerWheelExists {
-            therapySettingsScreen.tapScheduleItem(itemIndex: Int(matches.1)! - 1)
+            therapySettingsScreen.tapScheduleItem(Int(matches.1)! - 1)
         }
         therapySettingsScreen.setScheduleItemValues(
-            time: valuesMap["Time"] ?? "",
-            minValue: valuesMap["MinValue"] ?? "",
-            maxValue: valuesMap["MaxValue"] ?? ""
+            [
+                (valuesMap["Time"] ?? "", 0),
+                (valuesMap[isCarbRatios ? "WholeNumber" : "MinValue"] ?? "", 1),
+                (valuesMap[isCarbRatios ? "Decimal" : "MaxValue"] ?? "", 2)
+            ]
         )
     }
     
@@ -64,9 +68,13 @@ func correctionRangeSteps() {
     
     //MARK: Verifications
     
-    Then(/^correction range of (\d+)(st|nd|rd|th) scheduled item displays values$/) { matches, step in
-        let scheduleItemText = therapySettingsScreen.getScheduleItemText(itemIndex: Int(matches.1)! - 1)
-        let scheduleItemKeys = ["Time", "MinValue", "Delimiter", "MaxValue", "Units"]
+    Then(/^(correction range|pre-meal preset|workout preset) of (\d+)(st|nd|rd|th) scheduled item displays values$/)
+    { matches, step in
+        let firstItemKey = matches.1 == "correction range" ? "Time" : "Title"
+        let scheduledItemIndex = matches.1 != "correction range" ? nil : Int(matches.2)! - 1
+        
+        let scheduleItemText = therapySettingsScreen.getScheduleItemText(scheduledItemIndex)
+        let scheduleItemKeys = [firstItemKey, "MinValue", "Delimiter", "MaxValue", "Units"]
         let scheduleItemValues = scheduleItemText.split(separator: ", ")
         var actualValues = [String: String]()
         var expectedValues = [String: String]()
@@ -82,14 +90,14 @@ func correctionRangeSteps() {
         }
     }
     
-    Then(/^Correction Values message appears with warning indicators$/) { _, step in
+    Then(/^(Correction|Pre-Meal|Workout) Values message appears with warning indicators$/) { matches, step in
         let tableHeader = step.dataTable!.rows[0]
         let tableData = step.dataTable!.rows[1]
         let messageIndicator = tableHeader.firstIndex(where: {$0.contains("MessageIndicator")})
         let minValIndex = tableHeader.firstIndex(where: {$0.contains("MinValue")})
         let maxValIndex = tableHeader.firstIndex(where: {$0.contains("MaxValue")})
         
-        XCTAssertEqual("Correction Values", therapySettingsScreen.getGuardrailWarningValue)
+        XCTAssertEqual("\(matches.1) Values", therapySettingsScreen.getGuardrailWarningValue)
         
         if messageIndicator != nil {
             let warningMessage = "warning triangle does not display."
@@ -134,42 +142,28 @@ func correctionRangeSteps() {
         }
     }
     
-    Then(/^Correction Range information screen displays with possible actions$/) { _, step in
-        XCTAssertTrue(therapySettingsScreen.correctionRangeInformationTextExists)
-        
-        for action in step.dataTable!.rows {
-            switch action[0] {
-            case "Close": XCTAssertTrue(onboardingScreen.closeButtonExists)
-            default: XCTFail("Action '\(action[0])' is not implemented for verification yet.")
-            }
-        }
-    }
-    
-    Then(/^Correction Range edit screen displays with possible actions$/) { _, step in
-        for action in step.dataTable!.rows {
-            switch action[0] {
-            case "<Back": XCTAssertTrue(onboardingScreen.backButtonExists)
-            case "Edit": XCTAssertTrue(therapySettingsScreen.editButtonExists)
-            case "Add": XCTAssertTrue(therapySettingsScreen.addButtonExists)
-            case "Confirm Setting": XCTAssertTrue(therapySettingsScreen.confirmSaveButtonExists)
-            case "Information": XCTAssertTrue(therapySettingsScreen.infoCircleButtonExists)
-            default: XCTFail("Action '\(action[0])' is not implemented for verification yet.")
-            }
-        }
-    }
-    
-    Then(/^Correction Range section on Therapy Settings screen displays$/) { _, step in
+    Then(/^(Correction Range|Pre-Meal Preset|Workout Preset) section on Therapy Settings screen displays$/)
+    { matches, step in
+        let firstItemKey = matches.1 == "Correction Range" ? "Time" : "Title"
         let tableHeader = step.dataTable!.rows[0]
-        let scheduleItemTexts = therapySettingsScreen.getCorrectionRangeValues
-        let scheduleItemKeys = ["Time", "MinValue", "Delimiter", "MaxValue", "Units"]
+        let tableData = step.dataTable!.rows.dropFirst()
+        let scheduleItemTexts = switch matches.1 {
+        case "Correction Range": therapySettingsScreen.getCorrectionRangeValues
+        case "Pre-Meal Preset": [therapySettingsScreen.getPreMealPresetValue]
+        case "Workout Preset": [therapySettingsScreen.getWorkoutPresetValue]
+        default: [""]
+        }
+        let scheduleItemKeys = [firstItemKey, "MinValue", "Delimiter", "MaxValue", "Units"]
         var scheduleItemValues = [String]()
         var expectedValuesMap = [String: [String]]()
         var actualValuesMap = [String: [String]]()
         
+        if scheduleItemTexts == [""] { XCTFail("Section '\(matches.1)' is not supported by test framework yet.") }
+        
         for (index, key) in tableHeader.enumerated() {
             var arrayValue = [String]()
             
-            for row in step.dataTable!.rows.dropFirst() {
+            for row in tableData {
                 arrayValue.append(row[index].isEmpty ? "nil" : row[index])
             }
             expectedValuesMap[key] = arrayValue
@@ -183,7 +177,7 @@ func correctionRangeSteps() {
             actualValuesMap[key] = arrayValue
         }
         for key in tableHeader {
-            for index in 0..<expectedValuesMap.count {
+            for index in 0..<tableData.count {
                 let expectedValue = expectedValuesMap[key]![index]
                 
                 if expectedValue != "nil" {

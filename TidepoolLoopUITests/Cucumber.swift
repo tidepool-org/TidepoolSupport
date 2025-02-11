@@ -49,6 +49,7 @@ extension Cucumber: StepImplementation {
         
         bolusSteps()
         carbsEntrySteps()
+        carbRatiosSteps()
         cGMManagerSteps()
         commonSteps()
         correctionRangeSteps()
@@ -56,6 +57,7 @@ extension Cucumber: StepImplementation {
         homeSteps()
         notificationSteps()
         onboardingSteps()
+        preMealPreset()
         pumpManagerSteps()
         settingsSteps()
         systemSettingsSteps()

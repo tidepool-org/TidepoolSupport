@@ -19,26 +19,18 @@ func therapySettingsSteps() {
     
     //MARK: Actions
     
-    When(/^I navigate to (Glucose Safety Limit|Correction Range) (edit|educational) screen$/) { matches, _ in
+    When(
+        /^I navigate to (.*) (edit|educational) screen$/
+    ) { matches, _ in
         if onboardingScreen.yourSettingsButtonIsHittable {
             onboardingScreen.tapYourSettingsButton()
             onboardingScreen.tapForDurationYourSettingsTitle()
             onboardingScreen.tapConfirmSkipOnboarding()
             onboardingScreen.tapContinueYourSettingsButton()
             onboardingScreen.tapContinueButton()
-            onboardingScreen.tapContinueButton()
         }
-        
-        switch matches.1 {
-        case "Correction Range":
-            therapySettingsScreen.tapConfirmSaveButton()
-            if therapySettingsScreen.glucoseSafetyLimitAlertExists {
-                therapySettingsScreen.tapContinueAlertButton()
-            }
-            if matches.2 == "edit" { onboardingScreen.tapContinueButton() }
-        default:
-            break
-        }
+
+        navigateToNextSettingsScreen(String(matches.1), String(matches.2))
     }
     
     When(/^I tap Edit$/) { _, _ in
@@ -49,7 +41,7 @@ func therapySettingsSteps() {
         therapySettingsScreen.tapConfirmSaveButton()
     }
     
-    When(/^I confirm and save correction range$/) { _, _ in
+    When(/^I confirm and save settings$/) { _, _ in
         therapySettingsScreen.tapConfirmSaveButton()
         therapySettingsScreen.tapContinueAlertButton()
     }
@@ -118,6 +110,10 @@ func therapySettingsSteps() {
         settingsScreen.tapTherapySettingsButton()
     }
     
+    When(/^I tap Presets$/) { _, _ in
+        settingsScreen.tapPresetsButton()
+    }
+    
     When(/^I tap information circle$/) { _, _ in
         therapySettingsScreen.tapInfoCircleButton()
     }
@@ -127,10 +123,43 @@ func therapySettingsSteps() {
     }
     
     When(/^I close information screen$/) { _, _ in
-        onboardingScreen.tapCloseButton()
+        therapySettingsScreen.tapCloseButton()
     }
 
     //MARK: Verifications
+    
+    Then(/^(.*) information screen displays with possible actions$/) { matches, step in
+        switch matches.1 {
+        case "Correction Range": XCTAssertTrue(therapySettingsScreen.correctionRangeInformationTextExists)
+        case "Pre-Meal Preset": XCTAssertTrue(therapySettingsScreen.preMealPresetInformationTextExists)
+        case "Workout Preset": XCTAssertTrue(therapySettingsScreen.workoutPresetInformationTextExists)
+        case "Carb Ratios": XCTAssertTrue(therapySettingsScreen.carbRatiosInformationTextExists)
+        default: XCTFail("Information screen '\(matches.1)' is not implemented for verification yet.")
+        }
+        
+        for action in step.dataTable!.rows {
+            switch action[0] {
+            case "Close": XCTAssertTrue(onboardingScreen.closeButtonExists)
+            default: XCTFail("Action '\(action[0])' is not implemented for verification yet.")
+            }
+        }
+    }
+    
+    Then(/^(.*) edit screen displays with possible actions$/) { matches, step in
+        XCTAssertEqual(String(matches.1), therapySettingsScreen.getTherapySettingsTitleText)
+        
+        for action in step.dataTable!.rows {
+            switch action[0] {
+            case "<Back": XCTAssertTrue(onboardingScreen.backButtonExists)
+            case "Edit": XCTAssertTrue(therapySettingsScreen.editButtonExists)
+            case "Add": XCTAssertTrue(therapySettingsScreen.addButtonExists)
+            case "Confirm Setting": XCTAssertTrue(therapySettingsScreen.confirmSaveButtonExists)
+            case "Information": XCTAssertTrue(therapySettingsScreen.infoCircleButtonExists)
+            case "Close": XCTAssertTrue(onboardingScreen.closeButtonExists)
+            default: XCTFail("Action '\(action[0])' is not implemented for verification yet.")
+            }
+        }
+    }
     
     Then(/^value for picker wheel(s|) (is|are) set to$/) { _, step in
         let tableHeader = step.dataTable!.rows[0]
@@ -160,16 +189,19 @@ func therapySettingsSteps() {
     }
     
     Then(/^alert '(.*)' appears$/) { matches, _ in
-        let alertExists = if matches.1 == "Save Glucose Safety Limit?" {
-            therapySettingsScreen.glucoseSafetyLimitAlertExists
-        } else if matches.1 == "Save Correction Range(s)?" {
-            therapySettingsScreen.correctionRangeAlertTitleTextExists
-        } else { false }
+        let failedMessage = "Alert message '\(matches.1)' does not appear."
         
-        alertExists ? XCTAssertTrue(alertExists) : XCTFail("Alert message '\(matches.1)' does not appear.")
+        switch matches.1 {
+        case "Save Glucose Safety Limit?": XCTAssert(therapySettingsScreen.glucoseSafetyLimitAlertExists, failedMessage)
+        case "Save Correction Range(s)?": XCTAssert(therapySettingsScreen.correctionRangeAlertTitleTextExists, failedMessage)
+        case "Save Pre-Meal Range?": XCTAssert(therapySettingsScreen.preMealRangeAlertTitleTextExists, failedMessage)
+        case "Save Workout Range?": XCTAssert(therapySettingsScreen.workoutRangeAlertTitleTextExists, failedMessage)
+        case "Save Carb Ratios?": XCTAssert(therapySettingsScreen.carbRatiosAlertTitleTextExists)
+        default: XCTFail("This alert is not supported by test framework yet.")
+        }
     }
     
-    Then(/^(Low|High) (Glucose Safety Limit|Correction Value) message appears with (red|orange) warning indicators$/) { matches, _ in
+    Then(/^(Low|High) (.*) message appears with (red|orange) warning indicators$/) { matches, _ in
         XCTAssertEqual("\(matches.1) \(matches.2)", therapySettingsScreen.getGuardrailWarningValue)
                 
         if matches.3 == "red" {
@@ -179,6 +211,13 @@ func therapySettingsSteps() {
             XCTAssertTrue(therapySettingsScreen.nextToTextWarningTriangleOrangeImageExists)
             XCTAssertTrue(therapySettingsScreen.guardRailOrangeWarningTriangleImageExists)
         }
+    }
+    
+    Then(/^no warning message displays$/) { matches, _ in
+        XCTAssertFalse(
+            therapySettingsScreen.guardrailWarningTextExists,
+            "Warning message '\(therapySettingsScreen.getGuardrailWarningValue)' displays."
+        )
     }
     
     Then(/^Therapy Settings screen displays$/) { _, step in
@@ -288,5 +327,21 @@ func therapySettingsSteps() {
         
         let range = NSRange(location: 0, length: string.utf16.count)
         return regex.firstMatch(in: string, range: range) != nil
+    }
+    
+    func navigateToNextSettingsScreen(_ screenName: String, _ screenType: String) {
+        var maxAttempts = 9
+        
+        while therapySettingsScreen.getTherapySettingsEducationTitleText != screenName {
+            if maxAttempts == 0 { break }
+            
+            onboardingScreen.tapContinueButton()
+            therapySettingsScreen.tapConfirmSaveButton()
+            if therapySettingsScreen.glucoseSafetyLimitAlertExists { therapySettingsScreen.tapContinueAlertButton() }
+            
+            maxAttempts -= 1
+        }
+        
+        if screenType == "edit" { onboardingScreen.tapContinueButton() }
     }
 }
