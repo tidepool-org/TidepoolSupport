@@ -1218,8 +1218,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Tyler-Keith-Thompson/CucumberSwift";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.2;
+				kind = exactVersion;
+				version = 5.0.2;
 			};
 		};
 		EC37EEA42D075D29009807CE /* XCRemoteSwiftPackageReference "LoopUITestingKit" */ = {
