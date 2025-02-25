@@ -9,7 +9,7 @@ import CucumberSwift
 import LoopUITestingKit
 import XCTest
 
-func correctionRangeSteps() {
+func correctionRangeCarbRatiosSteps() {
     let therapySettingsScreen = TherapySettingsScreen(app: app)
     let onboardingScreen = OnboardingScreen(app: app)
     
@@ -22,8 +22,8 @@ func correctionRangeSteps() {
         }
     }
     
-    When(/^I add new (Correction Range|Carb Ratios) schedule item$/) { matches, step in
-        let isCarbRatios = matches.1 == "Carb Ratios"
+    When(/^I add new (Correction Range|Carb Ratios|Basal Rates) schedule item$/) { matches, step in
+        let isCorrectionRange = matches.1 == "Correction Range"
         var valuesMap = [String: String]()
         
         for (index, key) in step.dataTable!.rows[0].enumerated() {
@@ -34,15 +34,19 @@ func correctionRangeSteps() {
         therapySettingsScreen.setScheduleItemValues(
             [
                 (valuesMap["Time"] ?? "", 0),
-                (valuesMap[isCarbRatios ? "WholeNumber" : "MinValue"] ?? "", 1),
-                (valuesMap[isCarbRatios ? "Decimal" : "MaxValue"] ?? "", 2)
+                (valuesMap[isCorrectionRange ? "MinValue" : "WholeNumber"] ?? "", 1),
+                (valuesMap[isCorrectionRange ? "MaxValue" : "Decimal"] ?? "", 2)
             ]
         )
         therapySettingsScreen.tapAddNewEntryButton()
     }
     
-    When(/^I edit (\d+)(st|nd|rd|th) scheduled item of (Correction Range|Carb Ratios)$/) { matches, step in
-        let isCarbRatios = matches.3 == "Carb Ratios"
+    When(/^I tap (\d+)(st|nd|rd|th) scheduled item$/) { matches, _ in
+        therapySettingsScreen.tapScheduleItem(Int(matches.1)! - 1)
+    }
+    
+    When(/^I edit (\d+)(st|nd|rd|th) scheduled item of (Correction Range|Carb Ratios|Basal Rates)$/) { matches, step in
+        let isCorrectionRange = matches.3 == "Correction Range"
         var valuesMap = [String: String]()
         
         for (index, key) in step.dataTable!.rows[0].enumerated() {
@@ -55,8 +59,8 @@ func correctionRangeSteps() {
         therapySettingsScreen.setScheduleItemValues(
             [
                 (valuesMap["Time"] ?? "", 0),
-                (valuesMap[isCarbRatios ? "WholeNumber" : "MinValue"] ?? "", 1),
-                (valuesMap[isCarbRatios ? "Decimal" : "MaxValue"] ?? "", 2)
+                (valuesMap[isCorrectionRange ? "MinValue" : "WholeNumber"] ?? "", 1),
+                (valuesMap[isCorrectionRange ? "MaxValue" : "Decimal"] ?? "", 2)
             ]
         )
     }

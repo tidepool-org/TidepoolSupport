@@ -49,7 +49,7 @@
 		EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */; };
 		EC7220482D41065B0059E090 /* PreMealPresetSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7220472D4106520059E090 /* PreMealPresetSteps.swift */; };
 		EC7D4DC62D37D0B800FCEE43 /* GlucoseSafetyLimitSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */; };
-		EC7D4DC82D37F00000FCEE43 /* CorrectionRangeSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeSteps.swift */; };
+		EC7D4DC82D37F00000FCEE43 /* CorrectionRangeCarbRatiosSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */; };
 		EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */; };
 		EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */; };
 		EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */; };
@@ -59,6 +59,8 @@
 		EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */; };
 		ECC38BCF2D55DFA9004A79EA /* CarbRatiosSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC38BCE2D55DFA4004A79EA /* CarbRatiosSteps.swift */; };
 		ECF771E72D22888D00E3C8FF /* TherapySettingsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */; };
+		ECFBD6522D6E1A51002E420A /* InsulinModelSensitivitySteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFBD6512D6E1A4C002E420A /* InsulinModelSensitivitySteps.swift */; };
+		ECFD06A72D6722E000C64D6F /* BasalRatesSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECFD06A62D6722DB00C64D6F /* BasalRatesSteps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,7 +144,7 @@
 		EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsEntrySteps.swift; sourceTree = "<group>"; };
 		EC7220472D4106520059E090 /* PreMealPresetSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMealPresetSteps.swift; sourceTree = "<group>"; };
 		EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSafetyLimitSteps.swift; sourceTree = "<group>"; };
-		EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionRangeSteps.swift; sourceTree = "<group>"; };
+		EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionRangeCarbRatiosSteps.swift; sourceTree = "<group>"; };
 		EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSteps.swift; sourceTree = "<group>"; };
 		EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSteps.swift; sourceTree = "<group>"; };
 		EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSteps.swift; sourceTree = "<group>"; };
@@ -152,6 +154,8 @@
 		EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemSettingsSteps.swift; sourceTree = "<group>"; };
 		ECC38BCE2D55DFA4004A79EA /* CarbRatiosSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbRatiosSteps.swift; sourceTree = "<group>"; };
 		ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TherapySettingsSteps.swift; sourceTree = "<group>"; };
+		ECFBD6512D6E1A4C002E420A /* InsulinModelSensitivitySteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinModelSensitivitySteps.swift; sourceTree = "<group>"; };
+		ECFD06A62D6722DB00C64D6F /* BasalRatesSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasalRatesSteps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -348,9 +352,11 @@
 		EC7D4DC42D37D09900FCEE43 /* TherapySettings */ = {
 			isa = PBXGroup;
 			children = (
+				ECFBD6512D6E1A4C002E420A /* InsulinModelSensitivitySteps.swift */,
+				ECFD06A62D6722DB00C64D6F /* BasalRatesSteps.swift */,
 				ECC38BCE2D55DFA4004A79EA /* CarbRatiosSteps.swift */,
 				EC7220472D4106520059E090 /* PreMealPresetSteps.swift */,
-				EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeSteps.swift */,
+				EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */,
 				EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */,
 				ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */,
 			);
@@ -613,6 +619,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECFBD6522D6E1A51002E420A /* InsulinModelSensitivitySteps.swift in Sources */,
 				EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */,
 				EC8EEAD92CEF357A008A0D16 /* CGMManagerSteps.swift in Sources */,
 				EC8EEAD12CEE2C40008A0D16 /* SettingsSteps.swift in Sources */,
@@ -620,6 +627,7 @@
 				EC7D4DC62D37D0B800FCEE43 /* GlucoseSafetyLimitSteps.swift in Sources */,
 				EC8EEAD32CEE4727008A0D16 /* PumpManagerSteps.swift in Sources */,
 				EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */,
+				ECFD06A72D6722E000C64D6F /* BasalRatesSteps.swift in Sources */,
 				EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */,
 				EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */,
 				ECC38BCF2D55DFA9004A79EA /* CarbRatiosSteps.swift in Sources */,
@@ -627,7 +635,7 @@
 				EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */,
 				ECF771E72D22888D00E3C8FF /* TherapySettingsSteps.swift in Sources */,
 				EC37EEA32D073C3D009807CE /* Cucumber.swift in Sources */,
-				EC7D4DC82D37F00000FCEE43 /* CorrectionRangeSteps.swift in Sources */,
+				EC7D4DC82D37F00000FCEE43 /* CorrectionRangeCarbRatiosSteps.swift in Sources */,
 				EC7220482D41065B0059E090 /* PreMealPresetSteps.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
