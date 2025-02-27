@@ -114,8 +114,12 @@ func therapySettingsSteps() {
         settingsScreen.tapPresetsButton()
     }
     
-    When(/^I tap information circle$/) { _, _ in
-        therapySettingsScreen.tapInfoCircleButton()
+    When(/^I tap (|1st |2nd )information circle$/) { matches, _ in
+        switch matches.1 {
+        case "1st": therapySettingsScreen.tapInforCircleButton(index: 0)
+        case "2nd": therapySettingsScreen.tapInforCircleButton(index: 1)
+        default: therapySettingsScreen.tapInfoCircleButton()
+        }
     }
     
     When(/^I tap Done$/) { _, _ in
@@ -128,12 +132,19 @@ func therapySettingsSteps() {
 
     //MARK: Verifications
     
+    Then(/^Therapy Settings overview screen displays$/) { _, _ in
+        therapySettingsScreen.therapySettingsTitleTextExists
+    }
+    
     Then(/^(.*) information screen displays with possible actions$/) { matches, step in
         switch matches.1 {
         case "Correction Range": XCTAssertTrue(therapySettingsScreen.correctionRangeInformationTextExists)
         case "Pre-Meal Preset": XCTAssertTrue(therapySettingsScreen.preMealPresetInformationTextExists)
         case "Workout Preset": XCTAssertTrue(therapySettingsScreen.workoutPresetInformationTextExists)
         case "Carb Ratios": XCTAssertTrue(therapySettingsScreen.carbRatiosInformationTextExists)
+        case "Basal Rates": XCTAssert(therapySettingsScreen.basalRatesInfromationTextExists)
+        case "Insulin Model": XCTAssert(therapySettingsScreen.insulinModelInformationTextExists)
+        case "Insulin Sensitivities": XCTAssert(therapySettingsScreen.insulinSensitivitiesInformationTextExists)
         default: XCTFail("Information screen '\(matches.1)' is not implemented for verification yet.")
         }
         
@@ -155,6 +166,7 @@ func therapySettingsSteps() {
             case "Add": XCTAssertTrue(therapySettingsScreen.addButtonExists)
             case "Confirm Setting": XCTAssertTrue(therapySettingsScreen.confirmSaveButtonExists)
             case "Information": XCTAssertTrue(therapySettingsScreen.infoCircleButtonExists)
+            case "2x Information": XCTAssertTrue(2 == therapySettingsScreen.getNumberOfInfoCircleButtons)
             case "Close": XCTAssertTrue(onboardingScreen.closeButtonExists)
             default: XCTFail("Action '\(action[0])' is not implemented for verification yet.")
             }
@@ -197,6 +209,7 @@ func therapySettingsSteps() {
         case "Save Pre-Meal Range?": XCTAssert(therapySettingsScreen.preMealRangeAlertTitleTextExists, failedMessage)
         case "Save Workout Range?": XCTAssert(therapySettingsScreen.workoutRangeAlertTitleTextExists, failedMessage)
         case "Save Carb Ratios?": XCTAssert(therapySettingsScreen.carbRatiosAlertTitleTextExists)
+        case "Save Insulin Sensitivities?": XCTAssert(therapySettingsScreen.insulinSensitivitiesAlertTitleTextExists)
         default: XCTFail("This alert is not supported by test framework yet.")
         }
     }

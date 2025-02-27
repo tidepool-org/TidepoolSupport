@@ -14,8 +14,8 @@ func carbRatiosSteps() {
     
     //MARK: Verifications
     
-    Then(/^Carb Ratios of (\d+)(st|nd|rd|th) scheduled item displays values$/) { matches, step in
-        let scheduledItemIndex = Int(matches.1)! - 1
+    Then(/^(Carb Ratios|Basal Rates) of (\d+)(st|nd|rd|th) scheduled item displays values$/) { matches, step in
+        let scheduledItemIndex = Int(matches.2)! - 1
         let scheduleItemText = therapySettingsScreen.getScheduleItemText(scheduledItemIndex)
         let scheduleItemKeys = ["Time", "Value", "Units"]
         let scheduleItemValues = scheduleItemText.split(separator: ", ")
@@ -33,7 +33,7 @@ func carbRatiosSteps() {
         }
     }
     
-    Then(/^Carb Ratios message appears with warning indicators$/) { _, step in
+    Then(/^(Carb Ratios|Insulin Sensitivities) message appears with warning indicators$/) { matches, step in
         let tableHeader = step.dataTable!.rows[0]
         var nextToTextWarnings = therapySettingsScreen.getNextToTextWarningTriangleImages
         var tableData = step.dataTable!.rows[1]
@@ -44,7 +44,7 @@ func carbRatiosSteps() {
             messageIndicator = tableData.remove(at: tableHeader.firstIndex(of: "MessageIndicator")!)
         }
             
-        XCTAssertEqual("Carb Ratios", therapySettingsScreen.getGuardrailWarningValue)
+        XCTAssertEqual(String(matches.1), therapySettingsScreen.getGuardrailWarningValue)
         
         if messageIndicator != nil {
             let warningMessage = "warning triangle does not display."
@@ -73,10 +73,16 @@ func carbRatiosSteps() {
         }
     }
     
-    Then(/^Carb Ratios section on Therapy Settings screen displays$/) { _, step in
+    Then(/^(Carb Ratios|Basal Rates|Insulin Sensitivities) section on Therapy Settings screen displays$/)
+    { matches, step in
         let tableHeader = step.dataTable!.rows[0]
         let tableData = step.dataTable!.rows.dropFirst()
-        let scheduleItemTexts = therapySettingsScreen.getCarbRatiosValues
+        let scheduleItemTexts = switch(matches.1) {
+        case "Carb Ratios": therapySettingsScreen.getCarbRatiosValues
+        case "Basal Rates": therapySettingsScreen.getbasalRateValues
+        case "Insulin Sensitivities": therapySettingsScreen.getInsulinSensitivityUnitValues
+        default: [""]
+        }
         let scheduleItemKeys = ["Time", "Value", "Units"]
         var scheduleItemValues = [String]()
         var expectedValuesMap = [String: [String]]()

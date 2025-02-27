@@ -25,7 +25,7 @@ Scenario: Therapy Flow - Therapy settings overview screen
         | Continue |
 
 @LOOP-1672
-Scenario: Therapy settings acceptance flow - Glucose Safety Limit - Guardrails
+Scenario: Therapy Settings Acceptance Flow - Glucose Safety Limit - Guardrails
     Given app is launched
     When I skip onboarding to Therapy Settings
       And I navigate to Glucose Safety Limit edit screen
@@ -63,7 +63,7 @@ Scenario: Therapy settings acceptance flow - Glucose Safety Limit - Guardrails
     Then Glucose Safety Limit is set to 110 mg/dL
 
 @LOOP-1608
-Scenario: Therapy settings acceptance flow - Correction Range
+Scenario: Therapy Settings Acceptance Flow - Correction Range
     Given app is launched
     When I skip onboarding to Therapy Settings
       And I navigate to Correction Range educational screen
@@ -161,7 +161,7 @@ Scenario: Therapy settings acceptance flow - Correction Range
         | 8:30 AM | 100      | 110      |
 
 @LOOP-2400
-Scenario: Therapy settings acceptance flow - Guardrails - Pre-Meal Preset
+Scenario: Therapy Settings Acceptance Flow - Guardrails - Pre-Meal Preset
     Given app is launched
     When I skip onboarding to Therapy Settings
       And I navigate to Glucose Safety Limit edit screen
