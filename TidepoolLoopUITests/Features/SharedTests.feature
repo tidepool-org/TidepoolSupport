@@ -9,7 +9,7 @@ Scenario: Skip All Onboarding from the Tidepool Loop launch screen & onboard sim
       And I open pump manager from settings
     Then pump manager displays
     When I close pump manager
-      And I open cgm manager from settings
+      And I open CGM manager from settings
     Then cgm manager displays
     When I close cgm manager
       And I close settings screen

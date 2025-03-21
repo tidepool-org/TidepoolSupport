@@ -16,6 +16,7 @@ func therapySettingsSteps() {
     let cgmScreens = CGMScreens(app: app)
     let pumpScreens = PumpScreens(app: app)
     let settingsScreen = SettingsScreen(app: app)
+    let navigationBar = NavigationBar(app: app)
     
     //MARK: Actions
     
@@ -59,18 +60,18 @@ func therapySettingsSteps() {
     }
     
     When(/^I navigate back$/) { _, _ in
-        onboardingScreen.tapBackButton()
+        navigationBar.tapBackButton()
     }
     
     When(/^I navigate back to (.*) edit screen$/) { matches, _ in
         for attempt in 1...20 {
             if therapySettingsScreen.therapySettingsTitleTextExists {
                 if therapySettingsScreen.getTherapySettingsTitleText != matches.1 {
-                    onboardingScreen.tapBackButton()
+                    navigationBar.tapBackButton()
                 } else {
                     return
                 }
-            } else { onboardingScreen.tapBackButton() }
+            } else { navigationBar.tapBackButton() }
         }
     }
     
@@ -123,7 +124,7 @@ func therapySettingsSteps() {
     }
     
     When(/^I tap Done$/) { _, _ in
-        therapySettingsScreen.tapDoneButton()
+        navigationBar.tapDoneButton()
     }
     
     When(/^I close information screen$/) { _, _ in
@@ -133,7 +134,7 @@ func therapySettingsSteps() {
     //MARK: Verifications
     
     Then(/^Therapy Settings overview screen displays$/) { _, _ in
-        therapySettingsScreen.therapySettingsTitleTextExists
+        XCTAssertTrue(therapySettingsScreen.therapySettingsTitleTextExists)
     }
     
     Then(/^(.*) information screen displays with possible actions$/) { matches, step in
@@ -161,7 +162,7 @@ func therapySettingsSteps() {
         
         for action in step.dataTable!.rows {
             switch action[0] {
-            case "<Back": XCTAssertTrue(onboardingScreen.backButtonExists)
+            case "<Back": XCTAssertTrue(navigationBar.backButtonExists)
             case "Edit": XCTAssertTrue(therapySettingsScreen.editButtonExists)
             case "Add": XCTAssertTrue(therapySettingsScreen.addButtonExists)
             case "Confirm Setting": XCTAssertTrue(therapySettingsScreen.confirmSaveButtonExists)
@@ -303,7 +304,7 @@ func therapySettingsSteps() {
     Then(/^possible actions are$/) { _, step in
         for action in step.dataTable!.rows {
             switch action[0] {
-            case "<Back": XCTAssertTrue(onboardingScreen.backButtonExists)
+            case "<Back": XCTAssertTrue(navigationBar.backButtonExists)
             case "Close": XCTAssertTrue(onboardingScreen.closeButtonExists)
             case "Continue": XCTAssertTrue(onboardingScreen.continueButtonExists)
             default: XCTFail("Action '\(action[0])' is not implemented for verification yet.")

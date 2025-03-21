@@ -23,6 +23,10 @@ func homeSteps() {
         homeScreen.tapPresetsTabButton()
     }
     
+    When("I open CGM manager") { _, _ in
+        homeScreen.tapHudGlucosePill()
+    }
+    
     When(/^I tap (closed|open) loop icon$/) { matches, _ in
         matches.1 == "closed" ? homeScreen.tapLoopStatusClosed() : homeScreen.tapLoopStatusOpen()
     }
@@ -64,5 +68,22 @@ func homeSteps() {
     
     Then(/^pump pill displays value \"(.*?)\"$/) { matches, _ in
         XCTAssert(homeScreen.getPumpPillValue().contains(matches.1))
+    }
+    
+    Then(/^cgm pill (doesn't display|displays) (value|trend|alert) \"(.*?)\"$/) { matches, _ in
+        let expectedValue = String(matches.3)
+        let actualValue = switch matches.2 {
+        case "value": homeScreen.getHudGlucosePillValue()[0].components(separatedBy: " ")[0]
+        case "trend": homeScreen.getHudGlucosePillValue()[1]
+        case "alert": homeScreen.getHudGlucosePillValue()[0]
+        default: ""
+        }
+        
+        XCTAssertEqual(
+            expectedValue == actualValue,
+            matches.1 == "displays",
+            "Comparison of expected \(matches.2) value '\(expectedValue)' and actual value '\(actualValue)' should be" +
+            " \(matches.1 == "displays") but was \(!(matches.1 == "displays"))"
+        )
     }
 }

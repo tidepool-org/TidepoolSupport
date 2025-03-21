@@ -50,6 +50,7 @@
 		EC7220482D41065B0059E090 /* PreMealPresetSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7220472D4106520059E090 /* PreMealPresetSteps.swift */; };
 		EC7D4DC62D37D0B800FCEE43 /* GlucoseSafetyLimitSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */; };
 		EC7D4DC82D37F00000FCEE43 /* CorrectionRangeCarbRatiosSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */; };
+		EC7EF9342D89A0FC00DD1257 /* AlertSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7EF9332D89A0F600DD1257 /* AlertSteps.swift */; };
 		EC8EEAC32CEB9C2C008A0D16 /* CommonSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */; };
 		EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */; };
 		EC8EEACF2CECE861008A0D16 /* HomeSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */; };
@@ -145,6 +146,7 @@
 		EC7220472D4106520059E090 /* PreMealPresetSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMealPresetSteps.swift; sourceTree = "<group>"; };
 		EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSafetyLimitSteps.swift; sourceTree = "<group>"; };
 		EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionRangeCarbRatiosSteps.swift; sourceTree = "<group>"; };
+		EC7EF9332D89A0F600DD1257 /* AlertSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSteps.swift; sourceTree = "<group>"; };
 		EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSteps.swift; sourceTree = "<group>"; };
 		EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSteps.swift; sourceTree = "<group>"; };
 		EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSteps.swift; sourceTree = "<group>"; };
@@ -366,17 +368,18 @@
 		ECB1E4012CE60EDA0078108C /* Steps */ = {
 			isa = PBXGroup;
 			children = (
-				EC7D4DC42D37D09900FCEE43 /* TherapySettings */,
-				EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */,
+				EC7EF9332D89A0F600DD1257 /* AlertSteps.swift */,
 				EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */,
-				EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */,
+				EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */,
 				EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */,
-				EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */,
-				EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */,
+				EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */,
 				EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */,
 				EC0875F52CF6404400748C3B /* NotificationSteps.swift */,
 				EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */,
-				EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */,
+				EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */,
+				EC8EEAD02CEE2C3D008A0D16 /* SettingsSteps.swift */,
+				EC8EEADA2CEF44DF008A0D16 /* SystemSettingsSteps.swift */,
+				EC7D4DC42D37D09900FCEE43 /* TherapySettings */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				ECFD06A72D6722E000C64D6F /* BasalRatesSteps.swift in Sources */,
 				EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */,
 				EC8EEACD2CECDB41008A0D16 /* OnboardingSteps.swift in Sources */,
+				EC7EF9342D89A0FC00DD1257 /* AlertSteps.swift in Sources */,
 				ECC38BCF2D55DFA9004A79EA /* CarbRatiosSteps.swift in Sources */,
 				EC0875F62CF6404900748C3B /* NotificationSteps.swift in Sources */,
 				EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */,
