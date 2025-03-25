@@ -47,6 +47,7 @@ extension Cucumber: StepImplementation {
             app.launchArguments = ["-AppleLanguages", "(en-US)", "-AppleLocale", "\"en-US\""]
         }
         
+        alertSteps()
         basalRatesSteps()
         bolusSteps()
         carbsEntrySteps()

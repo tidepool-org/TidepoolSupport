@@ -20,7 +20,7 @@ func settingsSteps()  {
         settingsScreen.tapInsulinPump()
     }
     
-    When("I open cgm manager from settings") { _, _ in
+    When("I open CGM manager from settings") { _, _ in
         settingsScreen.tapCGMManager()
     }
     
