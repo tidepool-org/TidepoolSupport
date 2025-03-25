@@ -225,8 +225,7 @@ Scenario: Therapy Settings Acceptance Flow - Guardrails - Pre-Meal Preset
     When I save settings and finish the onboarding
       And I pair CGM simulator
       And I pair Pump simulator
-      And I open settings
-      And I tap Presets
+      And I open Presets
     Then Pre-Meal Preset section on Presets screen displays
         | MinValue | MaxValue |
         | 67       | 130      |
@@ -317,8 +316,7 @@ Scenario: Therapy Settings Acceptance Flow - Guardrails - Workout Preset
     When I save settings and finish the onboarding
       And I pair CGM simulator
       And I pair Pump simulator
-      And I open settings
-      And I tap Presets
+      And I open Presets
     Then Workout Preset section on Presets screen displays
         | MinValue | MaxValue |
         | 109      | 250      |

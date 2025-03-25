@@ -44,28 +44,28 @@ Scenario: Configure Closed Loop Management
       And I turn off closed loop
       And I close settings screen
     Then open loop displays
-      And glucose chart caret doesn't display
+      And glucose chart doesn't allow navigation to detailed view
     When I tap open loop icon
     Then closed loop off alert displays
     When I dismiss closed loop status alert
       And I open bolus setup
     Then simple bolus calculator displays
     When I close bolus screen
-      And I open carb entry
+      And I open Carb Entry
     Then simple meal calculator displays
     When I close carbs entry screen
       And I open settings
       And I turn on closed loop
       And I close settings screen
     Then closed loop displays
-      And glucose chart caret displays
+      And glucose chart allows navigation to detailed view
     When I tap closed loop icon
     Then closed loop displays
     When I dismiss closed loop status alert
       And I open bolus setup
     Then bolus screen displays
     When I close bolus screen
-      And I open carb entry
+      And I open Carb Entry
     Then carb entry screen displays
 
 @LOOP-1636

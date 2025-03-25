@@ -39,7 +39,7 @@ func homeSteps() {
         homeScreen.tapBolusEntry()
     }
     
-    When("I open carb entry") { _, _ in
+    When("I open Carb Entry") { _, _ in
         homeScreen.tapCarbEntry()
     }
     
@@ -49,8 +49,8 @@ func homeSteps() {
     
     // MARK: Verifications
     
-    Then(/^glucose chart caret (doesn't display|displays)$/) { matches, _ in
-        XCTAssertTrue((matches.1 == "displays") == homeScreen.navigateToGlucoseDetailsImageExists)
+    Then(/^glucose chart (allows|doesn't allow) navigation to detailed view$/) { matches, _ in
+        XCTAssertTrue((matches.1 == "doesn't allow") == homeScreen.navigationToGlucoseDetailsIsDisabled)
     }
     
     Then(/^(open|closed) loop displays$/) { matches, _ in
