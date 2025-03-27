@@ -20,10 +20,16 @@ func bolusSteps() {
     }
     
     When("I set bolus value {float}") { matches, _ in
-        if bolusScreen.getBolusActionButtonLabel.contains("Enter Bolus") { bolusScreen.tapBolusActionButton() }
+        //if bolusScreen.getBolusActionButtonLabel.contains("Enter Bolus") { bolusScreen.tapBolusActionButton() }
         bolusScreen.tapBolusEntryTextField()
         bolusScreen.clearBolusEntryTextField()
         bolusScreen.setBolusEntryTextField(value: try String(matches.first(\.float)).replacing(",", with: "."))
+        bolusScreen.tapKeyboardDoneButton()
+    }
+    When("I set current glucose value {float}") {matches, _ in
+        bolusScreen.tapCurrentGlucoseEntryTextField()
+        bolusScreen.clearCurrentGlucoseEntryTextField()
+        bolusScreen.setCurrentGlucoseEntryTextField(value: try String(matches.first(\.float)).replacing(",", with: "."))
         bolusScreen.tapKeyboardDoneButton()
     }
     
@@ -31,6 +37,16 @@ func bolusSteps() {
         bolusScreen.tapBolusActionButton()
         bolusScreen.setPasscode()
     }
+    When("I save and deliver and authenticate bolus") { _, _ in
+        bolusScreen.tapSaveAndDeliverButton()
+        bolusScreen.setPasscode()
+        
+    }
+    
+
+   
+    
+    
     
     // MARK: Verifications
     
@@ -40,5 +56,9 @@ func bolusSteps() {
     
     Then("bolus screen displays") { _, _ in
         XCTAssert(bolusScreen.bolusTitleExists)
+    }
+    
+    Then("glucose range warning displays") { _, _ in
+        XCTAssert(bolusScreen.glucoseEntryRangeWarningExists)
     }
 }

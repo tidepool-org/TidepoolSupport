@@ -1238,7 +1238,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/tidepool-org/LoopUITestingKit";
 			requirement = {
-				branch = main;
+				branch = "scott/QAE-456-SimpleBolusCalculator-MinandMaxGlucos";
 				kind = branch;
 			};
 		};
