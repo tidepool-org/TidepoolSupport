@@ -43,6 +43,10 @@ func homeSteps() {
         homeScreen.tapCarbEntry()
     }
     
+    When("I open Active Carbohydrates details") { _, _ in
+        homeScreen.tapNavigateToActiveCarbsDetails()
+    }
+    
     When("I open pump manager") { _, _ in
         homeScreen.tapPumpPill()
     }
@@ -85,5 +89,10 @@ func homeSteps() {
             "Comparison of expected \(matches.2) value '\(expectedValue)' and actual value '\(actualValue)' should be" +
             " \(matches.1 == "displays") but was \(!(matches.1 == "displays"))"
         )
+    }
+    
+    Then("temporary status bar displays current bolus progress") { _, _ in
+        XCTAssertTrue(homeScreen.bolusProgressTextExists, "Temporary status bar with bolus progress is not displayed.")
+        XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
     }
 }

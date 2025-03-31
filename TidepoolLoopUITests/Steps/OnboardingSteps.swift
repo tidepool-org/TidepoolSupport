@@ -17,7 +17,7 @@ func onboardingSteps() {
         skipOnboarding()
         onboardingScreen.allowNotifications()
         onboardingScreen.allowCriticalAlerts()
-        onboardingScreen.allowHealthKitAuthorization()
+        onboardingScreen.dontAllowHelthKitAuthorization()
     }
 
     When("I skip onboarding") { _, _ in

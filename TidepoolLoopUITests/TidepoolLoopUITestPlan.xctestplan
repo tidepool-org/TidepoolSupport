@@ -4,7 +4,9 @@
       "id" : "5342FF40-52D9-4B1B-8D44-7F73783B2E86",
       "name" : "Configuration 1",
       "options" : {
+        "commandLineArgumentEntries" : [
 
+        ]
       }
     }
   ],
