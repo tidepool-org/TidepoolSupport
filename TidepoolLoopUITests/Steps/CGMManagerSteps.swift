@@ -31,7 +31,7 @@ func cGMManagerSteps() {
         }
         let cgmKeysGroup = [
             "MeasurementFrequency", "GlucoseNoise", "WarningThreshold", "CriticalThreshold",
-            "Constant", "PercentCompleted"
+            "Constant", "PercentCompleted", "CgmLowerLimit", "CgmUpperLimit"
         ]
         
         for cgmAttribute in cgmSettingsMap {
@@ -84,6 +84,10 @@ func cGMManagerSteps() {
                 cgmManagerScreen.issueAlert(alertName: cgmAttribute.value)
                 if cgmAttribute.value == "Retract any alert above" { navigationBar.tapBackButton() }
             case "PercentCompleted": cgmManagerScreen.tapPercentCompletedCell()
+            case "CgmLowerLimit": cgmManagerScreen.tapCgmLowerLimitCell()
+            case "CgmUpperLimit":
+                app.swipeUp()
+                cgmManagerScreen.tapCgmUpperLimitCell()
             default: break
             }
             
