@@ -9,7 +9,7 @@ Scenario: CGM Error and State Handling - Status Bar Displays
       And I open CGM Simulator settings
       And I setup CGM Simulator
         | Model                | Constant   |
-        | Constant             | 200        |
+        | Constant             | 405        |
         | CgmUpperLimit        | 199.9      |
         | BackfillGlucose      | 3 hours    |
     Then cgm pill displays value "HIGH"

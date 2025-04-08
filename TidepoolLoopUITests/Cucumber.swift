@@ -44,7 +44,6 @@ extension Cucumber: StepImplementation {
             }
             if appName.contains("no associated app name") { XCTFail(appName) }
             app.uninstall(appName: appName)
-            app.launchArguments = ["-AppleLanguages", "(en-US)", "-AppleLocale", "\"en-US\""]
         }
         
         alertSteps()
