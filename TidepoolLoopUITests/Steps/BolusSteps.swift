@@ -20,7 +20,6 @@ func bolusSteps() {
     }
     
     When("I set bolus value {float}") { matches, _ in
-        //if bolusScreen.getBolusActionButtonLabel.contains("Enter Bolus") { bolusScreen.tapBolusActionButton() }
         bolusScreen.tapBolusEntryTextField()
         bolusScreen.clearBolusEntryTextField()
         bolusScreen.setBolusEntryTextField(value: try String(matches.first(\.float)).replacing(",", with: "."))
@@ -60,5 +59,9 @@ func bolusSteps() {
     
     Then("glucose range warning displays") { _, _ in
         XCTAssert(bolusScreen.glucoseEntryRangeWarningExists)
+    }
+    
+    Then(/^bolus field displays value \"(.*?)\"$/) { matches, _ in
+        XCTAssert(bolusScreen.getBolusFieldValue().contains(matches.1))
     }
 }
