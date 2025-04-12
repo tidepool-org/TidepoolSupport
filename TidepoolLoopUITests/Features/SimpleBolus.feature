@@ -15,7 +15,7 @@ Scenario: Simple Bolus Calculator - Current Glucose Min and Max
     Then glucose range warning displays
     When I set current glucose value 10
         And I set bolus value .2
-        And I save and deliver and authenticate bolus
+        And I deliver and authenticate bolus
     Then cgm pill displays value "10"
     When I open bolus setup
     Then simple bolus calculator displays
@@ -24,7 +24,7 @@ Scenario: Simple Bolus Calculator - Current Glucose Min and Max
     Then glucose range warning displays
     When I set current glucose value 600
         And I set bolus value .2
-        And I save and deliver and authenticate bolus
+        And I deliver and authenticate bolus
     Then cgm pill displays value "600"
     
     
@@ -39,7 +39,7 @@ Scenario: Simple Bolus Calculator - Current Glucose values with decimal above 10
     Then simple bolus calculator displays
     When I set current glucose value 10.3
         And I set bolus value .2
-        And I save and deliver and authenticate bolus
+        And I deliver and authenticate bolus
     Then cgm pill displays value "10"
     
     
@@ -68,5 +68,5 @@ Scenario: Simple Bolus Calculator - Happy Path flow (1 U, 100 mg/dL)
     Then simple bolus calculator displays
     When I set current glucose value 100
         And I set bolus value 1
-        And I save and deliver and authenticate bolus
+        And I deliver and authenticate bolus
     Then cgm pill displays value "100"

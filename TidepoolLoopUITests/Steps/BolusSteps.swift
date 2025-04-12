@@ -36,11 +36,7 @@ func bolusSteps() {
         bolusScreen.tapBolusActionButton()
         bolusScreen.setPasscode()
     }
-    When("I save and deliver and authenticate bolus") { _, _ in
-        bolusScreen.tapSaveAndDeliverButton()
-        bolusScreen.setPasscode()
-        
-    }
+
     
 
    
