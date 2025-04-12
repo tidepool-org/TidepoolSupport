@@ -54,7 +54,7 @@ func bolusSteps() {
     }
     
     Then("glucose range warning displays") { _, _ in
-        XCTAssert(bolusScreen.glucoseEntryRangeWarningExists)
+        XCTAssert(bolusScreen.glucoseEntryOutOfRangeWarningExists)
     }
     
     Then(/^bolus field displays value \"(.*?)\"$/) { matches, _ in
