@@ -23,6 +23,11 @@ func carbsEntrySteps() {
     When("I close carbs entry screen") { _, _ in
         carbsEntryScreen.tapCancelCarbsEntry()
     }
+        
+    When ("I set amount consumed value {string}") { matches, _ in
+            carbsEntryScreen.setCarbsConsumedTextField(carbsAmount: try String  (matches.first(\.string)).replacing(",", with: "."))
+            carbsEntryScreen.tapContinueButton()
+        }
     
     When("I tap Continue on Carb Entry screen") { _, _ in
         carbsEntryScreen.tapContinueButton()
@@ -120,6 +125,10 @@ func carbsEntrySteps() {
     
     Then("carb entry screen displays") { _, _ in
         XCTAssert(carbsEntryScreen.carbEntryScreenExists)
+    }
+    
+    Then("meal bolus screen displays"){ _, _ in
+      XCTAssert(carbsEntryScreen.mealBolusExists)
     }
     
     // Active Carbs graph - details

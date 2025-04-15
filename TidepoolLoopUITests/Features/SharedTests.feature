@@ -121,17 +121,37 @@ Scenario: Pump Error And State Handling - Status Bar Displays
 Scenario: View Pump Status
     Given app is launched and intialy setup
     When I open settings
-    Then settings screen displays
-    When I open pump manager from settings
-    Then pump settings displays
-    And pump status card displays
-    When I select Done
-    Then settings screen displays
-    When I select Done
-    Then Home screen displays
-    When I select pump icon
-    Then pump settings displays
-    And pump status card displays
+    And I open pump manager from settings
+    Then pump manager displays
+    When I close pump manager
+    And I close settings screen
+    And I open pump manager
+    Then pump manager displays
+    
+@LOOP-2113
+Scenario: Test Canceled Bolus from carb entry screen
+    Given app is launched and intialy setup
+    Then closed loop displays
+    When I open Carb Entry
+    Then carb entry screen displays
+    When I set amount consumed value "25"
+    Then meal bolus screen displays
+    When I deliver and authenticate bolus
+    Then Bolus delivery temporary status bar displays
+    When I tap on tap to stop
+    Then Bolus delivery canceled and status bar dismisses
+   
+   
+@LOOP-1450
+Scenario: Test Suspend or Resume Insulin Delivery
+    Given app is launched and intialy setup
+    When I open pump manager
+    And I suspend insulin delivery
+    Then resume insulin delivery displays
+    When I close pump manager
+    Then Insulin suspended temporary status bar displays
+    When I tap on tap to resume
+    Then Insulin suspended status bar dismisses
     
     
 

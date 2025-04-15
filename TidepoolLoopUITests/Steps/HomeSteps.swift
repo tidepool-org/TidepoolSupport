@@ -50,6 +50,12 @@ func homeSteps() {
     When("I open pump manager") { _, _ in
         homeScreen.tapPumpPill()
     }
+    When("I tap on tap to stop") { _, _ in
+        homeScreen.taptapToStop()
+    }
+    When("I tap on tap to resume") { _, _ in
+        homeScreen.tapinsulinTapToResumeCell()
+    }
     
     // MARK: Verifications
     
@@ -98,5 +104,22 @@ func homeSteps() {
     
     Then(/^Active Carbohydrates displays value "(.*)"$/) { matches, _ in        
         XCTAssertEqual(String(matches.1), homeScreen.getActiveCarbsValue)
+    }
+
+Then("Bolus delivery temporary status bar displays") { _, _ in
+        XCTAssert(homeScreen.bolusProgressTextExists)
+    }
+    
+    Then("Bolus delivery canceled and status bar dismisses") { _, _ in
+        XCTAssert(homeScreen.bolusCanceledTextExists)
+        XCTAssert(homeScreen.bolusCanceledTextNotExists)
+    }
+    Then("Insulin suspended temporary status bar displays") { _, _ in
+     //   XCTAssert(homeScreen.insulinSuspendedCellExists)
+        XCTAssert(homeScreen.insulinTapToResumeCellExists)
+    }
+    
+    Then("Insulin suspended status bar dismisses") { _, _ in
+        XCTAssert(homeScreen.insulinSuspendedCellNotExists)
     }
 }
