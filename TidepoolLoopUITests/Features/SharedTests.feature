@@ -121,11 +121,11 @@ Scenario: Pump Error And State Handling - Status Bar Displays
 Scenario: View Pump Status
     Given app is launched and intialy setup
     When I open settings
-    And I open pump manager from settings
+      And I open pump manager from settings
     Then pump manager displays
     When I close pump manager
-    And I close settings screen
-    And I open pump manager
+      And I close settings screen
+      And I open pump manager
     Then pump manager displays
     
 @LOOP-2113
@@ -137,8 +137,8 @@ Scenario: Test Canceled Bolus from carb entry screen
     When I set amount consumed value "25"
     Then meal bolus screen displays
     When I deliver and authenticate bolus
-    Then Bolus delivery temporary status bar displays
-    When I tap on tap to stop
+    Then temporary status bar displays current bolus progress
+    When I tap Tap to Stop
     Then Bolus delivery canceled and status bar dismisses
    
    
@@ -146,11 +146,11 @@ Scenario: Test Canceled Bolus from carb entry screen
 Scenario: Test Suspend or Resume Insulin Delivery
     Given app is launched and intialy setup
     When I open pump manager
-    And I suspend insulin delivery
+      And I suspend insulin delivery
     Then resume insulin delivery displays
     When I close pump manager
     Then Insulin suspended temporary status bar displays
-    When I tap on tap to resume
+    When I tap Tap to Resume
     Then Insulin suspended status bar dismisses
     
     

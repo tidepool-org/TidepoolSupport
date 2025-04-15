@@ -50,11 +50,13 @@ func homeSteps() {
     When("I open pump manager") { _, _ in
         homeScreen.tapPumpPill()
     }
-    When("I tap on tap to stop") { _, _ in
-        homeScreen.taptapToStop()
+    
+    When("I tap Tap to Stop") { _, _ in
+        homeScreen.tapTapToStop()
     }
-    When("I tap on tap to resume") { _, _ in
-        homeScreen.tapinsulinTapToResumeCell()
+    
+    When("I tap Tap to Resume") { _, _ in
+        homeScreen.tapInsulinTapToResumeCell()
     }
     
     // MARK: Verifications
@@ -102,12 +104,8 @@ func homeSteps() {
         XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
     }
     
-    Then(/^Active Carbohydrates displays value "(.*)"$/) { matches, _ in        
+    Then(/^Active Carbohydrates displays value "(.*)"$/) { matches, _ in
         XCTAssertEqual(String(matches.1), homeScreen.getActiveCarbsValue)
-    }
-
-Then("Bolus delivery temporary status bar displays") { _, _ in
-        XCTAssert(homeScreen.bolusProgressTextExists)
     }
     
     Then("Bolus delivery canceled and status bar dismisses") { _, _ in
@@ -115,11 +113,11 @@ Then("Bolus delivery temporary status bar displays") { _, _ in
         XCTAssert(homeScreen.bolusCanceledTextNotExists)
     }
     Then("Insulin suspended temporary status bar displays") { _, _ in
-     //   XCTAssert(homeScreen.insulinSuspendedCellExists)
-        XCTAssert(homeScreen.insulinTapToResumeCellExists)
+        XCTAssert(homeScreen.insulinSuspendedTextExists)
+        XCTAssert(homeScreen.insulinTapToResumeTextExists)
     }
     
     Then("Insulin suspended status bar dismisses") { _, _ in
-        XCTAssert(homeScreen.insulinSuspendedCellNotExists)
+        XCTAssert(homeScreen.insulinSuspendedTextNotExists)
     }
 }
