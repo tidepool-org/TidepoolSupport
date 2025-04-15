@@ -92,7 +92,7 @@ Scenario: Therapy Settings Acceptance Flow - Correction Range
         | 8:30 AM | 100      | 110      |
       And I edit 2nd scheduled item of Correction Range
         | MaxValue |
-        | 126      |
+        | 130      |
     Then High Correction Value message appears with orange warning indicators
     When I tap Confirm Setting
     Then alert 'Save Correction Range(s)?' appears
@@ -115,13 +115,13 @@ Scenario: Therapy Settings Acceptance Flow - Correction Range
       | red      | orange   | red              |
     When I edit 2nd scheduled item of Correction Range
       | MinValue |
-      | 99       |
+      | 95       |
     Then Correction Values message appears with warning indicators
       | MinValue | MaxValue | MessageIndicator |
       | orange   | orange   | orange           |
     When I edit 2nd scheduled item of Correction Range
       | MinValue |
-      | 126      |
+      | 130      |
     Then Correction Values message appears with warning indicators
       | MinValue | MaxValue | MessageIndicator |
       | orange   | orange   | orange           |
@@ -140,14 +140,14 @@ Scenario: Therapy Settings Acceptance Flow - Correction Range
         | 88       |
       And correction range of 2nd scheduled item displays values
         | MinValue | MaxValue |
-        | 88       | 126      |
+        | 88       | 130      |
     When I tap Confirm Setting
       And I tap Continue in alert window
       And I navigate to the Therapy Settings confirmation screen
     Then Correction Range section on Therapy Settings screen displays
         | Time    | MinValue | MaxValue |
         |         | 115      | 125      |
-        |         | 88       | 126      |
+        |         | 88       | 130      |
         | 8:30 AM | 100      | 110      |
     When I save settings and finish the onboarding
       And I pair CGM simulator
@@ -157,7 +157,7 @@ Scenario: Therapy Settings Acceptance Flow - Correction Range
     Then Correction Range section on Therapy Settings screen displays
         | Time    | MinValue | MaxValue |
         |         | 115      | 125      |
-        |         | 88       | 126      |
+        |         | 88       | 130      |
         | 8:30 AM | 100      | 110      |
 
 @LOOP-2400
@@ -189,7 +189,7 @@ Scenario: Therapy Settings Acceptance Flow - Guardrails - Pre-Meal Preset
     When I close information screen
       And I edit 1st scheduled item of Pre-Meal Preset
         | MaxValue |
-        | 88       |
+        | 90       |
     Then High Pre-Meal Value message appears with orange warning indicators
     When I tap Confirm Setting
     Then alert 'Save Pre-Meal Range?' appears
@@ -204,7 +204,7 @@ Scenario: Therapy Settings Acceptance Flow - Guardrails - Pre-Meal Preset
       | orange   | orange   | orange           |
       And pre-meal preset of 1st scheduled item displays values
         | MinValue | MaxValue |
-        | 88       | 88       |
+        | 90       | 90       |
     When I tap Confirm Setting
       And I tap Go Back in alert window
       And I edit 1st scheduled item of Pre-Meal Preset
@@ -255,7 +255,7 @@ Scenario: Therapy Settings Acceptance Flow - Guardrails - Workout Preset
     Then Low Workout Value message appears with red warning indicators
     When I edit 1st scheduled item of Workout Preset
         | MaxValue |
-        | 181      |
+        | 185      |
     Then Workout Values message appears with warning indicators
       | MinValue | MaxValue | MessageIndicator |
       | red      | orange   | red              |
@@ -271,7 +271,7 @@ Scenario: Therapy Settings Acceptance Flow - Guardrails - Workout Preset
     When I navigate back to Pre-Meal Preset edit screen
       And I edit 1st scheduled item of Pre-Meal Preset
         | MaxValue | MinValue |
-        | 115      | 111      |
+        | 115      | 110      |
       And I tap Confirm Setting
       And I navigate back to Correction Range edit screen
       And I edit 1st scheduled item of Correction Range
@@ -287,13 +287,13 @@ Scenario: Therapy Settings Acceptance Flow - Guardrails - Workout Preset
     Then Low Workout Value message appears with red warning indicators
     When I edit 1st scheduled item of Workout Preset
         | MaxValue |
-        | 124      |
+        | 120      |
     Then Workout Values message appears with warning indicators
       | MinValue | MaxValue | MessageIndicator |
       | red      | orange   | red              |
       And workout preset of 1st scheduled item displays values
         | MinValue | MaxValue |
-        | 109      | 124      |
+        | 109      | 120      |
     When I tap Confirm Setting
     Then alert 'Save Workout Range?' appears
     When I tap Continue in alert window
