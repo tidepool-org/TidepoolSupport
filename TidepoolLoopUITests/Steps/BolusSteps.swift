@@ -25,7 +25,7 @@ func bolusSteps() {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
         for simpleTextField in bolusScreenMap {
-            switch simpleTextField.key{
+            switch simpleTextField.key {
             case "Bolus":
                 bolusScreen.tapBolusEntryTextField()
                 bolusScreen.clearBolusEntryTextField()
@@ -47,7 +47,6 @@ func bolusSteps() {
         bolusScreen.setPasscode()
     }
     
-    
     // MARK: Verifications
     
     Then("simple bolus calculator displays") { _, _ in
@@ -61,17 +60,17 @@ func bolusSteps() {
     Then(/^warning title displays "?(.*?)"?$/) { matches, _ in
         let expectedValue = String(matches.1)
         let actualValue = therapySettingsScreen.getGuardrailWarningValue
-        XCTAssertEqual(expectedValue,actualValue, "Comparison of expected warning type `\(matches.1)` does not match the actual warning type `\(actualValue)`.")
+        XCTAssertEqual(expectedValue, actualValue)
     }
     
     Then(/^(bolus|current glucose) field displays value "?(.*?)"?$/) { matches, _ in
         let expectedValue = String(matches.2)
-        let actualValue = switch matches.1{
+        let actualValue = switch matches.1 {
         case "bolus": bolusScreen.getBolusFieldValue()
         case "current glucose": bolusScreen.getCurrentGlucoseFieldValue()
         default: ""
         }
-        if actualValue.isEmpty {XCTFail("Unsupported Field: \(matches.1)")}
+        if actualValue.isEmpty { XCTFail("Unsupported Field: \(matches.1)") }
         XCTAssertEqual(
             expectedValue,
             actualValue,
