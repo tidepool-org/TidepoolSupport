@@ -103,7 +103,8 @@ Scenario: Pump Error And State Handling - Status Bar Displays
       And I close pump manager
     Then pump pill displays value "Pump Occlusion"
     When I open bolus setup
-      And I set bolus value 2.1
+      And I set bolus screen values
+        |Bolus   |  2.1  |
       And I deliver and authenticate bolus
     Then notification displays
       | Title       | Body                      |
