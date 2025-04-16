@@ -12,6 +12,7 @@ import XCTest
 
 func bolusSteps() {
     let bolusScreen = BolusScreen(app: app)
+    let therapySettingsScreen = TherapySettingsScreen(app: app)
     
     // MARK: Actions
     
@@ -57,8 +58,10 @@ func bolusSteps() {
         XCTAssert(bolusScreen.bolusTitleExists)
     }
     
-    Then("glucose range warning displays") { _, _ in
-        XCTAssert(bolusScreen.glucoseEntryOutOfRangeWarningExists)
+    Then(/^warning title displays "?(.*?)"?$/) { matches, _ in
+        let expectedValue = String(matches.1)
+        let actualValue = therapySettingsScreen.getGuardrailWarningValue
+        XCTAssertEqual(expectedValue,actualValue, "Comparison of expected warning type `\(matches.1)` does not match the actual warning type `\(actualValue)`.")
     }
     
     Then(/^(bolus|current glucose) field displays value "?(.*?)"?$/) { matches, _ in
@@ -72,7 +75,7 @@ func bolusSteps() {
         XCTAssertEqual(
             expectedValue,
             actualValue,
-            "Comparison of expected \(matches.1) value `\(expectedValue)` does not match actual value `\(actualValue)`."
+            "Comparison of expected `\(matches.1)` value `\(expectedValue)` does not match actual value `\(actualValue)`."
         )
     }
 }
