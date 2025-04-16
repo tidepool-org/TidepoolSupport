@@ -11,22 +11,22 @@ Scenario: Simple Bolus Calculator - Current Glucose Min and Max
     When I open bolus setup
     Then simple bolus calculator displays
     When I set bolus screen values
-        | Current Glucose | 9 |
+        | CurrentGlucose | 9 |
         | Bolus           | .2 |
     Then glucose range warning displays
     When I set bolus screen values
-        | Current Glucose | 10 |
+        | CurrentGlucose | 10 |
         | Bolus           | .2 |
         And I deliver and authenticate bolus
     Then cgm pill displays value "10"
     When I open bolus setup
     Then simple bolus calculator displays
     When I set bolus screen values
-        | Current Glucose | 601 |
+        | CurrentGlucose | 601 |
         | Bolus           | .2 |
     Then glucose range warning displays
     When I set bolus screen values
-        | Current Glucose | 600 |
+        | CurrentGlucose | 600 |
         | Bolus           | .2 |
         And I deliver and authenticate bolus
     Then cgm pill displays value "600"
@@ -41,7 +41,7 @@ Scenario: Simple Bolus Calculator - Current Glucose values with decimal above 10
     When I open bolus setup
     Then simple bolus calculator displays
     When I set bolus screen values
-        | Current Glucose | 10.3 |
+        | CurrentGlucose | 10.3 |
         | Bolus           | .2   |
         And I deliver and authenticate bolus
     Then cgm pill displays value "10"
@@ -57,9 +57,9 @@ Scenario: Simple Bolus Calculator- Bolus field resets to zero after Current Gluc
     When I open bolus setup
     Then simple bolus calculator displays
     When I set bolus screen values
-        | Current Glucose | 200 |
+        | CurrentGlucose | 200 |
         | Bolus           | 5   |
-        | Current Glucose | 250 |
+        | CurrentGlucose | 250 |
     Then bolus field displays value 0
 
 @LOOP-5298
@@ -72,7 +72,7 @@ Scenario: Simple Bolus Calculator - Happy Path flow (1 U, 100 mg/dL)
     When I open bolus setup
     Then simple bolus calculator displays
     When I set bolus screen values
-        | Current Glucose | 100 |
+        | CurrentGlucose | 100 |
         | Bolus           | 1   |
         And I deliver and authenticate bolus
     Then cgm pill displays value "100"

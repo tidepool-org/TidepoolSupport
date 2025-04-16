@@ -30,7 +30,7 @@ func bolusSteps() {
                 bolusScreen.clearBolusEntryTextField()
                 bolusScreen.setBolusEntryTextField(value: simpleTextField.value)
                 bolusScreen.tapKeyboardDoneButton()
-            case "Current Glucose":
+            case "CurrentGlucose":
                 bolusScreen.tapCurrentGlucoseEntryTextField()
                 bolusScreen.clearCurrentGlucoseEntryTextField()
                 bolusScreen.setCurrentGlucoseEntryTextField(value: simpleTextField.value)
