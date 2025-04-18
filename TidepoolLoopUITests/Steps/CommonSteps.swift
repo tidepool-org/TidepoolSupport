@@ -29,7 +29,7 @@ func commonSteps() {
         }
         onboardingScreen.allowNotifications()
         onboardingScreen.allowCriticalAlerts()
-        onboardingScreen.allowHealthKitAuthorization()
+        onboardingScreen.dontAllowHelthKitAuthorization()
     }
     
     // MARK: Actions

@@ -30,7 +30,7 @@ func cGMManagerSteps() {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
         let cgmKeysGroup = [
-            "MeasurementFrequency", "GlucoseNoise", "WarningThreshold", "CriticalThreshold",
+            "GlucoseNoise", "WarningThreshold", "CriticalThreshold",
             "Constant", "PercentCompleted", "CgmLowerLimit", "CgmUpperLimit"
         ]
         
@@ -58,9 +58,23 @@ func cGMManagerSteps() {
                 case "Constant": cgmManagerScreen.tapConstantCell()
                 default: break
                 }
-            case "MeasurementFrequency": cgmManagerScreen.tapMeasurementFrequencyCell()
+            case "MeasurementFrequency":
+                cgmManagerScreen.tapMeasurementFrequencyCell()
+                switch cgmAttribute.value {
+                case "fast": cgmManagerScreen.setMeasurementFrequency(frequency: .fast)
+                case "faster": cgmManagerScreen.setMeasurementFrequency(frequency: .faster)
+                case "normal": cgmManagerScreen.setMeasurementFrequency(frequency: .normal)
+                default: XCTFail("Measurement Frequency attribute support values: 'fast', 'faster' or 'normal'")
+                }
+                navigationBar.tapBackButton()
+                navigationBar.tapBackButton()
+                cgmManagerScreen.tapCgmSimulatorDoneButton()
             case "GlucoseNoise": cgmManagerScreen.tapGlucoseNoiseCell()
             case "BackfillGlucose":
+                let timeValues = cgmAttribute.value.components(separatedBy: ", ")
+                var hours: String?
+                var minutes: String?
+                
                 cgmManagerScreen.tapBackfillGlucoseCell()
                 for _ in 1...3 {
                     if navigationBar.saveButtonExists {
@@ -70,8 +84,20 @@ func cGMManagerSteps() {
                         cgmManagerScreen.tapBackfillGlucoseCell()
                     }
                 }
+                
+                if timeValues.count == 1 && timeValues[0].contains("hour") {
+                    hours = timeValues[0].components(separatedBy: " ")[0]
+                } else if timeValues.count == 1 && timeValues[0].contains("minute") {
+                    minutes = timeValues[0].components(separatedBy: " ")[0]
+                } else {
+                    hours = timeValues[0].components(separatedBy: " ")[0]
+                    minutes = timeValues[1].components(separatedBy: " ")[0]
+                }
+                cgmManagerScreen.setTimeValue(hours: hours ?? "0", minutes: minutes ?? "0")
                 navigationBar.tapSaveButton()
-            case "WarningThreshold": cgmManagerScreen.tapWarningThresholdCell()
+            case "WarningThreshold":
+                app.swipeUp(velocity: .fast)
+                cgmManagerScreen.tapWarningThresholdCell()
             case "CriticalThreshold": cgmManagerScreen.tapCriticalThresholdCell()
             case "Trend":
                 cgmManagerScreen.tapTrendCell()

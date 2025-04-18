@@ -18,10 +18,12 @@ func alertSteps() {
         else { alert.tapAlertSecondButton() }
     }
     
-    Then("alert displays") { _, step in
+    Then(/^alert displays(| within 5 minutes)$/) { matches, step in
         let alertsMap = step.dataTable!.rows.map {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
+        
+        if !matches.1.isEmpty { alert.waitForAlertTitleExists(timeout: 300) }
         
         for alertItem in alertsMap {
             let actualAlertValue = switch alertItem.key {

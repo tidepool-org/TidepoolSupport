@@ -95,4 +95,8 @@ func homeSteps() {
         XCTAssertTrue(homeScreen.bolusProgressTextExists, "Temporary status bar with bolus progress is not displayed.")
         XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
     }
+    
+    Then(/^Active Carbohydrates displays value "(.*)"$/) { matches, _ in        
+        XCTAssertEqual(String(matches.1), homeScreen.getActiveCarbsValue)
+    }
 }
