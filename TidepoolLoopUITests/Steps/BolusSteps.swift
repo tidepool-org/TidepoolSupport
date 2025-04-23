@@ -42,6 +42,14 @@ func bolusSteps() {
         }
     }
     
+    When("I tap Save and Deliver button") { _, _ in
+        bolusScreen.tapBolusActionButton()
+    }
+    
+    When("I cancel bolus authentication") { _, _ in
+        bolusScreen.cancelPasscode()
+    }
+
     When("I deliver and authenticate bolus") { _, _ in
         bolusScreen.tapBolusActionButton()
         bolusScreen.setPasscode()
@@ -77,4 +85,9 @@ func bolusSteps() {
             "Comparison of expected `\(matches.1)` value `\(expectedValue)` does not match actual value `\(actualValue)`."
         )
     }
+
+	Then(/^Active Carbs value on Meal Bolus screen displays "(.*)"$/) { matches, _ in
+        XCTAssertEqual(String(matches.1), bolusScreen.getActiveCarbsText.components(separatedBy: ", ")[1])
+	}
+
 }

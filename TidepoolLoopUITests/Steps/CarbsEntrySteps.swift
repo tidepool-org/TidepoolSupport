@@ -13,9 +13,10 @@ func carbsEntrySteps() {
     let carbsEntryScreen = CarbsEntryScreen(app: app)
     let activeCarbsScreen = ActiveCarbsScreen(app: app)
     let homeScreen = HomeScreen(app: app)
+    let bolusScreen = BolusScreen(app: app)
+    let navigationBar = NavigationBar(app: app)
     
     var lastCarbEntries: [String: String] = [:]
-    var consumeTime: String = ""
     
     // MARK: Actions
     
@@ -32,23 +33,29 @@ func carbsEntrySteps() {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
         
-        if !carbsEntryScreen.carbEntryScreenExists { homeScreen.tapCarbEntry() }
+        if homeScreen.carbsTabButtonisHittable { homeScreen.tapCarbEntry() }
         
         for carbsAttribute in carbsSettingsMap {
             switch carbsAttribute.key {
             case "CarbsAmmount":
                 carbsEntryScreen.setCarbsConsumedTextField(carbsAmount: carbsAttribute.value)
-                lastCarbEntries["CarbsAmmount"] = carbsEntryScreen.getCarbsAmountValue
             case "ConsumeTime":
-                let adjustedTimeArray = getAdjustedTimeString(timeAdjustment: carbsAttribute.value)
-                    .components(separatedBy: CharacterSet(charactersIn: ": "))
-                
-                carbsEntryScreen.setConsumedTime(
-                    hours: adjustedTimeArray[0],
-                    minutes: adjustedTimeArray[1],
-                    amPm: adjustedTimeArray[2]
+                let timeAdjustmentInSeconds = getSecondsToAdjust(timeAdjustment: carbsAttribute.value)
+                let adjustedTimeMap = addIntervalAndFormat(
+                    seconds: timeAdjustmentInSeconds
                 )
-                lastCarbEntries["ConsumeTime"] = carbsEntryScreen.getConsumedTimeText
+                
+                switch timeAdjustmentInSeconds {
+                case let x where x < (-12 * 3600): carbsEntryScreen.swipeDayPickerWheel(swipeDirection: .down)
+                case let x where x > 3600: carbsEntryScreen.swipeDayPickerWheel(swipeDirection: .up)
+                default:
+                    carbsEntryScreen.setConsumedTime(
+                        day: adjustedTimeMap.day,
+                        hours: adjustedTimeMap.hour,
+                        minutes: adjustedTimeMap.minute,
+                        amPm: adjustedTimeMap.ampm
+                    )
+                }
             case "FoodType":
                 carbsEntryScreen.setFoodType(foodType: carbsAttribute.value)
                 if carbsEntryScreen.foodTypeTextFieldExists {
@@ -67,18 +74,19 @@ func carbsEntrySteps() {
                 }
                 
                 carbsEntryScreen.setAbsorbtionTime(hours: hourValue, minutes: minuteValue)
-                lastCarbEntries["AbsorbtionTime"] = carbsEntryScreen.getAbsorbtionTimeText
             default: break
             }
+            lastCarbEntries["ConsumeTime"] = carbsEntryScreen.getConsumedTimeText
+            lastCarbEntries["AbsorbtionTime"] = carbsEntryScreen.getAbsorbtionTimeText
+            lastCarbEntries["CarbsAmmount"] = carbsEntryScreen.getCarbsAmountValue
         }
         if matches.1 == "add" { carbsEntryScreen.tapContinueButton() }
     }
     
     When(/^I press (decrease|increase) button "(.*)" time(s|) to update Carb Entry time$/) { matches, _ in
         let tapCount = Int(matches.2) ?? 1
-        let timeAdjustment = "\(matches.1 == "decrease" ? "-" : "+")\(tapCount * 15)"
-        consumeTime = getAdjustedTimeString(timeAdjustment: timeAdjustment)
-        lastCarbEntries["ConsumeTime"] = consumeTime
+        let timeAdjustment = Double((matches.1 == "decrease" ? -1 : +1) * tapCount * 15 * 60)
+        let adjustedTimeMap = addIntervalAndFormat(seconds: timeAdjustment)
         
         for _ in 1...tapCount {
             switch matches.1 {
@@ -87,6 +95,21 @@ func carbsEntrySteps() {
             default: break
             }
         }
+        
+        lastCarbEntries["ConsumeTime"] = carbsEntryScreen.getConsumedTimeText
+    }
+    
+    // Active Carbs graph - details
+    
+    When(/^I open details of (\d+)(st|nd|rd|th) Carb record$/) { matches, _ in
+        activeCarbsScreen.tapCarbEntryCell(cellIndex: Int(matches.1)! - 1)
+    }
+    
+    When("I confirm edited Carb Entry and bolus recomendation") { _, _ in
+        carbsEntryScreen.tapContinueButton()
+        bolusScreen.tapBolusActionButton()
+        if bolusScreen.passcodeEntryExists { bolusScreen.setPasscode() }
+        if navigationBar.backButtonExists { navigationBar.tapBackButton() }
     }
     
     // MARK: Verifications
@@ -100,11 +123,12 @@ func carbsEntrySteps() {
     }
     
     // Active Carbs graph - details
-    Then("the latest Carbohydrates record displays") { _, step in
-        let carbsEntryMap = step.dataTable!.rows.map {
+    Then(/^(the late|(\d+))(st|nd|rd|th) Carbohydrates record displays$/) { matches, step in
+        var carbsEntryMap = step.dataTable!.rows.map {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
-        let actualCarbValuesMap = activeCarbsScreen.getCarbEntryCellValues(cellIndex: 0)
+        let cellIndex = matches.1 == "the late" ? 1 : Int(matches.1) ?? 1
+        let actualCarbValuesMap = activeCarbsScreen.getCarbEntryCellValues(cellIndex: cellIndex - 1)
         
         for carbEntry in carbsEntryMap {
             let actualValue = switch carbEntry.key {
@@ -116,10 +140,27 @@ func carbsEntrySteps() {
                 case "🍭": "Fast"
                 default: ""
                 }
+            case "ConsumeTime":
+                actualCarbValuesMap["ConsumeTime"]?.components(separatedBy: " ")[0]
             default: ""
             }
             
-            XCTAssertEqual(carbEntry.value, actualValue)
+            if carbEntry.value == "match the latest record" {
+                let dateFormatter = DateFormatter()
+                dateFormatter.locale = Locale(identifier: "en_US")
+                dateFormatter.dateFormat = "h:mm a"
+                let expectedTime = dateFormatter.date(from: lastCarbEntries["ConsumeTime"]!)
+                let actualTime = dateFormatter.date(from: actualValue!.replacing(" ", with: " "))
+                let timeDifference = expectedTime?.timeIntervalSince(actualTime!) ?? 1 // if nil set 1 second
+                
+                XCTAssertTrue(
+                    abs(timeDifference) == 0,
+                    "Expected time should be \(lastCarbEntries["ConsumeTime"]!) hours since now '\(Date.now)'. " +
+                    "But actual is '\(actualValue!)'. Time difference is \(timeDifference)"
+                )
+            } else {
+                XCTAssertEqual(carbEntry.value, actualValue)
+            }
         }
     }
     
@@ -170,24 +211,62 @@ func carbsEntrySteps() {
     }
     
     Then(/^Consume Time displays updated value$/) { _, _ in
-        XCTAssertEqual(consumeTime, carbsEntryScreen.getConsumedTimeText)
+        XCTAssertEqual(lastCarbEntries["ConsumeTime"], carbsEntryScreen.getConsumedTimeText)
     }
     
-    func getAdjustedTimeString(timeAdjustment: String) -> String {
-        let timeAdjustment = timeAdjustment.components(separatedBy: ", ")
+    Then(/^Consume Time was automatically adjusted to be (12|1) hour(|s) in the (past|future)$/) { matches, _ in
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
+        dateFormatter.dateFormat = "MMM dd h:mm a"
+        dateFormatter.locale = Locale(identifier: "en_US")
+        let actualConsumeTime = carbsEntryScreen.getConsumeDateTime()
         
-        let timeAdjustmentInSeconds = switch timeAdjustment.count {
-        case 1: Double(timeAdjustment[0].components(separatedBy: " ")[0])! * 60
-        case 2: Double(timeAdjustment[0].components(separatedBy: " ")[0])! * 3600 +
-            Double(timeAdjustment[1].components(separatedBy: " ")[0])! * 60
-        default: 0.0
+        let timeDifference = actualConsumeTime.timeIntervalSinceNow
+        XCTAssert(
+            abs(abs(timeDifference) - Double(matches.1)! * 3600) < 120,
+            "Expected time should be \(matches.1) hours since now '\(Date.now)'. But actual is '\(actualConsumeTime)'. Time difference is \(timeDifference)"
+        )
+    }
+    
+    func getSecondsToAdjust(timeAdjustment: String) -> Double {
+        var timeAdjustmentInSeconds = 0.0
+        
+        for component in timeAdjustment.components(separatedBy: ", ") {
+            let trimmedComponent = component.trimmingCharacters(in: .whitespaces)
+            
+            if trimmedComponent.contains("hour") {
+                let hourParts = trimmedComponent.components(separatedBy: " ")
+                if let value = Int(hourParts[0]) {
+                    timeAdjustmentInSeconds += Double(value * 3600)
+                }
+            } else if trimmedComponent.contains("minute") {
+                let minuteParts = trimmedComponent.components(separatedBy: " ")
+                if let value = Int(minuteParts[0]) {
+                    timeAdjustmentInSeconds += Double(value * 60)
+                }
+            }
         }
-        let adjustedTime = dateFormatter
-            .date(from: carbsEntryScreen.getConsumedTimeText)?
-            .addingTimeInterval(timeAdjustmentInSeconds)
+        return timeAdjustmentInSeconds
+    }
+    
+    func addIntervalAndFormat(seconds: TimeInterval) -> (day: String, hour: String, minute: String, ampm: String) {
+        let currentDate = Date()
+        let adjustedDate = currentDate.addingTimeInterval(seconds)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US")
 
-        return dateFormatter.string(for: adjustedTime) ?? ""
+        dateFormatter.dateFormat = "MMM dd"
+        let dayString = dateFormatter.string(from: adjustedDate)
+        
+        dateFormatter.dateFormat = "h"
+        let hourString = dateFormatter.string(from: adjustedDate)
+        
+        dateFormatter.dateFormat = "mm"
+        let minuteString = dateFormatter.string(from: adjustedDate)
+        
+        dateFormatter.dateFormat = "a"
+        let ampmString = dateFormatter.string(from: adjustedDate)
+        
+        return (dayString, hourString, minuteString, ampmString)
     }
 }
