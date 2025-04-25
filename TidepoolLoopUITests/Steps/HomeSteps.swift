@@ -112,7 +112,7 @@ func homeSteps() {
         XCTAssert(homeScreen.bolusCanceledTextExists)
         XCTAssert(homeScreen.bolusCanceledTextNotExists)
     }
-    Then("Insulin suspended temporary status bar displays") { _, _ in
+    Then(/^status bar displays "?(.*?)"?$/) { _, _ in
         XCTAssert(homeScreen.insulinSuspendedTextExists)
         XCTAssert(homeScreen.insulinTapToResumeTextExists)
     }

@@ -24,7 +24,7 @@ func carbsEntrySteps() {
         carbsEntryScreen.tapCancelCarbsEntry()
     }
     
-    When ("I set amount consumed value {string}") { matches, _ in
+    When ("I set amount consumed value {int}") { matches, _ in
         carbsEntryScreen.setCarbsConsumedTextField(carbsAmount: try String  (matches.first(\.string)).replacing(",", with: "."))
         carbsEntryScreen.tapContinueButton()
     }
