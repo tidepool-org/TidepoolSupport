@@ -24,21 +24,24 @@ func bolusSteps() {
         let bolusScreenMap = step.dataTable!.rows.map {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
-        for simpleTextField in bolusScreenMap {
-            switch simpleTextField.key {
-            case "Bolus":
-                bolusScreen.tapBolusEntryTextField()
-                bolusScreen.clearBolusEntryTextField()
-                bolusScreen.setBolusEntryTextField(value: simpleTextField.value)
-                bolusScreen.tapKeyboardDoneButton()
+        for textField in bolusScreenMap {
+            switch textField.key {
             case "CurrentGlucose":
-                bolusScreen.tapCurrentGlucoseEntryTextField()
-                bolusScreen.clearCurrentGlucoseEntryTextField()
-                bolusScreen.setCurrentGlucoseEntryTextField(value: simpleTextField.value)
-                bolusScreen.tapKeyboardDoneButton()
+                bolusScreen.tapCurrentGlucoseTextField()
+                bolusScreen.clearCurrentGlucoseTextFieldValue()
+                bolusScreen.setCurrentGlucoseTextFieldValue(textField.value)
+            case "Carbohydrates":
+                bolusScreen.tapCarbohydratesTextField()
+                bolusScreen.clearCarbohydratesTextFieldValue()
+                bolusScreen.setCarbohydratesTextFieldValue(textField.value)
+            case "Bolus":
+                bolusScreen.tapBolusTextField()
+                bolusScreen.clearBolusTextFieldValue()
+                bolusScreen.setBolusTextFieldValue(textField.value)
             default:
-                XCTFail("Unsupported field \(simpleTextField.key)")
+                XCTFail("Unsupported field \(textField.key)")
             }
+            bolusScreen.tapKeyboardDoneButton()
         }
     }
     
@@ -71,19 +74,43 @@ func bolusSteps() {
         XCTAssertEqual(expectedValue, actualValue)
     }
     
-    Then(/^(bolus|current glucose) field displays value "?(.*?)"?$/) { matches, _ in
-        let expectedValue = String(matches.2)
+    Then(/^(bolus|current glucose|carbohydrates|recommended bolus) field (displays|is not|is greater than|is less than) value "?(.*?)"?$/) { matches, _ in
+        let expectedValue = String(matches.3)
         let actualValue = switch matches.1 {
-        case "bolus": bolusScreen.getBolusFieldValue()
-        case "current glucose": bolusScreen.getCurrentGlucoseFieldValue()
+        case "current glucose": bolusScreen.getCurrentGlucoseTextFieldValue
+        case "carbohydrates": bolusScreen.getCarbohydratesTextFieldValue
+        case "recommended bolus": bolusScreen.getRecommendedBolusStaticTextValue
+        case "bolus": bolusScreen.getBolusTextFieldValue
         default: ""
         }
-        if actualValue.isEmpty { XCTFail("Unsupported Field: \(matches.1)") }
-        XCTAssertEqual(
-            expectedValue,
-            actualValue,
-            "Comparison of expected `\(matches.1)` value `\(expectedValue)` does not match actual value `\(actualValue)`."
-        )
+        if actualValue.isEmpty {
+            XCTFail("The field \(matches.1) does not exist or is not currently supported.")
+            return
+        }
+        switch matches.2 {
+        case "displays":
+            XCTAssertEqual(
+                actualValue,
+                expectedValue,
+                "Equal comparison of expected `\(matches.1)` value `\(expectedValue)` is not equal to actual value `\(actualValue)`.")
+        case "is not":
+            XCTAssertNotEqual(
+                actualValue,
+                expectedValue,
+                "Not Equal Comparison of expected `\(matches.1)` value `\(expectedValue)` is equal to actual value `\(actualValue)`.")
+        case "is greater than":
+            XCTAssertGreaterThan(
+                actualValue,
+                expectedValue,
+                "Greater than comparison of expected `\(matches.1)` value `\(expectedValue)` is equal to or less than actual value `\(actualValue)`.")
+        case "is less than":
+            XCTAssertLessThan(
+                actualValue,
+                expectedValue,
+                "Less than comparison of expected `\(matches.1)` value `\(expectedValue)` is equal to or greater than actual value `\(actualValue)`.")
+        default:
+            XCTFail("Opperator option: \(matches.2) is not supported or valid.")
+        }
     }
 
 	Then(/^Active Carbs value on Meal Bolus screen displays "(.*)"$/) { matches, _ in
