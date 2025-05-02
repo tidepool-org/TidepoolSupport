@@ -175,7 +175,7 @@ Scenario: Bolus - No Bolus Recommended Warning displays: current glucose below G
     When I set bolus screen values
       | Bolus   |  0  |
       And I tap Save without Bolusing button
-    Then Active Carbohydrates displays value "20g"
+    Then Active Carbohydrates displays value "20" g
     When I open bolus setup
     Then warning title does not display "No Bolus Recommended"
     When I navigate back

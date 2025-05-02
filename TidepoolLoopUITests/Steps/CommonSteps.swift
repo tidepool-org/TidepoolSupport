@@ -43,6 +43,16 @@ func commonSteps() {
         systemSettingsScreen.tapReturnToTidepoolButton(appName: appName)
     }
     
+    When(/^I change orientation to (Landscape|Portrait)$/) { matches, _ in
+        XCUIDevice.shared.orientation =
+            matches.1 == "Landscape" ? UIDeviceOrientation.landscapeRight : UIDeviceOrientation.portrait
+    }
+    
+    When("I restart the app") { _, _ in
+        app.terminate()
+        app.launch()
+	}
+
     When(/^I wait for (.*) (second[s]?|minute[s]?)$/) { matches, userInfo in
         let waitSeconds = matches.2.contains("second") ? Int(matches.1)! : Int(matches.1)! * 60
         let expectation = XCTestExpectation(description: "Wait for \(waitSeconds) seconds")

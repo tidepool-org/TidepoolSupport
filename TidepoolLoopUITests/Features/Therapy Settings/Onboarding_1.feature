@@ -16,7 +16,6 @@ Scenario: Therapy Flow - Therapy settings overview screen
       | Carb Ratios           | g/U         |
       | Basal Rates           | U/hr, U/day |
       | Delivery Limits       | U/hr, U     |
-      | Insulin Model         |             |
       | Insulin Sensitivities | mg/dL/U     |
       And Prescription section displays Dr. name and date of prescription
       And possible actions are

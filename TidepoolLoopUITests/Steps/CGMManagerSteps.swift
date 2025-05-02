@@ -13,6 +13,7 @@ func cGMManagerSteps() {
     let cgmManagerScreen = CGMManagerScreen(app: app)
     let navigationBar = NavigationBar(app: app)
     let homeScreen = HomeScreen(app: app)
+    let alerts = Alerts(app: app)
     
     // MARK: Actions
     
@@ -33,6 +34,7 @@ func cGMManagerSteps() {
             "GlucoseNoise", "WarningThreshold", "CriticalThreshold",
             "Constant", "PercentCompleted", "CgmLowerLimit", "CgmUpperLimit"
         ]
+        var lastAttributeKey = ""
         
         for cgmAttribute in cgmSettingsMap {
             switch cgmAttribute.key {
@@ -120,12 +122,15 @@ func cGMManagerSteps() {
             default: break
             }
             
+            lastAttributeKey = cgmAttribute.key
+            
             if cgmKeysGroup.contains(cgmAttribute.key) {
                 cgmManagerScreen.setSingleTextField(glucose: cgmAttribute.value)
                 navigationBar.tapBackButton()
             }
         }
-        if(navigationBar.backButtonExists) {
+        
+        if navigationBar.backButtonExists && lastAttributeKey != "IssueAlert" {
             navigationBar.tapBackButton()
         }
     }
