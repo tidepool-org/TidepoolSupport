@@ -108,16 +108,31 @@ func homeSteps() {
         XCTAssertEqual(String(matches.1), homeScreen.getActiveCarbsValue)
     }
     
-    Then("Bolus delivery canceled and status bar dismisses") { _, _ in
-        XCTAssert(homeScreen.bolusCanceledTextExists)
-        XCTAssert(homeScreen.bolusCanceledTextNotExists)
+    Then(/^status bar (does|doesn't) display "?(.*?)"?$/) { matches, _ in
+        switch String(matches.output.2) {
+        case "Insulin Suspended":
+            if String(matches.1) == "does" {
+                XCTAssert(homeScreen.insulinSuspendedTextExists && homeScreen.insulinTapToResumeTextExists)
+            } else {
+                XCTAssert(homeScreen.insulinSuspendedTextNotExists)
+            }
+        case "Bolus Canceled":
+            XCTAssert(matches.1=="does" ? homeScreen.bolusCanceledTextExists : homeScreen.bolusCanceledTextNotExists)
+        case "Bolus Progress":
+            XCTAssertTrue(homeScreen.bolusProgressTextExists, "Temporary status bar with bolus progress is not displayed.")
+            XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
+        default:XCTFail("Only 'Insulin Suspended' and 'Bolus Canceled' parameters are supported in test framework.")
+        }
     }
-    Then(/^status bar displays "?(.*?)"?$/) { _, _ in
-        XCTAssert(homeScreen.insulinSuspendedTextExists)
-        XCTAssert(homeScreen.insulinTapToResumeTextExists)
-    }
+        
+     Then(/^status bar \"(.*?)\" dismisses$/) { matches, _ in
+        switch matches.1 {
+        case "Insulin Suspended":
+                XCTAssertTrue(homeScreen.insulinSuspendedTextNotExists)
+        case "Bolus Canceled":
+                XCTAssertTrue(homeScreen.bolusCanceledTextNotExists)
+        default: XCTFail("Only 'Insulin Suspended' and 'Bolus Canceled' parameters are supported in test framework.")
+        }
+      }
     
-    Then("Insulin suspended status bar dismisses") { _, _ in
-        XCTAssert(homeScreen.insulinSuspendedTextNotExists)
     }
-}

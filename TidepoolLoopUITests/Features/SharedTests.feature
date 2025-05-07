@@ -137,9 +137,10 @@ Scenario: Test Canceled Bolus from carb entry screen
     When I set amount consumed value 25
     Then meal bolus screen displays
     When I deliver and authenticate bolus
-    Then temporary status bar displays current bolus progress
+    Then status bar does display "Bolus Progress"
     When I tap Tap to Stop
-    Then Bolus delivery canceled and status bar dismisses
+    Then status bar does display "Bolus Canceled"
+      And status bar "Bolus Canceled" dismisses
    
    
 @LOOP-1450
@@ -149,9 +150,9 @@ Scenario: Test Suspend or Resume Insulin Delivery
       And I suspend insulin delivery
     Then resume insulin delivery displays
     When I close pump manager
-    Then status bar displays "Insulin suspended"
+    Then status bar does display "Insulin Suspended"
     When I tap Tap to Resume
-    Then Insulin suspended status bar dismisses
+    Then status bar "Insulin Suspended" dismisses
     
     
 
