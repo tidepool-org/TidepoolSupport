@@ -13,6 +13,8 @@ import XCTest
 func bolusSteps() {
     let bolusScreen = BolusScreen(app: app)
     let therapySettingsScreen = TherapySettingsScreen(app: app)
+    let carbsEntryScreen = CarbsEntryScreen(app: app)
+    let passcodeScreen = PasscodeScreen(app: app)
     
     // MARK: Actions
     
@@ -20,7 +22,8 @@ func bolusSteps() {
         bolusScreen.tapCancelBolusButton()
     }
     
-    When("I set bolus screen values") { _, step in // Applies to Closed/Open Manual/Meal bolus screens. 
+    When("I set bolus screen values") { _, step in // Applies to Closed/Open Manual/Meal bolus screens.
+        app.swipeUp() 
         let bolusScreenMap = step.dataTable!.rows.map {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
@@ -30,6 +33,10 @@ func bolusSteps() {
                 bolusScreen.tapCurrentGlucoseTextField()
                 bolusScreen.clearCurrentGlucoseTextFieldValue()
                 bolusScreen.setCurrentGlucoseTextFieldValue(textField.value)
+            case "FingerstickGlucose":
+                bolusScreen.tapFingerstickGlucoseTextField()
+                bolusScreen.clearFingerstickGlucoseTextFieldValue()
+                bolusScreen.setFingerstickGlucoseTextFieldValue(textField.value)
             case "Carbohydrates":
                 bolusScreen.tapCarbohydratesTextField()
                 bolusScreen.clearCarbohydratesTextFieldValue()
@@ -45,17 +52,21 @@ func bolusSteps() {
         }
     }
     
-    When("I tap Save and Deliver button") { _, _ in
+    When(/^I tap (Save and Deliver|Save without Bolusing|Enter Bolus) button$/) { _, _ in
         bolusScreen.tapBolusActionButton()
     }
     
     When("I cancel bolus authentication") { _, _ in
-        bolusScreen.cancelPasscode()
+        passcodeScreen.cancelPasscode()
     }
 
     When("I deliver and authenticate bolus") { _, _ in
         bolusScreen.tapBolusActionButton()
-        bolusScreen.setPasscode()
+        passcodeScreen.setPasscode()
+    }
+    
+    When(/^I tap "Enter Fingerstick Glucose"$/) { _, _ in
+        bolusScreen.tapEnterFingerstickGlucoseButton()
     }
     
     // MARK: Verifications
@@ -64,20 +75,29 @@ func bolusSteps() {
         XCTAssert(bolusScreen.simpleBolusCalculatorTitleExists)
     }
     
-    Then("bolus screen displays") { _, _ in
-        XCTAssert(bolusScreen.bolusTitleExists)
+    Then(/^(meal |)bolus screen displays$/) { matches, _ in
+        if(matches.1.isEmpty) { XCTAssert(bolusScreen.bolusTitleExists) }
+        else{ XCTAssert(carbsEntryScreen.mealBolusScreenExists) }
     }
     
-    Then(/^warning title displays "?(.*?)"?$/) { matches, _ in
-        let expectedValue = String(matches.1)
-        let actualValue = therapySettingsScreen.getGuardrailWarningValue
-        XCTAssertEqual(expectedValue, actualValue)
+    Then(/^warning title (does not |)display[s]? "?(.*?)"?$/) { matches, _ in
+        let expectedValue = String(matches.2)
+        let warningIsExpected = matches.1.isEmpty
+        let errorMsg = warningIsExpected ? "does not display" : "displays"
+        
+        XCTAssertTrue(
+            warningIsExpected == therapySettingsScreen.guardrailWarningTextExists,
+            "Warning title incorrectly \(errorMsg)"
+        )
+        if warningIsExpected { XCTAssertEqual(expectedValue, therapySettingsScreen.getGuardrailWarningValue) }
     }
     
-    Then(/^(bolus|current glucose|carbohydrates|recommended bolus) field (displays|is not|is greater than|is less than) value "?(.*?)"?$/) { matches, _ in
+    Then(/^(bolus|current glucose|carbohydrates|recommended bolus|fingerstick glucose) field (displays|is not|is greater than|is less than) value "?(.*?)"?$/) { matches, _ in
+        app.swipeUp()
         let expectedValue = String(matches.3)
         let actualValue = switch matches.1 {
         case "current glucose": bolusScreen.getCurrentGlucoseTextFieldValue
+        case "fingerstick glucose": bolusScreen.getFingerstickGlucoseTextFieldValue
         case "carbohydrates": bolusScreen.getCarbohydratesTextFieldValue
         case "recommended bolus": bolusScreen.getRecommendedBolusStaticTextValue
         case "bolus": bolusScreen.getBolusTextFieldValue
@@ -116,5 +136,4 @@ func bolusSteps() {
 	Then(/^Active Carbs value on Meal Bolus screen displays "(.*)"$/) { matches, _ in
         XCTAssertEqual(String(matches.1), bolusScreen.getActiveCarbsText.components(separatedBy: ", ")[1])
 	}
-
 }

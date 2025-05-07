@@ -56,6 +56,9 @@ func cGMManagerSteps() {
                     }
                     navigationBar.tapBackButton()
                 case "Constant": cgmManagerScreen.tapConstantCell()
+                case "SignalLoss":
+                    cgmManagerScreen.tapSignalLossCell()
+                    homeScreen.tapLoopStatusAlertDismissButton()
                 default: break
                 }
             case "MeasurementFrequency":
@@ -121,6 +124,9 @@ func cGMManagerSteps() {
                 cgmManagerScreen.setSingleTextField(glucose: cgmAttribute.value)
                 navigationBar.tapBackButton()
             }
+        }
+        if(navigationBar.backButtonExists) {
+            navigationBar.tapBackButton()
         }
     }
     
