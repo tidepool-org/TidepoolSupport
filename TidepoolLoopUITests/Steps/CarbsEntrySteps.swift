@@ -24,6 +24,11 @@ func carbsEntrySteps() {
         carbsEntryScreen.tapCancelCarbsEntry()
     }
     
+    When ("I set amount consumed value {int}") { matches, _ in
+        carbsEntryScreen.setCarbsConsumedTextField(carbsAmount: try String  (matches.first(\.int)).replacing(",", with: "."))
+        carbsEntryScreen.tapContinueButton()
+    }
+    
     When("I tap Continue on Carb Entry screen") { _, _ in
         carbsEntryScreen.tapContinueButton()
     }
@@ -122,6 +127,10 @@ func carbsEntrySteps() {
         XCTAssert(carbsEntryScreen.carbEntryScreenExists)
     }
     
+    Then("meal bolus screen displays") { _, _ in
+        XCTAssert(carbsEntryScreen.mealBolusScreenExists)
+    }
+    
     // Active Carbs graph - details
     Then(/^(the late|(\d+))(st|nd|rd|th) Carbohydrates record displays$/) { matches, step in
         var carbsEntryMap = step.dataTable!.rows.map {
@@ -172,8 +181,8 @@ func carbsEntrySteps() {
         }
         
         carbsEntryScreen.foodTypeTextFieldExists ?
-            carbsEntryScreen.tapFoodTypeTextField() : carbsEntryScreen.tapFoodType(foodType: "🍽️")
-            
+        carbsEntryScreen.tapFoodTypeTextField() : carbsEntryScreen.tapFoodType(foodType: "🍽️")
+        
         let missingTypes = carbsEntryScreen.foodsCollectionContainsType(foodTypes: foodTypes)
         if let count = missingTypes?.count {
             failureMsg = count > 1 ? "types \(missingTypes!) don't" : "type \(missingTypes!) doesn't"
@@ -254,7 +263,7 @@ func carbsEntrySteps() {
         
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
-
+        
         dateFormatter.dateFormat = "MMM dd"
         let dayString = dateFormatter.string(from: adjustedDate)
         
