@@ -51,6 +51,14 @@ func homeSteps() {
         homeScreen.tapPumpPill()
     }
     
+    When("I tap Tap to Stop") { _, _ in
+        homeScreen.tapTapToStop()
+    }
+    
+    When("I tap Tap to Resume") { _, _ in
+        homeScreen.tapInsulinTapToResumeCell()
+    }
+    
     // MARK: Verifications
     
     Then(/^glucose chart (allows|doesn't allow) navigation to detailed view$/) { matches, _ in
@@ -104,6 +112,35 @@ func homeSteps() {
     }
     
     Then(/^Active Carbohydrates displays value "(.*)[g]"$/) { matches, _ in
+
         XCTAssertEqual(String(matches.1), homeScreen.getActiveCarbsValue)
     }
-}
+    
+    Then(/^status bar (does|doesn't) display "?(.*?)"?$/) { matches, _ in
+        switch String(matches.output.2) {
+        case "Insulin Suspended":
+            if String(matches.1) == "does" {
+                XCTAssert(homeScreen.insulinSuspendedTextExists && homeScreen.insulinTapToResumeTextExists)
+            } else {
+                XCTAssert(homeScreen.insulinSuspendedTextNotExists)
+            }
+        case "Bolus Canceled":
+            XCTAssert(matches.1=="does" ? homeScreen.bolusCanceledTextExists : homeScreen.bolusCanceledTextNotExists)
+        case "Bolus Progress":
+            XCTAssertTrue(homeScreen.bolusProgressTextExists, "Temporary status bar with bolus progress is not displayed.")
+            XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
+        default:XCTFail("Only 'Insulin Suspended' and 'Bolus Canceled' parameters are supported in test framework.")
+        }
+    }
+        
+     Then(/^status bar \"(.*?)\" dismisses$/) { matches, _ in
+        switch matches.1 {
+        case "Insulin Suspended":
+                XCTAssertTrue(homeScreen.insulinSuspendedTextNotExists)
+        case "Bolus Canceled":
+                XCTAssertTrue(homeScreen.bolusCanceledTextNotExists)
+        default: XCTFail("Only 'Insulin Suspended' and 'Bolus Canceled' parameters are supported in test framework.")
+        }
+      }
+    
+    }
