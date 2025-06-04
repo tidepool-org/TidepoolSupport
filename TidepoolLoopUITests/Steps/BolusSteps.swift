@@ -23,11 +23,12 @@ func bolusSteps() {
     }
     
     When("I set bolus screen values") { _, step in // Applies to Closed/Open Manual/Meal bolus screens.
-        app.swipeUp() 
+        
         let bolusScreenMap = step.dataTable!.rows.map {
             row -> (key: String, value: String) in (key: row[0], value: row[1])
         }
         for textField in bolusScreenMap {
+            app.swipeUp()
             switch textField.key {
             case "CurrentGlucose":
                 bolusScreen.tapCurrentGlucoseTextField()

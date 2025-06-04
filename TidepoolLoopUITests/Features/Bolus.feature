@@ -44,8 +44,7 @@ Scenario: Bolus - No Recent Glucose Data warning displays
         | Model            | SignalLoss   |
       And I close cgm manager
     Then closed loop displays
-    When I wait for 15 minutes
-    Then temporary status bar displays "No Recent Glucose"
+      And temporary status bar displays "No Recent Glucose" after 14 minutes
     When I open bolus setup
     Then warning title displays "No Recent Glucose Data"
     When I tap "Enter Fingerstick Glucose"
@@ -54,8 +53,7 @@ Scenario: Bolus - No Recent Glucose Data warning displays
       | Bolus  | .3 |
       And I deliver and authenticate bolus
     Then temporary status bar displays current bolus progress
-    When I wait for 30 seconds
-    Then temporary status bar displays "No Recent Glucose"
+      And temporary status bar displays "No Recent Glucose" after 5 seconds
     When I open bolus setup
     Then warning title displays "No Recent Glucose Data"
     When I tap "Enter Fingerstick Glucose"
@@ -76,8 +74,7 @@ Scenario: Bolus -  Recommended Bolus value updates when fresh CGM data is receiv
         | Model   | SignalLoss   |
       And I close cgm manager
     Then closed loop displays
-    When I wait for 15 minutes
-    Then temporary status bar displays "No Recent Glucose"
+      And temporary status bar displays "No Recent Glucose" after 14 minutes
     When I open CGM manager
       And I open CGM Simulator settings
       And I setup CGM Simulator
@@ -112,8 +109,7 @@ Scenario: Bolus - Fingerstick Glucose Min and Max when CGM data is unavailable
         | Model | SignalLoss |
       And I close cgm manager
     Then closed loop displays
-    When I wait for 15 minutes
-    Then temporary status bar displays "No Recent Glucose"
+      And temporary status bar displays "No Recent Glucose" after 14 minutes
     When I open bolus setup
     Then warning title displays "No Recent Glucose Data"
     When I tap "Enter Fingerstick Glucose"
@@ -131,8 +127,7 @@ Scenario: Bolus - Fingerstick Glucose Min and Max when CGM data is unavailable
         | Bolus              | .2 |
       And I deliver and authenticate bolus
     Then temporary status bar displays current bolus progress
-    When I wait for 15 minutes
-    Then temporary status bar displays "No Recent Glucose"
+      And temporary status bar displays "No Recent Glucose" after 14 minutes
     When I open bolus setup
     Then warning title displays "No Recent Glucose Data"
     When I tap "Enter Fingerstick Glucose"
@@ -180,7 +175,6 @@ Scenario: Bolus - No Bolus Recommended Warning displays: current glucose below G
     When I set bolus screen values
       | Bolus   |  0  |
       And I tap Save without Bolusing button
-      And I wait for 15 seconds
     Then Active Carbohydrates displays value "20g"
     When I open bolus setup
     Then warning title does not display "No Bolus Recommended"
