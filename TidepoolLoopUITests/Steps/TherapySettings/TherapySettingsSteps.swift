@@ -17,6 +17,7 @@ func therapySettingsSteps() {
     let pumpScreens = PumpScreens(app: app)
     let settingsScreen = SettingsScreen(app: app)
     let navigationBar = NavigationBar(app: app)
+    let passcodeScreen = PasscodeScreen(app: app)
     
     //MARK: Actions
     
@@ -42,9 +43,10 @@ func therapySettingsSteps() {
         therapySettingsScreen.tapConfirmSaveButton()
     }
     
-    When(/^I confirm and save settings$/) { _, _ in
+    When(/^I confirm and save setting[s]?$/) { _, _ in
         therapySettingsScreen.tapConfirmSaveButton()
-        therapySettingsScreen.tapContinueAlertButton()
+        if passcodeScreen.passcodeEntryExists { passcodeScreen.setPasscode() }
+        else{ therapySettingsScreen.tapContinueAlertButton() }
     }
     
     When(/^I tap Go Back in alert window$/) { _, _ in

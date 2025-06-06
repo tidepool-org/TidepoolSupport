@@ -99,12 +99,22 @@ func homeSteps() {
         )
     }
     
-    Then("temporary status bar displays current bolus progress") { _, _ in
-        XCTAssertTrue(homeScreen.bolusProgressTextExists, "Temporary status bar with bolus progress is not displayed.")
-        XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
+    Then(/^temporary status bar displays "?(current bolus progress|No Recent Glucose)"?(| after (.*?) (second[s]?|minute[s]?))$/) { matches, userInfo in
+        switch matches.1 {
+        case "current bolus progress":
+            XCTAssertTrue(homeScreen.bolusProgressTextExists, "Temporary status bar with bolus progress is not displayed.")
+            XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
+        case "No Recent Glucose":
+            let waitSeconds = matches.4!.contains("second") ? Int(matches.3!)! : Int(matches.3!)! * 60
+            let relativeBufferTime = Int(waitSeconds/5 + 5) + waitSeconds
+            XCTAssertTrue(homeScreen.noRecentGlucoseTextExists(passAfter: waitSeconds, failAfter: relativeBufferTime, testInfo: userInfo.testCase!), "No Recent Glucose text doesn't display.")
+        default:
+            XCTFail("\(matches.1) is either not a valid option or not implemented yet.")
+        }
     }
     
-    Then(/^Active Carbohydrates displays value "(.*)"$/) { matches, _ in
+    Then(/^Active Carbohydrates displays value "(.*)[g]"$/) { matches, _ in
+
         XCTAssertEqual(String(matches.1), homeScreen.getActiveCarbsValue)
     }
     

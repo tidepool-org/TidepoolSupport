@@ -11,11 +11,15 @@ import XCTest
 
 func glucoseSafetyLimitSteps() {
     let therapySettingsScreen = TherapySettingsScreen(app: app)
+    let passcodeScreen = PasscodeScreen(app: app)
     
     //MARK: Actions
     
     
     When(/^I set glucose safety limit value to (\d+) mg\/dL$/) { matches, _ in
+        if therapySettingsScreen.glucoseSafetyLimitValueTextExists {
+            therapySettingsScreen.tapGlucoseSafetyLimitValueText()
+        }
         if !therapySettingsScreen.pickerWheelExists { therapySettingsScreen.tapSetGlucoseValueText() }
         therapySettingsScreen.setPickerWheelValue(value: String(matches.1))
     }

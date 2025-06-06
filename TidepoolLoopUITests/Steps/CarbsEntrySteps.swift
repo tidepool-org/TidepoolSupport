@@ -15,6 +15,7 @@ func carbsEntrySteps() {
     let homeScreen = HomeScreen(app: app)
     let bolusScreen = BolusScreen(app: app)
     let navigationBar = NavigationBar(app: app)
+    let passcodeScreen = PasscodeScreen(app: app)
     
     var lastCarbEntries: [String: String] = [:]
     
@@ -113,7 +114,7 @@ func carbsEntrySteps() {
     When("I confirm edited Carb Entry and bolus recomendation") { _, _ in
         carbsEntryScreen.tapContinueButton()
         bolusScreen.tapBolusActionButton()
-        if bolusScreen.passcodeEntryExists { bolusScreen.setPasscode() }
+        if passcodeScreen.passcodeEntryExists { passcodeScreen.setPasscode() }
         if navigationBar.backButtonExists { navigationBar.tapBackButton() }
     }
     
