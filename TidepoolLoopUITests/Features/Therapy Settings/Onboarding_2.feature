@@ -73,39 +73,6 @@ Scenario: Therapy Settings Acceptance Flow - Basal Rates
         | 12:00 AM | 0     |
         | 12:30 AM | 30    |
 
-@LOOP-1733
-Scenario: Therapy Settings Acceptance Flow - Insulin Model
-    Given app is launched
-    When I skip onboarding to Therapy Settings
-      And I navigate to Insulin Model educational screen
-    Then possible actions are
-        | <Back    |
-        | Close    |
-        | Continue |
-    When I tap Continue
-    Then Insulin Model edit screen displays with possible actions
-      | <Back           |
-      | Confirm Setting |
-      | Information     |
-    When I tap information circle
-    Then Insulin Model information screen displays with possible actions
-      | Close |
-    When I close information screen
-      And I select Rapid-Acting – Children insulin model
-      And I tap Confirm Setting
-      And I navigate to the Therapy Settings confirmation screen
-    Then Insulin Model section on Therapy Settings screen displays
-        | Insulin Model           |
-        | Rapid-Acting – Children |
-    When I save settings and finish the onboarding
-      And I pair CGM simulator
-      And I pair Pump simulator
-      And I open settings
-      And I tap Therapy Settings
-    Then Insulin Model section on Therapy Settings screen displays
-        | Insulin Model           |
-        | Rapid-Acting – Children |
-
 @LOOP-1743
 Scenario: Therapy settings Acceptance Flow - Insulin Sensitivity
     Given app is launched

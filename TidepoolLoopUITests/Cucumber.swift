@@ -17,7 +17,7 @@ let springBoard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
 
 var appName: String = ""
 
-extension Cucumber: StepImplementation {
+extension Cucumber: @retroactive StepImplementation {
     
     public var bundle: Bundle {
         class ThisBundle {}
@@ -56,10 +56,11 @@ extension Cucumber: StepImplementation {
         correctionRangeCarbRatiosSteps()
         glucoseSafetyLimitSteps()
         homeSteps()
+        insulinDeliverySteps()
         insulinModelSensitivitySteps()
         notificationSteps()
         onboardingSteps()
-        preMealPreset()
+        presetsSteps()
         pumpManagerSteps()
         settingsSteps()
         systemSettingsSteps()

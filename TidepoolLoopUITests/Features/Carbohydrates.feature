@@ -62,7 +62,7 @@ Scenario: Enter Carbs and Bolus with Autopopulated bolus field
         | Title | Bolus Recommendation Updated |
     When I acknowledge alert
       And I deliver and authenticate bolus
-    Then Active Carbohydrates displays value "40 g"
+    Then Active Carbohydrates displays value "40" g
       And temporary status bar displays current bolus progress
 
 @LOOP-2131
@@ -107,3 +107,24 @@ Scenario: Carb Entry Modifications - Editing, Backlogging and Future logging
         | CarbsAmount | 30                      |
         | FoodType    | Fast                    |
         | ConsumeTime | match the latest record |
+
+@LOOP-1843
+Scenario: After delivering a bolus, confirm Loop home screen can change to Landscape
+    Given app is launched
+    When I skip all of onboarding
+      And I store the X axis period
+      And I change orientation to Landscape
+    Then closed loop does not display
+    When I change orientation to Portrait
+    Then closed loop displays
+    When I add Carb Entry
+      | CarbsAmmount | 30   |
+      | FoodType     | Fast |
+      And I deliver and authenticate bolus
+    Then status bar does display "Bolus Progress"
+      And status bar "Bolus Progress" dismisses
+    When I change orientation to Landscape
+    Then closed loop does not display
+      And graphs displays longer time period in landscape view
+    When I change orientation to Portrait
+    Then closed loop displays

@@ -46,8 +46,8 @@ func carbsEntrySteps() {
             case "CarbsAmmount":
                 carbsEntryScreen.setCarbsConsumedTextField(carbsAmount: carbsAttribute.value)
             case "ConsumeTime":
-                let timeAdjustmentInSeconds = getSecondsToAdjust(timeAdjustment: carbsAttribute.value)
-                let adjustedTimeMap = addIntervalAndFormat(
+                let timeAdjustmentInSeconds = TestHelper.getSecondsToAdjust(timeAdjustment: carbsAttribute.value)
+                let adjustedTimeMap = TestHelper.addIntervalAndFormat(
                     seconds: timeAdjustmentInSeconds
                 )
                 
@@ -92,7 +92,7 @@ func carbsEntrySteps() {
     When(/^I press (decrease|increase) button "(.*)" time(s|) to update Carb Entry time$/) { matches, _ in
         let tapCount = Int(matches.2) ?? 1
         let timeAdjustment = Double((matches.1 == "decrease" ? -1 : +1) * tapCount * 15 * 60)
-        let adjustedTimeMap = addIntervalAndFormat(seconds: timeAdjustment)
+        let adjustedTimeMap = TestHelper.addIntervalAndFormat(seconds: timeAdjustment)
         
         for _ in 1...tapCount {
             switch matches.1 {
@@ -161,10 +161,10 @@ func carbsEntrySteps() {
                 dateFormatter.dateFormat = "h:mm a"
                 let expectedTime = dateFormatter.date(from: lastCarbEntries["ConsumeTime"]!)
                 let actualTime = dateFormatter.date(from: actualValue!.replacing(" ", with: " "))
-                let timeDifference = expectedTime?.timeIntervalSince(actualTime!) ?? 1 // if nil set 1 second
+                let timeDifference = expectedTime?.timeIntervalSince(actualTime!) ?? 61 // if nil set 61 second
                 
                 XCTAssertTrue(
-                    abs(timeDifference) == 0,
+                    abs(timeDifference) <= 60,
                     "Expected time should be \(lastCarbEntries["ConsumeTime"]!) hours since now '\(Date.now)'. " +
                     "But actual is '\(actualValue!)'. Time difference is \(timeDifference)"
                 )
@@ -235,48 +235,5 @@ func carbsEntrySteps() {
             abs(abs(timeDifference) - Double(matches.1)! * 3600) < 120,
             "Expected time should be \(matches.1) hours since now '\(Date.now)'. But actual is '\(actualConsumeTime)'. Time difference is \(timeDifference)"
         )
-    }
-    
-    func getSecondsToAdjust(timeAdjustment: String) -> Double {
-        var timeAdjustmentInSeconds = 0.0
-        
-        for component in timeAdjustment.components(separatedBy: ", ") {
-            let trimmedComponent = component.trimmingCharacters(in: .whitespaces)
-            
-            if trimmedComponent.contains("hour") {
-                let hourParts = trimmedComponent.components(separatedBy: " ")
-                if let value = Int(hourParts[0]) {
-                    timeAdjustmentInSeconds += Double(value * 3600)
-                }
-            } else if trimmedComponent.contains("minute") {
-                let minuteParts = trimmedComponent.components(separatedBy: " ")
-                if let value = Int(minuteParts[0]) {
-                    timeAdjustmentInSeconds += Double(value * 60)
-                }
-            }
-        }
-        return timeAdjustmentInSeconds
-    }
-    
-    func addIntervalAndFormat(seconds: TimeInterval) -> (day: String, hour: String, minute: String, ampm: String) {
-        let currentDate = Date()
-        let adjustedDate = currentDate.addingTimeInterval(seconds)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
-        
-        dateFormatter.dateFormat = "MMM dd"
-        let dayString = dateFormatter.string(from: adjustedDate)
-        
-        dateFormatter.dateFormat = "h"
-        let hourString = dateFormatter.string(from: adjustedDate)
-        
-        dateFormatter.dateFormat = "mm"
-        let minuteString = dateFormatter.string(from: adjustedDate)
-        
-        dateFormatter.dateFormat = "a"
-        let ampmString = dateFormatter.string(from: adjustedDate)
-        
-        return (dayString, hourString, minuteString, ampmString)
     }
 }

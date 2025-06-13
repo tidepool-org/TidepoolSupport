@@ -18,6 +18,7 @@ func therapySettingsSteps() {
     let settingsScreen = SettingsScreen(app: app)
     let navigationBar = NavigationBar(app: app)
     let passcodeScreen = PasscodeScreen(app: app)
+    let presetScreen = PresetsScreen(app: app)
     
     //MARK: Actions
     
@@ -129,8 +130,35 @@ func therapySettingsSteps() {
         navigationBar.tapDoneButton()
     }
     
+    When(/^I dismiss Therapy Settings$/) { _, _ in
+        for _ in 1...2 {
+            if navigationBar.doneButtonExists { navigationBar.tapDoneButton() }
+        }
+    }
+    
     When(/^I close information screen$/) { _, _ in
         therapySettingsScreen.tapCloseButton()
+    }
+    
+    When(/^I tap Glucose Safety Limit$/) { _, _ in
+        therapySettingsScreen.tapGlucoseSafetyLimitText()
+    }
+    
+    When(/^I tap Save and authenticate new (Glucose Safety Limit|Basal Rates)$/) { _, _ in
+        therapySettingsScreen.tapConfirmSaveButton()
+        passcodeScreen.setPasscode()
+    }
+    
+    When(/^I authenticate new Glucose Safety Limit$/) { _, _ in
+        passcodeScreen.setPasscode()
+    }
+    
+    When(/^I navigate to Basal Rates$/) { _, _ in
+        if homeScreen.carbsTabButtonisHittable {
+            homeScreen.tapSettingsButton()
+            settingsScreen.tapTherapySettingsButton()
+            therapySettingsScreen.tapBasalRatesText()
+        }
     }
 
     //MARK: Verifications
@@ -221,10 +249,16 @@ func therapySettingsSteps() {
         XCTAssertEqual("\(matches.1) \(matches.2)", therapySettingsScreen.getGuardrailWarningValue)
                 
         if matches.3 == "red" {
-            XCTAssertTrue(therapySettingsScreen.nextToTextWarningTriangleRedImageExists)
+                XCTAssertTrue(
+                    therapySettingsScreen.nextToTextWarningTriangleRedImageExists ||
+                    presetScreen.correctionValueRedWarningTextExists
+                )
             XCTAssertTrue(therapySettingsScreen.guardRailRedWarningTriangleImageExists)
         } else {
-            XCTAssertTrue(therapySettingsScreen.nextToTextWarningTriangleOrangeImageExists)
+            XCTAssertTrue(
+                therapySettingsScreen.nextToTextWarningTriangleOrangeImageExists ||
+                presetScreen.correctionValueOrangeWarningTextExists
+            )
             XCTAssertTrue(therapySettingsScreen.guardRailOrangeWarningTriangleImageExists)
         }
     }

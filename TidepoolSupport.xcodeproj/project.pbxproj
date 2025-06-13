@@ -47,7 +47,8 @@
 		EC37EEA62D075D29009807CE /* LoopUITestingKit in Frameworks */ = {isa = PBXBuildFile; productRef = EC37EEA52D075D29009807CE /* LoopUITestingKit */; };
 		EC3C8BF12CF20EA000666442 /* BolusSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */; };
 		EC3C8BF52CF21B7200666442 /* CarbsEntrySteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */; };
-		EC7220482D41065B0059E090 /* PreMealPresetSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7220472D4106520059E090 /* PreMealPresetSteps.swift */; };
+		EC7220482D41065B0059E090 /* PresetsSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7220472D4106520059E090 /* PresetsSteps.swift */; };
+		EC7C2A8C2DCE3B24000ECDB3 /* InsulinDeliverySteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7C2A8B2DCE3B1B000ECDB3 /* InsulinDeliverySteps.swift */; };
 		EC7D4DC62D37D0B800FCEE43 /* GlucoseSafetyLimitSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */; };
 		EC7D4DC82D37F00000FCEE43 /* CorrectionRangeCarbRatiosSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */; };
 		EC7EF9342D89A0FC00DD1257 /* AlertSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7EF9332D89A0F600DD1257 /* AlertSteps.swift */; };
@@ -143,7 +144,8 @@
 		EC37EEA22D073C3B009807CE /* Cucumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cucumber.swift; sourceTree = "<group>"; };
 		EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BolusSteps.swift; sourceTree = "<group>"; };
 		EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarbsEntrySteps.swift; sourceTree = "<group>"; };
-		EC7220472D4106520059E090 /* PreMealPresetSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreMealPresetSteps.swift; sourceTree = "<group>"; };
+		EC7220472D4106520059E090 /* PresetsSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetsSteps.swift; sourceTree = "<group>"; };
+		EC7C2A8B2DCE3B1B000ECDB3 /* InsulinDeliverySteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinDeliverySteps.swift; sourceTree = "<group>"; };
 		EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseSafetyLimitSteps.swift; sourceTree = "<group>"; };
 		EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorrectionRangeCarbRatiosSteps.swift; sourceTree = "<group>"; };
 		EC7EF9332D89A0F600DD1257 /* AlertSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertSteps.swift; sourceTree = "<group>"; };
@@ -357,7 +359,7 @@
 				ECFBD6512D6E1A4C002E420A /* InsulinModelSensitivitySteps.swift */,
 				ECFD06A62D6722DB00C64D6F /* BasalRatesSteps.swift */,
 				ECC38BCE2D55DFA4004A79EA /* CarbRatiosSteps.swift */,
-				EC7220472D4106520059E090 /* PreMealPresetSteps.swift */,
+				EC7220472D4106520059E090 /* PresetsSteps.swift */,
 				EC7D4DC72D37EFFB00FCEE43 /* CorrectionRangeCarbRatiosSteps.swift */,
 				EC7D4DC52D37D0A900FCEE43 /* GlucoseSafetyLimitSteps.swift */,
 				ECF771E62D22888700E3C8FF /* TherapySettingsSteps.swift */,
@@ -374,6 +376,7 @@
 				EC8EEAD82CEF3574008A0D16 /* CGMManagerSteps.swift */,
 				EC8EEAC22CEB9C28008A0D16 /* CommonSteps.swift */,
 				EC8EEACE2CECE81D008A0D16 /* HomeSteps.swift */,
+				EC7C2A8B2DCE3B1B000ECDB3 /* InsulinDeliverySteps.swift */,
 				EC0875F52CF6404400748C3B /* NotificationSteps.swift */,
 				EC8EEACC2CECDB3C008A0D16 /* OnboardingSteps.swift */,
 				EC8EEAD22CEE470F008A0D16 /* PumpManagerSteps.swift */,
@@ -640,7 +643,8 @@
 				ECF771E72D22888D00E3C8FF /* TherapySettingsSteps.swift in Sources */,
 				EC37EEA32D073C3D009807CE /* Cucumber.swift in Sources */,
 				EC7D4DC82D37F00000FCEE43 /* CorrectionRangeCarbRatiosSteps.swift in Sources */,
-				EC7220482D41065B0059E090 /* PreMealPresetSteps.swift in Sources */,
+				EC7C2A8C2DCE3B24000ECDB3 /* InsulinDeliverySteps.swift in Sources */,
+				EC7220482D41065B0059E090 /* PresetsSteps.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
