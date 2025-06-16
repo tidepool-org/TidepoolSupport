@@ -34,7 +34,7 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
 
     private let appStoreVersionChecker = AppStoreVersionChecker()
 
-    public private (set) var error: Error?
+    public private(set) var error: Error?
 
     private var lastVersionInfo: VersionInfo?
     public var lastVersionCheckAlertDate: Date?
@@ -200,13 +200,17 @@ extension TidepoolSupport {
             return
         }
         let interruptionLevel: LoopKit.Alert.InterruptionLevel = versionUpdate == .required ? .critical : .active
-        alertIssuer?.issueAlert(Alert(identifier: alertIdentifier, foregroundContent: alertContent, backgroundContent: alertContent, trigger: .immediate, interruptionLevel: interruptionLevel))
+        Task {
+            await alertIssuer?.issueAlert(Alert(identifier: alertIdentifier, foregroundContent: alertContent, backgroundContent: alertContent, trigger: .immediate, interruptionLevel: interruptionLevel))
+        }
         recordLastAlertDate()
     }
     
     private func noAlertNecessary(_ versionUpdate: VersionUpdate) {
         let alertIdentifier = Alert.Identifier(managerIdentifier: Self.supportIdentifier, alertIdentifier: versionUpdate.rawValue)
-        alertIssuer?.retractAlert(identifier: alertIdentifier)
+        Task {
+            await alertIssuer?.retractAlert(identifier: alertIdentifier)
+        }
         lastVersionCheckAlertDate = nil
     }
     
