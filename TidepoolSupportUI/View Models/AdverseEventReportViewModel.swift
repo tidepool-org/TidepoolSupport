@@ -11,6 +11,7 @@ import HealthKit
 import LoopKit
 import LoopKitUI
 
+@MainActor
 public class AdverseEventReportViewModel {
     let supportInfoProvider: SupportInfoProvider
 
