@@ -88,16 +88,16 @@
     },
     {
       "target" : {
-        "containerPath" : "container:roche-solo-loop-plugin\/RocheSoloKit.xcodeproj",
+        "containerPath" : "container:insulin-delivery-loop-plugin\/InsulinDeliveryLoopKit.xcodeproj",
         "identifier" : "B4D8553E241BBAFA00ED61FF",
-        "name" : "RocheSoloKitTests"
+        "name" : "InsulinDeliveryLoopKitTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:roche-solo-loop-plugin\/RocheSoloKit.xcodeproj",
+        "containerPath" : "container:insulin-delivery-loop-plugin\/InsulinDeliveryLoopKit.xcodeproj",
         "identifier" : "B4D8557F241BC25000ED61FF",
-        "name" : "RocheSoloKitUITests"
+        "name" : "InsulinDeliveryLoopKitUITests"
       }
     }
   ],
