@@ -28,7 +28,6 @@
 		1DFFB976271627470075AEAA /* TidepoolSupportPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB95B27150E460075AEAA /* TidepoolSupportPlugin.swift */; };
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
-		B429CA702E8D5C7700FA988E /* ApexLoopUnitTestPlan.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = B429CA6F2E8D5C7700FA988E /* ApexLoopUnitTestPlan.xctestplan */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
@@ -123,7 +122,6 @@
 		845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
 		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
-		B429CA6F2E8D5C7700FA988E /* ApexLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ApexLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
 		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -234,7 +232,6 @@
 		1DFFB93427150D2C0075AEAA /* TidepoolSupport */ = {
 			isa = PBXGroup;
 			children = (
-				B429CA6F2E8D5C7700FA988E /* ApexLoopUnitTestPlan.xctestplan */,
 				847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */,
 				C1B2EE992A0C4F12001CF2FA /* Caregivers */,
 				1DFFB95027150D930075AEAA /* Extensions */,
@@ -549,7 +546,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B429CA702E8D5C7700FA988E /* ApexLoopUnitTestPlan.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
