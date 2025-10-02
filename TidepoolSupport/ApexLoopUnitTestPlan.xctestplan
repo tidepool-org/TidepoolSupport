@@ -9,37 +9,13 @@
     }
   ],
   "defaultOptions" : {
-
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:..\/Loop\/Loop.xcodeproj",
+      "identifier" : "43776F8B1B8022E90074EA36",
+      "name" : "Loop"
+    }
   },
   "testTargets" : [
-    {
-      "target" : {
-        "containerPath" : "container:..\/Loop\/Loop.xcodeproj",
-        "identifier" : "43E2D90A1D20C581004DA55F",
-        "name" : "LoopTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:TidepoolSecurity\/TidepoolSecurity.xcodeproj",
-        "identifier" : "B4FF26912AA2494600BCA082",
-        "name" : "TidepoolSecurityTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:TidepoolSupport\/TidepoolSupport.xcodeproj",
-        "identifier" : "1DFFB93927150D2D0075AEAA",
-        "name" : "TidepoolSupportTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:..\/Common\/TidepoolService\/TidepoolService.xcodeproj",
-        "identifier" : "A9DAAD0622E7987800E76C9F",
-        "name" : "TidepoolServiceKitTests"
-      }
-    },
     {
       "target" : {
         "containerPath" : "container:..\/Common\/LoopKit\/LoopKit.xcodeproj",
@@ -56,9 +32,9 @@
     },
     {
       "target" : {
-        "containerPath" : "container:..\/Common\/LoopKit\/LoopKit.xcodeproj",
-        "identifier" : "43D8FDD41C728FDF0073BE78",
-        "name" : "LoopKitTests"
+        "containerPath" : "container:TidepoolSupport\/TidepoolSupport.xcodeproj",
+        "identifier" : "1DFFB93927150D2D0075AEAA",
+        "name" : "TidepoolSupportTests"
       }
     },
     {
@@ -66,6 +42,27 @@
         "containerPath" : "container:..\/Common\/LoopKit\/LoopKit.xcodeproj",
         "identifier" : "1DEE226824A676A300693C32",
         "name" : "LoopKitHostedTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Common\/LoopKit\/LoopKit.xcodeproj",
+        "identifier" : "43D8FDD41C728FDF0073BE78",
+        "name" : "LoopKitTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Loop\/Loop.xcodeproj",
+        "identifier" : "43E2D90A1D20C581004DA55F",
+        "name" : "LoopTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Common\/TidepoolService\/TidepoolService.xcodeproj",
+        "identifier" : "A9DAAD0622E7987800E76C9F",
+        "name" : "TidepoolServiceKitTests"
       }
     },
     {
