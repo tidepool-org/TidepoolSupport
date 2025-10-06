@@ -53,10 +53,6 @@ public final class TidepoolSupport: SupportUI, TAPIObserver {
         switch selectedProduct {
         case .marketingDemo:
             return DeviceWhitelist(cgmDevices: ["MockCGMManager"], pumpDevices: ["MockPumpManager"])
-        case .palmtree1:
-            return DeviceWhitelist(cgmDevices: ["Sonar1Demo"], pumpDevices: ["ZodiacPump"])
-        case .palmtree2:
-            return DeviceWhitelist(cgmDevices: ["Sonar1Demo"], pumpDevices: ["ZodiacDemo"])
         case .none:
             return DeviceWhitelist()
         }
@@ -256,19 +252,16 @@ extension TidepoolSupport {
     public enum Product: String {
         case marketingDemo
         case none
-        case palmtree1
-        case palmtree2
         
         public var skipsOnboarding: Bool {
             switch self {
-            case .none, .palmtree1: return false
-            case .marketingDemo, .palmtree2: return true
+            case .none: return false
+            case .marketingDemo: return true
             }
         }
         
         public var skipTidepoolService: Bool {
             switch self {
-            case .palmtree1: return false
             case .none: return false
             default: return true
             }
@@ -289,21 +282,17 @@ extension TidepoolSupport {
         switch selectedProduct {
         case .none:
             filteredURLs = scenarioURLs
-        case .palmtree1:
-            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("Palmtree-1") }
-        case .palmtree2:
-            filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("Palmtree-2") }
         case .marketingDemo:
             filteredURLs = scenarioURLs.filter { $0.lastPathComponent.hasPrefix("13-hour-BG-trace") || $0.lastPathComponent.hasPrefix("Marketing") }
         }
 
         return filteredURLs.compactMap {
             try? LoopScenario(
-                name: $0                                                                 // /Scenarios/Palmtree-1-Scenario_1.json
-                    .deletingPathExtension()                                             // /Scenarios/Palmtree-1-Scenario_1
-                    .lastPathComponent                                                   // HF-1-Scenario_1
-                    .replacing("[a-z_]+-[0-9]+-", options: [.caseInsensitive], with: "") // Scenario_1
-                    .replacingOccurrences(of: "_", with: " "),                           // Scenario 1
+                name: $0                                                                 // HF-1-Scenario_1
+                    .deletingPathExtension()                                             // Scenario_1
+                    .lastPathComponent                                                   // Scenario 1
+                    .replacing("[a-z_]+-[0-9]+-", options: [.caseInsensitive], with: "")
+                    .replacingOccurrences(of: "_", with: " "),
                 url: $0
             )
         }
