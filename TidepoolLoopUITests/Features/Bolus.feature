@@ -41,7 +41,7 @@ Scenario: Bolus - No Recent Glucose Data warning displays
     When I open CGM manager
       And I open CGM Simulator settings
       And I setup CGM Simulator
-        | Model            | SignalLoss   |
+        | Model            | NoData   |
       And I close cgm manager
     Then closed loop displays
       And temporary status bar displays "No Recent Glucose" after 14 minutes
@@ -106,7 +106,7 @@ Scenario: Bolus - Fingerstick Glucose Min and Max when CGM data is unavailable
     When I open CGM manager
       And I open CGM Simulator settings
       And I setup CGM Simulator
-        | Model | SignalLoss |
+        | Model | NoData |
       And I close cgm manager
     Then closed loop displays
       And temporary status bar displays "No Recent Glucose" after 14 minutes
@@ -149,6 +149,41 @@ Scenario: Bolus - Fingerstick Glucose Min and Max when CGM data is unavailable
 Scenario: Bolus - No Bolus Recommended Warning displays: glucose prediction within or below Correction Range
     Given app is launched and intialy setup
     Then closed loop displays
+    When I open settings
+      And I tap Therapy Settings
+      And I tap Correction Ranges
+    Then correction range of 1st scheduled item displays values
+      | MinValue | MaxValue |
+      | 115       | 125     |
+    When I edit 1st scheduled item of Correction Range
+      | MinValue | MaxValue |
+      | 87       | 90      |
+    When I tap Confirm Setting
+    Then alert 'Save Correction Range(s)?' appears
+    When I tap Continue in alert window
+      And I authenticate new Correction Range
+    When I navigate back
+      And I tap Done
+    Then closed loop displays
+    When I open bolus setup
+    Then warning title does not display "No Bolus Recommended"
+    When I close bolus screen
+    Then closed loop displays
+        When I open settings
+      And I tap Therapy Settings
+      And I tap Correction Ranges
+    Then correction range of 1st scheduled item displays values
+      | MinValue | MaxValue |
+      | 87       | 90     |
+    When I edit 1st scheduled item of Correction Range
+      | MaxValue |
+      | 180      |
+    When I tap Confirm Setting
+    Then alert 'Save Correction Range(s)?' appears
+    When I tap Continue in alert window
+      And I authenticate new Correction Range
+    When I navigate back
+      And I tap Done
     When I open bolus setup
     Then warning title displays "No Bolus Recommended"
     When I set bolus screen values

@@ -28,6 +28,7 @@
 		1DFFB976271627470075AEAA /* TidepoolSupportPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB95B27150E460075AEAA /* TidepoolSupportPlugin.swift */; };
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
+		82A50ED42EB1175D005040AB /* PresetsOnboardingSteps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A50ED32EB11750005040AB /* PresetsOnboardingSteps.swift */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
@@ -119,6 +120,7 @@
 		1DFFB96F271627430075AEAA /* TidepoolSupportPlugin.loopplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TidepoolSupportPlugin.loopplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DFFB971271627430075AEAA /* TidepoolSupportPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TidepoolSupportPlugin.h; sourceTree = "<group>"; };
 		1DFFB97A2716382D0075AEAA /* OSLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
+		82A50ED32EB11750005040AB /* PresetsOnboardingSteps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetsOnboardingSteps.swift; sourceTree = "<group>"; };
 		845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
 		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 		ECB1E4012CE60EDA0078108C /* Steps */ = {
 			isa = PBXGroup;
 			children = (
+				82A50ED32EB11750005040AB /* PresetsOnboardingSteps.swift */,
 				EC7EF9332D89A0F600DD1257 /* AlertSteps.swift */,
 				EC3C8BF02CF20E9D00666442 /* BolusSteps.swift */,
 				EC3C8BF42CF21B6E00666442 /* CarbsEntrySteps.swift */,
@@ -639,6 +642,7 @@
 				EC7EF9342D89A0FC00DD1257 /* AlertSteps.swift in Sources */,
 				ECC38BCF2D55DFA9004A79EA /* CarbRatiosSteps.swift in Sources */,
 				EC0875F62CF6404900748C3B /* NotificationSteps.swift in Sources */,
+				82A50ED42EB1175D005040AB /* PresetsOnboardingSteps.swift in Sources */,
 				EC8EEADB2CEF44E5008A0D16 /* SystemSettingsSteps.swift in Sources */,
 				ECF771E72D22888D00E3C8FF /* TherapySettingsSteps.swift in Sources */,
 				EC37EEA32D073C3D009807CE /* Cucumber.swift in Sources */,

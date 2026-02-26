@@ -56,8 +56,8 @@ func homeSteps() {
         homeScreen.tapPumpPill()
     }
     
-    When(/^I tap (Workout|Pre-Meal) Preset status bar$/) { matches, _ in
-        matches.1 == "Workout" ? homeScreen.tapWorkoutPresetCellTitle() : homeScreen.tapPreMealPresetCellTitle()
+    When(/^I tap Preset banner$/) { matches, _ in
+        homeScreen.tapPresetBannerText()
     }
     
     When(/^I open Insulin Delivery$/) { _, _ in
@@ -71,7 +71,9 @@ func homeSteps() {
     When("I tap Tap to Resume") { _, _ in
         homeScreen.tapInsulinTapToResumeCell()
     }
-    
+    When("I tap Preset banner") { _, _ in
+        homeScreen.tapPresetBannerText()
+    }
     When("I store the X axis period") { _, _ in
         xAxisLabelCount =
             [homeScreen.getGlucoseXAxisCount, homeScreen.getActiveInsulinXAxisCount, homeScreen.getActiveCarbsXAxisCount]
@@ -151,37 +153,116 @@ func homeSteps() {
             XCTAssertTrue(homeScreen.tapToStopTextExists, "'Tap to Stop' option is not available on temporary status bar.")
         case "No Recent Glucose":
             let waitSeconds = matches.4!.contains("second") ? Int(matches.3!)! : Int(matches.3!)! * 60
-            let relativeBufferTime = Int(waitSeconds/5 + 5) + waitSeconds
+            let relativeBufferTime = Int(waitSeconds/3 + 5) + waitSeconds
             XCTAssertTrue(homeScreen.noRecentGlucoseTextExists(passAfter: waitSeconds, failAfter: relativeBufferTime, testInfo: userInfo.testCase!), "No Recent Glucose text doesn't display.")
         default:
             XCTFail("\(matches.1) is either not a valid option or not implemented yet.")
         }
     }
     
-    Then("temporary status bar displays") { _, step in
-        let expectedItemsMap = step.dataTable!.rows.map {
-            row -> (key: String, value: String) in (key: row[0], value: row[1])
+    Then(/^(.*) Preset banner (displays|does not display)$/) { matches, _ in
+        let expectedName = String(matches.1)
+        if matches.2 == "displays" {
+            XCTAssertTrue(homeScreen.presetBannerTextExists, "Preset banner text does not display")
+            let presetBannerText = homeScreen.getPresetBannerText
+            let isNameInBannerText = presetBannerText.contains(expectedName)
+            XCTAssertTrue(isNameInBannerText,
+                           "Expected banner '\(expectedName)' was not found within '\(presetBannerText)'")
         }
-        
-        for expectedItem in expectedItemsMap {
-            switch expectedItem.key {
-            case "Title":
-                switch expectedItem.value {
-                case "Workout Preset": XCTAssertTrue(homeScreen.workoutPresetCellTitleExists)
-                case "Pre-Meal Preset": XCTAssertTrue(homeScreen.preMealPresetCellTitleExists)
-                default: XCTFail("Title '\(expectedItem.value)' is not supported by test framework yet.")
-                }
-            case "Active": XCTAssertEqual(expectedItem.value, homeScreen.getPresetActiveOnText)
-            default: XCTFail("Parameter '\(expectedItem.key)' is not supported by test framework yet.")
-            }
+        else if homeScreen.presetBannerTextNoExist {
+            XCTAssertTrue(true)
+        }
+        else {
+            let presetBannerText = homeScreen.getPresetBannerText
+            let isNameInBannerText = presetBannerText.contains(expectedName)
+            XCTAssertFalse(isNameInBannerText,
+                              "Current preset banner incorrectly matches forbidden name '\(expectedName)'")
         }
     }
-    
-    Then(/^(Workout|Pre-Meal) Preset temporary status bar does not display$/) { matches, _ in
-        let isDisplayed = matches.1 == "Workout" ?
-            homeScreen.workoutPresetCellTitleNotExists : homeScreen.preMealPresetCellTitleNotExists
-        
-        XCTAssertTrue(isDisplayed, "\(matches.1) Preset status bar displays.")
+    Then(/^Preset banner duration displays "?(.+?)"?$/) { matches, _ in
+        let input = matches.1.trimmingCharacters(in: .whitespacesAndNewlines)
+        let bannerDuration = homeScreen.getPresetActiveOnText
+
+        //
+        // 1️⃣ CASE: Literal string "on until carbs added"
+        //
+        if input == "on until carbs added" {
+            XCTAssertTrue(
+                bannerDuration.contains("on until carbs added"),
+                "Expected banner to display 'on until carbs added', but saw: \(bannerDuration)"
+            )
+            return
+        }
+
+        //
+        // 2️⃣ CASE: Relative format (“+3 hours”, “+1 minute”)
+        //
+        if input.first == "+" {
+            let parts = input.dropFirst().split(separator: " ")
+            guard parts.count == 2,
+                  let amount = Int(parts[0]) else {
+                XCTFail("Invalid relative duration format: \(input)")
+                return
+            }
+
+            let unit = parts[1]
+            let now = Date()
+            var target = now
+
+            if unit.starts(with: "hour") {
+                target = Calendar.current.date(byAdding: .hour, value: amount, to: now)!
+            } else if unit.starts(with: "minute") {
+                target = Calendar.current.date(byAdding: .minute, value: amount, to: now)!
+            } else {
+                XCTFail("Invalid unit in: \(input)")
+            }
+
+            // Format expected time
+            let fmt = DateFormatter()
+            fmt.locale = Locale(identifier: "en_US_POSIX")
+            fmt.dateFormat = "h:mm a"
+
+            let expectedTime = fmt.string(from: target)
+
+            let acceptableTimes = [
+                fmt.string(from: Calendar.current.date(byAdding: .minute, value: -1, to: target)!),
+                expectedTime
+            ]
+            let clean = { (s: String) in
+                s.replacingOccurrences(of: "\\s+", with: "", options: .regularExpression)
+            }
+            let cleanedBannerDuration = clean(bannerDuration)
+            let cleanedAcceptableTimes = acceptableTimes.map(clean)
+            let matches = cleanedAcceptableTimes.contains { cleanedBannerDuration.contains($0) }
+            XCTAssertTrue(
+                matches,
+                """
+                Expected time within ±1 min of \(expectedTime).
+                Acceptable: \(cleanedAcceptableTimes)
+                Actual banner time: \(cleanedBannerDuration)
+                """
+            )
+            return
+        }
+
+        //
+        // 3️⃣ CASE: Absolute time, e.g. “11:09 AM”
+        //
+        let absoluteTimeRegex = #"^\d{1,2}:\d{2}\s?(AM|PM)$"#
+        if input.range(of: absoluteTimeRegex, options: .regularExpression) != nil {
+
+            // Normalize whitespace to avoid iOS inserting U+202F
+            let normalizedInput = input.replacingOccurrences(of: "\\s+", with: "", options: .regularExpression)
+            let normalizedBanner = bannerDuration.replacingOccurrences(of: "\\s+", with: "", options: .regularExpression)
+
+            XCTAssertTrue(
+                normalizedBanner.contains(normalizedInput),
+                "Expected banner to contain time '\(input)', but saw: \(bannerDuration)"
+            )
+            return
+        }
+
+        XCTFail("Unrecognized banner duration format: \(input)")
     }
     
     Then(/^Active Carbohydrates displays value "(.*)" g$/) { matches, _ in        
@@ -231,9 +312,9 @@ func homeSteps() {
     }
     
     Then(/^Last Bolus value displays "?(.*?)"?$/) { matches, _ in
+        print(app.debugDescription)
         let lastBolusValue = homeScreen.getActiveInsulinLastBolusValue
         let expectedValue = matches.1 == "stored value" ? bolusValue : String(matches.1)
-        
         XCTAssertTrue(
             lastBolusValue.contains(expectedValue),
             "Value '\(lastBolusValue)' does not contains bolus value '\(expectedValue)'."

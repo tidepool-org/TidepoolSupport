@@ -11,9 +11,10 @@ import XCTest
 
 func presetsSteps() {
     let therapySettingsScreen = TherapySettingsScreen(app: app)
-    let presetScreen = PresetsScreen(app: app)
+    let presetsScreen = PresetsScreen(app: app)
     let homeScreen = HomeScreen(app: app)
     let navigationBar = NavigationBar(app: app)
+    let presetsOnboardingScreen = PresetsOnboardingScreen(app: app)
     
     //MARK: Actions
     
@@ -41,15 +42,17 @@ func presetsSteps() {
     }
     
     When("I open Pre-Meal correction range") { _, _ in
-        presetScreen.tapPresetPreMealText()
+        presetsScreen.tapPresetPreMealText()
     }
     
-    When(/^I update Pre-Meal Correction Range$/) { _, step in
+    When(/^I update (.*) Preset Correction Range$/) { matches, step in
         var valuesMap = [String: String]()
         
         if homeScreen.carbsTabButtonisHittable {
             homeScreen.tapPresetsTabButton()
-            presetScreen.tapPresetPreMealText()
+        }
+        if presetsOnboardingScreen.presetsTrainingTitleTextExists {
+            therapySettingsScreen.tapCloseButton()
         }
         
         for row in step.dataTable!.rows {
@@ -58,12 +61,10 @@ func presetsSteps() {
         
         let maxSwipesCount = ((valuesMap["MinValue"]?.contains("lowest")) == true) ? 1 : 3
         
-        if !valuesMap.keys.contains("MinValue") && !valuesMap.keys.contains("MaxValue") {
-            XCTFail("At least one parameter 'MinValue' or 'MaxValue' must be set. Other parameters are not supported.")
-        }
         
-        presetScreen.tapEditPresetButton()
-        presetScreen.tapCorrectionRangeButton()
+        presetsScreen.tapPresetCard(presetName: String(matches.1))
+        presetsScreen.tapEditPresetButton()
+        presetsScreen.tapCorrectionRangeButton()
         therapySettingsScreen.setScheduleItemValues(
             [
                 (valuesMap["MinValue"] ?? "", 0),
@@ -79,22 +80,33 @@ func presetsSteps() {
     }
     
     When("I tap Save") { _, _ in
-        presetScreen.tapSaveButton()
+        presetsScreen.tapSaveButton()
     }
     
     When(/^I open (Workout|Pre-Meal) Preset$/) { matches, _ in
         if homeScreen.carbsTabButtonisHittable {
             homeScreen.tapPresetsTabButton()
         }
-        matches.1 == "Workout" ? presetScreen.tapPresetWorkoutText() : presetScreen.tapPresetPreMealText()
+        matches.1 == "Workout" ? presetsScreen.tapPresetWorkoutText() : presetsScreen.tapPresetPreMealText()
     }
     
-    When("I tap Workout Preset card") { _, _ in
-        presetScreen.tapPresetWorkoutText()
+    When(/^I tap (.*) Preset card$/) { matches, _ in
+        presetsScreen.tapPresetCard(presetName: String(matches.1))
+    }
+    
+    When(/^I start (.*) Preset$/) { matches, _ in
+        if homeScreen.carbsTabButtonisHittable {
+            homeScreen.tapPresetsTabButton()
+        }
+        if presetsOnboardingScreen.presetsTrainingTitleTextExists {
+            therapySettingsScreen.tapCloseButton()
+        }
+        presetsScreen.tapPresetCard(presetName: String(matches.1))
+        presetsScreen.tapStartPresetButton()
     }
     
     When("I tap Start Preset") { _, _ in
-        presetScreen.tapStartPresetButton()
+        presetsScreen.tapStartPresetButton()
     }
     
     When(/^I adjust Preset Duration to "(.*)"$/) { matches, _ in
@@ -110,55 +122,86 @@ func presetsSteps() {
         
         if timeArray.count != 3 { XCTFail("Time has to be set in format 'H:MM a'.") }
         if timeArray[1].count == 1 { timeArray[1] = "0\(timeArray[1])" }
-        presetScreen.tapAdjustPresetDurationButton()
-        presetScreen.setPresetDuration(minutesAdjustment: timeArray[1], hoursAdjustment: timeArray[0], amPm: timeArray[2])
-        presetScreen.tapSaveButton()
+        presetsScreen.tapAdjustPresetDurationButton()
+        presetsScreen.setPresetDuration(minutesAdjustment: timeArray[1], hoursAdjustment: timeArray[0], amPm: timeArray[2])
+        presetsScreen.tapSaveButton()
 }
     
     When(/^I tap (Adjust Preset Duration|End Preset|Close) button$/) { matches, _ in
         switch matches.1 {
-        case "Adjust Preset Duration": presetScreen.tapAdjustPresetDurationButton()
-        case "End Preset": presetScreen.tapEndPresetButton()
-        case "Close": presetScreen.tapCloseButton()
+        case "Adjust Preset Duration": presetsScreen.tapAdjustPresetDurationButton()
+        case "End Preset": presetsScreen.tapEndPresetButton()
+        case "Close": presetsScreen.tapCloseButton()
         default: break
         }
     }
     
     //MARK: Verifications
     
-    Then(/^(Pre-Meal|Workout) Preset section on Presets screen displays$/) { matches, step in
-        let rowHeader = step.dataTable!.rows[0]
-        let rowData = step.dataTable!.rows[1]
-        let actualValuesHeader = ["MinValue", "MaxValue"]
-        let actualValues =
-        (
-            matches.1 == "Pre-Meal" ?
-            presetScreen.getPreMealCorrectionRangeText :
-                presetScreen.getWorkoutCorrectionRangeText
-        ).split(separator: "-").map { String ($0) }
-        var expectedValuesMap = [String: String]()
-        var actualValuesMap = [String: String]()
-        
-        for key in rowHeader {
-            if !actualValuesHeader.contains(key) {
-                XCTFail("Datatable must contains header titles: 'MinValue', 'MaxValue'")
+    Then(/^(.*) Preset card displays$/) { matches, step in
+        guard let dataTable = step.dataTable else {
+            XCTFail("DataTable missing in step")
+            return
+        }
+
+        let headerRow = dataTable.rows.first!
+        let expectedRow = dataTable.rows.dropFirst().first!
+
+        var expectedValues: [String: String] = [:]
+        for (index, key) in headerRow.enumerated() {
+            expectedValues[key] = expectedRow[index]
+        }
+
+        let presetName = String(matches.1) // "Active", "Pre-Meal", "Workout", etc.
+
+        // Fetch actuals differently if preset is active
+        var actualValues: [String: String] = [:]
+
+        if presetName == "Active" {
+            let activeCorrectionRange = presetsScreen.getActivePresetCorrectionRangeLabel().split(separator: "-").map { String($0) }
+            actualValues["Name"] = presetsScreen.getActivePresetNameLabel()
+            actualValues["MinValue"] = activeCorrectionRange[0]
+            actualValues["MaxValue"] = activeCorrectionRange[1]
+            actualValues["IsScheduled"] = presetsScreen.activePresetScheduledIconExists ? "Yes": "No"
+            actualValues["OverallInsulin"] = presetsScreen.getActivePresetOverallInsulin()
+        } else {
+            // Use the named preset methods
+            actualValues["Name"] = presetName
+
+            let correctionRange = presetsScreen
+                .getPresetCorrectionRangeLabel(forPresetName: presetName)
+                .split(separator: "-")
+                .map { String($0) }
+
+            if correctionRange.count >= 2 {
+                actualValues["MinValue"] = correctionRange[0]
+                actualValues["MaxValue"] = correctionRange[1]  //.trimmingCharacters(in: .whitespaces)
             }
-        }
-        
-        for (index, key) in actualValuesHeader.enumerated() {
-            actualValuesMap[key] = actualValues[index]
-        }
-        for (index, key) in rowHeader.enumerated() { expectedValuesMap[key] = rowData[index] }
-        for key in expectedValuesMap.keys {
-            XCTAssert(
-                actualValuesMap[key]!.contains(expectedValuesMap[key]!),
-                "Actual value '\(String(actualValuesMap[key]!))' does not contain \(expectedValuesMap[key]!)"
+
+            // Add more fields as needed
+            actualValues["IsScheduled"] = presetsScreen.presetScheduledIconExists(forPresetName: presetName) ? "Yes" : "No"
+            actualValues["OverallInsulin"] = presetsScreen.getPresetOverallInsulin(forPresetName: presetName)
+      }
+
+        // Verify all expected headers are present in actuals
+        for key in expectedValues.keys {
+            guard let expected = expectedValues[key],
+                  let actual = actualValues[key] else {
+                XCTFail("Missing actual or expected value for \(key)")
+                continue
+            }
+
+            XCTAssertTrue(
+                actual.contains(expected),
+                "Expected \(key) = '\(expected)', got '\(actual)'"
             )
         }
     }
+
+
     
     Then(/^Correction Range is set to value(|s)$/) { _, step in
-        let adjusteRangeText = presetScreen.getAdjustedCorrectionRangeText.components(separatedBy: "-")
+        let adjusteRangeText = presetsScreen.getAdjustedCorrectionRangeText.components(separatedBy: "-")
         var expectedDictionary = [String: String]()
         var actualValuesDictionary = [String: String]()
                 
@@ -181,8 +224,8 @@ func presetsSteps() {
         
         for presetsItem in presetsMap {
             let actualValue = switch presetsItem.key {
-            case "Correction Range": presetScreen.getCorrectionRangePreviewAdjustedRangeText
-            case "Warning": presetScreen.getCorrectionRangePreviewWarningText
+            case "Correction Range": presetsScreen.getCorrectionRangePreviewAdjustedRangeText
+            case "Warning": presetsScreen.getCorrectionRangePreviewWarningText
             default: ""
             }
             
@@ -197,26 +240,26 @@ func presetsSteps() {
     
     Then(/^(Workout|Pre-Meal) card moves above the All Presets list$/) { matches, _ in
         let presetCardTextYPosition = matches.1 == "Workout" ?
-            presetScreen.getPresetWorkoutTextYPosition : presetScreen.getPresetPreMealTextYPosition
+            presetsScreen.getPresetWorkoutTextYPosition : presetsScreen.getPresetPreMealTextYPosition
         
         XCTAssertTrue(
-            presetScreen.getAllPresetsTextYPosition > presetCardTextYPosition,
+            presetsScreen.getAllPresetsTextYPosition > presetCardTextYPosition,
             "Workout card is displayed under the All Presets list."
         )
     }
     
-    Then(/^Workout Preset bottom tray displays duration "(.*)"$/) { matches, _ in
-        let actualValue = presetScreen.getPresetActionSheetActiveOnText
+    Then(/^Preset bottom tray displays duration "(.*)"$/) { matches, _ in
+        let actualValue = presetsScreen.getPresetActionSheetActiveOnText
         
         XCTAssertEqual(String(matches.1), actualValue)
     }
     
-    Then(/^(Workout|Pre-Meal) Preset bottom tray (does not|does) display$/) { matches, _ in
-        let isDisplayed = matches.2 == "does"
+    Then(/^Preset bottom tray (does not|does) display$/) { matches, _ in
+        let isDisplayed = matches.1 == "does"
         
         XCTAssertTrue(
-            presetScreen.presetActionSheetActiveOnTextExists == isDisplayed,
-            "\(matches.1) Preset bottom tray \(isDisplayed ? "does not" : "does") displays."
+            presetsScreen.presetActionSheetActiveOnTextExists == isDisplayed,
+            "Preset bottom tray \(isDisplayed ? "does not" : "does") displays."
         )
     }
     
@@ -230,9 +273,9 @@ func presetsSteps() {
         )
     }
     
-    Then(/^Workout Preset ends within "(\d+)" minute(|s)$/) { matches, _ in
+    Then(/^Preset ends within "(\d+)" minute(|s)$/) { matches, _ in
         XCTAssertTrue(
-            presetScreen.presetHasEndedWithintDuration(duration: Double(matches.1)! * 60 + 5),
+            presetsScreen.presetHasEndedWithintDuration(duration: Double(matches.1)! * 60 + 5),
             "Workout Preset has not ended within specific time interval of '\(matches).1' minute(s)."
         )
     }

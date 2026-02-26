@@ -34,11 +34,9 @@ func insulinDeliverySteps() {
     }
     
     Then(/^modulation of Basal Rates displays$/) { _, _ in
-        for label in insulinDeliveryScreen.getInsulinDeliveryRowsLabel {
-            XCTAssertTrue(
-                label.contains("Temp Basal") && label.contains("U/hr"),
-                "Basal Rates modulations don't display."
-            )
-        }
+        XCTAssertTrue(insulinDeliveryScreen.autobolusEventsExist, "Autobolus events don't display.")
+        XCTAssertTrue(insulinDeliveryScreen.automatedScheduledBasalEventsExist, "Automated Basal rates don't display.")
+        XCTAssertTrue(insulinDeliveryScreen.automatedScheduledBasalEventsExist, "Automated Basal rate values don't display.")
+        XCTAssertTrue(insulinDeliveryScreen.automatedBolusValuesExist, "Automated Bolus values don't display.")
     }
 }

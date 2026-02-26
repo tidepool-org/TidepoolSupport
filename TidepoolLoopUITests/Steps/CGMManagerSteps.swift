@@ -61,7 +61,10 @@ func cGMManagerSteps() {
                 case "SignalLoss":
                     cgmManagerScreen.tapSignalLossCell()
                     homeScreen.tapLoopStatusAlertDismissButton()
-                default: break
+                case "NoData":
+                    cgmManagerScreen.tapNoDataCell()
+                default: XCTFail( cgmAttribute.value + " is not supported as a cgm manager option")
+                    
                 }
             case "MeasurementFrequency":
                 cgmManagerScreen.tapMeasurementFrequencyCell()

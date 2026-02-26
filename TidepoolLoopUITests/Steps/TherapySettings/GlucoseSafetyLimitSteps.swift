@@ -36,7 +36,7 @@ func glucoseSafetyLimitSteps() {
         therapySettingsScreen.tapSetGlucoseValueText()
         therapySettingsScreen.setPickerWheelValue(value: String(matches.1))
         if therapySettingsScreen.confirmSaveButtonIsEnabled { therapySettingsScreen.tapConfirmSaveButton() }
-        else { navigationBar.tapTherapySettingsBackButton() }
+        else { navigationBar.tapBackButton() }
     }
     
     // MARK: Verifications

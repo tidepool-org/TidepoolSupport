@@ -7,6 +7,7 @@ Background:
       And I turn off closed loop
       And I close settings screen
     Then open loop displays
+     And closed loop does not display
     When I open bolus setup
     Then simple bolus calculator displays
 
@@ -62,6 +63,7 @@ Scenario: Simple Bolus Calculator - Happy Path flow (1 U, 100 mg/dL)
 Scenario: Store dosing decisions from simple bolus calculator: With CGM and Bolus icon
     When I set bolus screen values
       | CurrentGlucose | 250 |
+      | Bolus          | 1.0 |
       And I store Bolus value
       And I deliver and authenticate bolus
     Then cgm pill displays value "250"

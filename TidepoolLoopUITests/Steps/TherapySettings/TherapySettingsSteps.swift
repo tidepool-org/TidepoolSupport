@@ -143,13 +143,16 @@ func therapySettingsSteps() {
     When(/^I tap Glucose Safety Limit$/) { _, _ in
         therapySettingsScreen.tapGlucoseSafetyLimitText()
     }
+    When(/^I tap Correction Ranges$/) { _, _ in
+        therapySettingsScreen.tapCorrectionRangeValueText(index: 0)
+    }
     
-    When(/^I tap Save and authenticate new (Glucose Safety Limit|Basal Rates)$/) { _, _ in
+    When(/^I tap Save and authenticate new (Glucose Safety Limit|Basal Rates|Correction Range)$/) { _, _ in
         therapySettingsScreen.tapConfirmSaveButton()
         passcodeScreen.setPasscode()
     }
     
-    When(/^I authenticate new Glucose Safety Limit$/) { _, _ in
+    When(/^I authenticate new (Glucose Safety Limit|Correction Range)$/) { _, _ in
         passcodeScreen.setPasscode()
     }
     

@@ -6,8 +6,9 @@ Scenario: Warning for guardrail Pre-Meal Range
     Given app is launched
     When I skip all of onboarding
       And I update Glucose Safety limit value to 75 mg/dL
-      And I dismiss Therapy Settings
-      And I update Pre-Meal Correction Range
+      And I navigate back
+      And I tap Done
+      And I update Pre-Meal Preset Correction Range
         | MinValue | lowest |
     Then Correction Range is set to value
         | MinValue | 75 |
@@ -17,16 +18,17 @@ Scenario: Warning for guardrail Pre-Meal Range
       And alert 'Save Glucose Safety Limit?' appears
     When I tap Continue in alert window
       And I authenticate new Glucose Safety Limit
-      And I dismiss Therapy Settings
-      And I update Pre-Meal Correction Range
+      And I navigate back
+      And I tap Done
+      And I update Pre-Meal Preset Correction Range
         | MinValue | lowest  |
         | MaxValue | highest |
     Then High Correction Value message appears with red warning indicators
-      And Correction Range is set to value
-        | MinValue | 67  |
-        | MaxValue | 130 |
     When I tap Save
-    Then Pre-Meal Presets preview displays
+    Then Pre-Meal Preset section on Presets screen displays
+      | MinValue | MaxValue |
+      | 67       | 130      |
+    And Pre-Meal Presets preview displays
       | Correction Range | 67-130                           |
       | Warning          | value you have entered is higher |
 
@@ -34,25 +36,36 @@ Scenario: Warning for guardrail Pre-Meal Range
 Scenario: Enable Workout Preset
     Given app is launched
     When I skip all of onboarding
-      And I open Workout Preset
-      And I tap Start Preset
-    Then Workout card moves above the All Presets list
+      And I skip Preset Onboarding
+      And I start Biking Preset
+    Then Active Preset card displays
+      | MinValue | MaxValue | Name   | IsScheduled | OverallInsulin |
+      | 150       | 170     | Biking | No          | 23%            |
     When I tap Done
-    Then temporary status bar displays
-      | Title  | Workout Preset  |
-      | Active | on indefinitely |
+    Then Biking Preset banner displays
+      And Preset banner duration displays +90 minutes
       And Presets toolbar icon displays as reverse icon
-    When I tap Workout Preset status bar
+    When I tap Preset banner
       And I adjust Preset Duration to "11:09 AM"
-    Then temporary status bar displays
-      | Title  | Workout Preset    |
-      | Active | on until 11:09 AM |
-      And Workout Preset bottom tray displays duration "on until 11:09 AM"
+    Then Biking Preset banner displays
+      And Preset banner duration displays "11:09 AM"
+      And Preset bottom tray displays duration "on until 11:09 AM"
     When I tap Close button
-    Then Workout Preset bottom tray does not display
-    When I tap Workout Preset status bar
+    Then Preset bottom tray does not display
+    When I tap Preset banner
       And I tap End Preset button
-    Then Workout Preset bottom tray does not display
+    Then Preset bottom tray does not display
+      And Biking Preset banner does not display
+      And Presets toolbar icon displays as normal icon
+    When I start Biking Preset
+      And I tap Active Preset card
+      And I adjust Preset Duration to "+1 minute"
+    Then Preset ends within "1" minute
+      And Workout Preset banner does not display
+      And Presets toolbar icon displays as normal icon
+      
+@LOOP-01111
+Scenario: This is just a buffer to pull stuff from above
       And Workout Preset temporary status bar does not display
       And Presets toolbar icon displays as normal icon
     When I open Workout Preset

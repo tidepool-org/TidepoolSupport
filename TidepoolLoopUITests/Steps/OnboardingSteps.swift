@@ -7,6 +7,7 @@
 
 import LoopUITestingKit
 import CucumberSwift
+import XCTest
 
 func onboardingSteps() {
     let onboardingScreen = OnboardingScreen(app: app)
