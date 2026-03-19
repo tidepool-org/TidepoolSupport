@@ -28,6 +28,22 @@
 		1DFFB976271627470075AEAA /* TidepoolSupportPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB95B27150E460075AEAA /* TidepoolSupportPlugin.swift */; };
 		1DFFB97F271639490075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
 		1DFFB980271639B40075AEAA /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFFB97A2716382D0075AEAA /* OSLog.swift */; };
+		84DF49782F6C6D1500BEDB40 /* ADLs.json in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49652F6C6D1500BEDB40 /* ADLs.json */; };
+		84DF49792F6C6D1500BEDB40 /* ADLs.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49662F6C6D1500BEDB40 /* ADLs.mp3 */; };
+		84DF497A2F6C6D1500BEDB40 /* ADLs.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49672F6C6D1500BEDB40 /* ADLs.mp4 */; };
+		84DF497B2F6C6D1500BEDB40 /* ADLs.srt in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49682F6C6D1500BEDB40 /* ADLs.srt */; };
+		84DF497C2F6C6D1500BEDB40 /* ADLs.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49692F6C6D1500BEDB40 /* ADLs.txt */; };
+		84DF497D2F6C6D1500BEDB40 /* Mixed Exercise.json in Resources */ = {isa = PBXBuildFile; fileRef = 84DF496B2F6C6D1500BEDB40 /* Mixed Exercise.json */; };
+		84DF497E2F6C6D1500BEDB40 /* Mixed Exercise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84DF496C2F6C6D1500BEDB40 /* Mixed Exercise.mp3 */; };
+		84DF497F2F6C6D1500BEDB40 /* Mixed Exercise.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 84DF496D2F6C6D1500BEDB40 /* Mixed Exercise.mp4 */; };
+		84DF49802F6C6D1500BEDB40 /* Mixed Exercise.srt in Resources */ = {isa = PBXBuildFile; fileRef = 84DF496E2F6C6D1500BEDB40 /* Mixed Exercise.srt */; };
+		84DF49812F6C6D1500BEDB40 /* Mixed Exercise.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84DF496F2F6C6D1500BEDB40 /* Mixed Exercise.txt */; };
+		84DF49822F6C6D1500BEDB40 /* Same Activity Different Intensity.json in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49712F6C6D1500BEDB40 /* Same Activity Different Intensity.json */; };
+		84DF49832F6C6D1500BEDB40 /* Same Activity Different Intensity.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49722F6C6D1500BEDB40 /* Same Activity Different Intensity.mp3 */; };
+		84DF49842F6C6D1500BEDB40 /* Same Activity Different Intensity.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49732F6C6D1500BEDB40 /* Same Activity Different Intensity.mp4 */; };
+		84DF49852F6C6D1500BEDB40 /* Same Activity Different Intensity.srt in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49742F6C6D1500BEDB40 /* Same Activity Different Intensity.srt */; };
+		84DF49862F6C6D1500BEDB40 /* Same Activity Different Intensity.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49752F6C6D1500BEDB40 /* Same Activity Different Intensity.txt */; };
+		84DF49922F6C7FE300BEDB40 /* TrainingMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84DF49912F6C7FE300BEDB40 /* TrainingMedia.xcassets */; };
 		C15E3742288F189C008AB19C /* TidepoolSupport.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1DFFB93227150D2C0075AEAA /* TidepoolSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C15E374A288F190D008AB19C /* LoopKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E3749288F190D008AB19C /* LoopKit.framework */; };
 		C15E374E288F1943008AB19C /* LoopKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C15E374D288F1943008AB19C /* LoopKitUI.framework */; };
@@ -122,6 +138,22 @@
 		845C74692B7D7B2000F71F90 /* TidepoolLoopUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TidepoolLoopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TidepoolLoopUnitTestPlan.xctestplan; sourceTree = "<group>"; };
 		84B5A09E2B86DDD1003A85F5 /* TidepoolLoopUITestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TidepoolLoopUITestPlan.xctestplan; sourceTree = "<group>"; };
+		84DF49652F6C6D1500BEDB40 /* ADLs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ADLs.json; sourceTree = "<group>"; };
+		84DF49662F6C6D1500BEDB40 /* ADLs.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ADLs.mp3; sourceTree = "<group>"; };
+		84DF49672F6C6D1500BEDB40 /* ADLs.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ADLs.mp4; sourceTree = "<group>"; };
+		84DF49682F6C6D1500BEDB40 /* ADLs.srt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ADLs.srt; sourceTree = "<group>"; };
+		84DF49692F6C6D1500BEDB40 /* ADLs.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ADLs.txt; sourceTree = "<group>"; };
+		84DF496B2F6C6D1500BEDB40 /* Mixed Exercise.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Mixed Exercise.json"; sourceTree = "<group>"; };
+		84DF496C2F6C6D1500BEDB40 /* Mixed Exercise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mixed Exercise.mp3"; sourceTree = "<group>"; };
+		84DF496D2F6C6D1500BEDB40 /* Mixed Exercise.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mixed Exercise.mp4"; sourceTree = "<group>"; };
+		84DF496E2F6C6D1500BEDB40 /* Mixed Exercise.srt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Mixed Exercise.srt"; sourceTree = "<group>"; };
+		84DF496F2F6C6D1500BEDB40 /* Mixed Exercise.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Mixed Exercise.txt"; sourceTree = "<group>"; };
+		84DF49712F6C6D1500BEDB40 /* Same Activity Different Intensity.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Same Activity Different Intensity.json"; sourceTree = "<group>"; };
+		84DF49722F6C6D1500BEDB40 /* Same Activity Different Intensity.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Same Activity Different Intensity.mp3"; sourceTree = "<group>"; };
+		84DF49732F6C6D1500BEDB40 /* Same Activity Different Intensity.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Same Activity Different Intensity.mp4"; sourceTree = "<group>"; };
+		84DF49742F6C6D1500BEDB40 /* Same Activity Different Intensity.srt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Same Activity Different Intensity.srt"; sourceTree = "<group>"; };
+		84DF49752F6C6D1500BEDB40 /* Same Activity Different Intensity.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Same Activity Different Intensity.txt"; sourceTree = "<group>"; };
+		84DF49912F6C7FE300BEDB40 /* TrainingMedia.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = TrainingMedia.xcassets; sourceTree = "<group>"; };
 		C136CB792890D2FD005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7C2890D5FC005DF27D /* TidepoolKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C136CB7F2890D6B2005DF27D /* TidepoolKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TidepoolKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +264,7 @@
 		1DFFB93427150D2C0075AEAA /* TidepoolSupport */ = {
 			isa = PBXGroup;
 			children = (
+				84DF49772F6C6D1500BEDB40 /* Traianing Media */,
 				847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */,
 				C1B2EE992A0C4F12001CF2FA /* Caregivers */,
 				1DFFB95027150D930075AEAA /* Extensions */,
@@ -337,6 +370,53 @@
 				EC37EEA22D073C3B009807CE /* Cucumber.swift */,
 			);
 			path = TidepoolLoopUITests;
+			sourceTree = "<group>";
+		};
+		84DF496A2F6C6D1500BEDB40 /* ADLs */ = {
+			isa = PBXGroup;
+			children = (
+				84DF49652F6C6D1500BEDB40 /* ADLs.json */,
+				84DF49662F6C6D1500BEDB40 /* ADLs.mp3 */,
+				84DF49672F6C6D1500BEDB40 /* ADLs.mp4 */,
+				84DF49682F6C6D1500BEDB40 /* ADLs.srt */,
+				84DF49692F6C6D1500BEDB40 /* ADLs.txt */,
+			);
+			path = ADLs;
+			sourceTree = "<group>";
+		};
+		84DF49702F6C6D1500BEDB40 /* Mixed Exercise */ = {
+			isa = PBXGroup;
+			children = (
+				84DF496B2F6C6D1500BEDB40 /* Mixed Exercise.json */,
+				84DF496C2F6C6D1500BEDB40 /* Mixed Exercise.mp3 */,
+				84DF496D2F6C6D1500BEDB40 /* Mixed Exercise.mp4 */,
+				84DF496E2F6C6D1500BEDB40 /* Mixed Exercise.srt */,
+				84DF496F2F6C6D1500BEDB40 /* Mixed Exercise.txt */,
+			);
+			path = "Mixed Exercise";
+			sourceTree = "<group>";
+		};
+		84DF49762F6C6D1500BEDB40 /* Same Activity Different Intensity */ = {
+			isa = PBXGroup;
+			children = (
+				84DF49712F6C6D1500BEDB40 /* Same Activity Different Intensity.json */,
+				84DF49722F6C6D1500BEDB40 /* Same Activity Different Intensity.mp3 */,
+				84DF49732F6C6D1500BEDB40 /* Same Activity Different Intensity.mp4 */,
+				84DF49742F6C6D1500BEDB40 /* Same Activity Different Intensity.srt */,
+				84DF49752F6C6D1500BEDB40 /* Same Activity Different Intensity.txt */,
+			);
+			path = "Same Activity Different Intensity";
+			sourceTree = "<group>";
+		};
+		84DF49772F6C6D1500BEDB40 /* Traianing Media */ = {
+			isa = PBXGroup;
+			children = (
+				84DF49912F6C7FE300BEDB40 /* TrainingMedia.xcassets */,
+				84DF496A2F6C6D1500BEDB40 /* ADLs */,
+				84DF49702F6C6D1500BEDB40 /* Mixed Exercise */,
+				84DF49762F6C6D1500BEDB40 /* Same Activity Different Intensity */,
+			);
+			path = "Traianing Media";
 			sourceTree = "<group>";
 		};
 		C1B2EE992A0C4F12001CF2FA /* Caregivers */ = {
@@ -546,6 +626,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84DF49782F6C6D1500BEDB40 /* ADLs.json in Resources */,
+				84DF49792F6C6D1500BEDB40 /* ADLs.mp3 in Resources */,
+				84DF497A2F6C6D1500BEDB40 /* ADLs.mp4 in Resources */,
+				84DF497B2F6C6D1500BEDB40 /* ADLs.srt in Resources */,
+				84DF497C2F6C6D1500BEDB40 /* ADLs.txt in Resources */,
+				84DF497D2F6C6D1500BEDB40 /* Mixed Exercise.json in Resources */,
+				84DF497E2F6C6D1500BEDB40 /* Mixed Exercise.mp3 in Resources */,
+				84DF497F2F6C6D1500BEDB40 /* Mixed Exercise.mp4 in Resources */,
+				84DF49802F6C6D1500BEDB40 /* Mixed Exercise.srt in Resources */,
+				84DF49812F6C6D1500BEDB40 /* Mixed Exercise.txt in Resources */,
+				84DF49822F6C6D1500BEDB40 /* Same Activity Different Intensity.json in Resources */,
+				84DF49922F6C7FE300BEDB40 /* TrainingMedia.xcassets in Resources */,
+				84DF49832F6C6D1500BEDB40 /* Same Activity Different Intensity.mp3 in Resources */,
+				84DF49842F6C6D1500BEDB40 /* Same Activity Different Intensity.mp4 in Resources */,
+				84DF49852F6C6D1500BEDB40 /* Same Activity Different Intensity.srt in Resources */,
+				84DF49862F6C6D1500BEDB40 /* Same Activity Different Intensity.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

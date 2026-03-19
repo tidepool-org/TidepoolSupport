@@ -249,6 +249,19 @@ extension TidepoolSupport  {
 }
 
 extension TidepoolSupport {
+    public func trainingMedia(for domain: TrainingMediaDomain) -> [MediaContent] {
+        switch domain {
+        case .presets:
+            [
+                MediaContent("ADLs", bundle: Bundle(for: TidepoolSupport.self)),
+                MediaContent("Mixed Exercise", bundle: Bundle(for: TidepoolSupport.self)),
+                MediaContent("Same Activity Different Intensity", bundle: Bundle(for: TidepoolSupport.self))
+            ]
+        }
+    }
+}
+
+extension TidepoolSupport {
     public enum Product: String {
         case marketingDemo
         case none
