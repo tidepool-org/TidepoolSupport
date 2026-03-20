@@ -1,0 +1,435 @@
+1
+00:00:00,100 --> 00:00:04,000
+♪ ♪ ♪
+
+2
+00:00:04,080 --> 00:00:08,070
+Hi, it's Dessi Zaharieva and I'm here to talk to you about how
+
+3
+00:00:08,070 --> 00:00:12,480
+the same exercise type might lead to different glucose outcomes.
+
+4
+00:00:13,050 --> 00:00:14,130
+A little about me:
+
+5
+00:00:14,430 --> 00:00:18,900
+I'm a Certified Exercise Physiologist, Diabetes Educator and Researcher,
+
+6
+00:00:18,990 --> 00:00:22,500
+and have been living with Type One Diabetes myself for over 28 years.
+
+7
+00:00:23,835 --> 00:00:27,015
+Today we'll chat about why the same activity can
+
+8
+00:00:27,015 --> 00:00:29,805
+affect your glucose levels differently depending on
+
+9
+00:00:29,805 --> 00:00:32,715
+how hard you're working or the situation you're in.
+
+10
+00:00:33,000 --> 00:00:37,000
+♪ ♪ ♪
+
+11
+00:00:37,595 --> 00:00:40,775
+How hard you're working or the intensity of an activity
+
+12
+00:00:40,955 --> 00:00:43,894
+may cause different responses to your glucose levels.
+
+13
+00:00:44,495 --> 00:00:45,905
+Here are some considerations:
+
+14
+00:00:47,139 --> 00:00:50,709
+Low to moderate intensity activities like brisk walking
+
+15
+00:00:50,739 --> 00:00:53,679
+or running may cause your glucose levels to drop.
+
+16
+00:00:54,879 --> 00:00:58,419
+Mixed intensity activities like soccer or CrossFit
+
+17
+00:00:58,750 --> 00:01:01,779
+may cause your glucose levels to go up or down,
+
+18
+00:01:02,289 --> 00:01:04,660
+depending on how much of that activity is high
+
+19
+00:01:04,660 --> 00:01:07,660
+intensity versus low to moderate intensity.
+
+20
+00:01:08,065 --> 00:01:11,575
+To learn more about mixed intensity exercise and how to prepare
+
+21
+00:01:11,575 --> 00:01:15,565
+for it, listen to our episode on mixed intensity exercise.
+
+22
+00:01:16,705 --> 00:01:20,755
+High intensity activities like explosive sprinting, especially
+
+23
+00:01:20,755 --> 00:01:24,265
+while fasting may cause your glucose levels to rise.
+
+24
+00:01:25,000 --> 00:01:29,000
+♪ ♪ ♪
+
+25
+00:01:29,449 --> 00:01:31,119
+Let's discuss the science behind it.
+
+26
+00:01:32,380 --> 00:01:35,199
+During low intensity activities like walking,
+
+27
+00:01:35,499 --> 00:01:37,659
+fat is the body's preferred fuel source.
+
+28
+00:01:38,830 --> 00:01:42,490
+As the intensity of exercise increases, like jogging or
+
+29
+00:01:42,490 --> 00:01:46,329
+running, the body relies on fat and carbs for energy.
+
+30
+00:01:47,050 --> 00:01:50,050
+Your liver will release glucose into the bloodstream
+
+31
+00:01:50,169 --> 00:01:52,869
+to try and match what the muscles are using,
+
+32
+00:01:53,350 --> 00:01:55,359
+but it typically can't keep up with the
+
+33
+00:01:55,359 --> 00:01:57,729
+glucose demand of those working muscles.
+
+34
+00:01:58,270 --> 00:02:00,460
+This is why you often need to eat extra
+
+35
+00:02:00,460 --> 00:02:03,789
+carbs before or during a run to avoid lows.
+
+36
+00:02:04,960 --> 00:02:09,190
+Another option is to turn on a Tidepool Loop activity preset
+
+37
+00:02:09,190 --> 00:02:13,239
+an hour before exercise starts to let the app know that
+
+38
+00:02:13,239 --> 00:02:16,900
+you need less insulin than usual when you begin exercise.
+
+39
+00:02:17,350 --> 00:02:21,364
+For high intensity exercise like explosive sprinting or power
+
+40
+00:02:21,364 --> 00:02:25,624
+lifting your body typically relies more on carbs for fuel,
+
+41
+00:02:26,045 --> 00:02:28,894
+which means your muscles break down stored glycogen,
+
+42
+00:02:28,984 --> 00:02:32,644
+your body's form of stored carbs, for quick energy,
+
+43
+00:02:32,945 --> 00:02:36,094
+while your liver releases more glucose into the bloodstream.
+
+44
+00:02:36,695 --> 00:02:39,484
+However, your muscles can't keep up with the amount of
+
+45
+00:02:39,484 --> 00:02:43,445
+glucose, and this often leads to a rise in glucose levels.
+
+46
+00:02:44,935 --> 00:02:48,235
+In the Tidepool Loop app, the presets for exercise
+
+47
+00:02:48,235 --> 00:02:51,385
+section includes a tool to help you understand how the
+
+48
+00:02:51,385 --> 00:02:54,985
+intensity of an activity might affect your glucose levels.
+
+49
+00:02:58,585 --> 00:03:00,325
+Why context matters:
+
+50
+00:03:01,045 --> 00:03:03,865
+The situation you're in can also change how
+
+51
+00:03:03,865 --> 00:03:05,845
+an activity affects your glucose levels.
+
+52
+00:03:06,685 --> 00:03:08,365
+Let's use swimming as an example.
+
+53
+00:03:08,695 --> 00:03:12,085
+During swim practice, when you're swimming laps, you might
+
+54
+00:03:12,085 --> 00:03:15,925
+see similar changes or drops in your glucose levels each week.
+
+55
+00:03:16,734 --> 00:03:20,904
+But on a competition day with adrenaline pumping friends and family
+
+56
+00:03:20,904 --> 00:03:25,374
+cheering you on, and the pressure to win glucose levels may rise.
+
+57
+00:03:25,825 --> 00:03:29,635
+More specifically during competition stress hormones like
+
+58
+00:03:29,635 --> 00:03:33,595
+adrenaline and cortisol are released signaling to the liver
+
+59
+00:03:33,595 --> 00:03:37,230
+to release glucose to the bloodstream to provide quick energy.
+
+60
+00:03:38,019 --> 00:03:41,200
+In individuals with Type One Diabetes, this response
+
+61
+00:03:41,200 --> 00:03:44,229
+is not balanced by an appropriate increase in insulin,
+
+62
+00:03:44,560 --> 00:03:47,890
+therefore, often leading to a rise in glucose levels.
+
+63
+00:03:48,940 --> 00:03:52,240
+Additionally, adrenaline can reduce muscle glucose
+
+64
+00:03:52,240 --> 00:03:55,960
+uptake by making the cells less sensitive to insulin.
+
+65
+00:03:56,680 --> 00:03:59,920
+This combination of increased glucose production by the
+
+66
+00:03:59,920 --> 00:04:04,180
+liver and reduced uptake by the muscles can result in
+
+67
+00:04:04,180 --> 00:04:08,710
+hyperglycemia or high glucose levels during intense exercise.
+
+68
+00:04:09,369 --> 00:04:11,739
+So what do you do in these situations?
+
+69
+00:04:12,399 --> 00:04:16,659
+Remember, you might need different strategies depending on your situation.
+
+70
+00:04:16,959 --> 00:04:20,919
+Regular practices may require less insulin, or you may
+
+71
+00:04:20,919 --> 00:04:24,340
+need extra carbs on hand to reduce the risk of lows.
+
+72
+00:04:24,610 --> 00:04:27,940
+But on game day, monitor your glucose levels and be
+
+73
+00:04:27,940 --> 00:04:31,510
+aware that your body may not need less insulin and
+
+74
+00:04:31,510 --> 00:04:34,840
+more carbs like you've often done on practice days.
+
+75
+00:04:38,934 --> 00:04:41,155
+I'd love to share a personal example.
+
+76
+00:04:41,695 --> 00:04:46,135
+I had been training TaeKwonDo for over 15 years and qualified
+
+77
+00:04:46,135 --> 00:04:49,104
+to represent Team Canada at the World Championships.
+
+78
+00:04:49,945 --> 00:04:54,744
+I had spent countless hours in practice and attending local competitions.
+
+79
+00:04:55,315 --> 00:04:58,104
+I was familiar with how my glucose levels responded
+
+80
+00:04:58,104 --> 00:05:01,375
+during practice or even smaller competitions.
+
+81
+00:05:01,794 --> 00:05:04,674
+Usually with practice, my glucose levels stayed
+
+82
+00:05:04,674 --> 00:05:07,825
+pretty stable or dropped from many hours of activity.
+
+83
+00:05:08,515 --> 00:05:12,325
+But when I competed at my very first TaeKwonDo World Championships
+
+84
+00:05:12,325 --> 00:05:17,245
+for Team Canada, everything changed. Before the competition
+
+85
+00:05:17,455 --> 00:05:20,935
+my glucose levels were steady around 180 milligrams
+
+86
+00:05:20,935 --> 00:05:25,075
+per deciliter, and I felt pretty good, albeit nervous.
+
+87
+00:05:25,885 --> 00:05:28,765
+After my first match, which lasted less than 10
+
+88
+00:05:28,765 --> 00:05:32,065
+minutes, my glucose levels rose to the four hundreds.
+
+89
+00:05:33,025 --> 00:05:35,335
+The adrenaline impact was so real.
+
+90
+00:05:36,000 --> 00:05:40,000
+♪ ♪ ♪
+
+91
+00:05:40,365 --> 00:05:44,535
+Before we wrap up, let's take 15 minutes this week to notice how
+
+92
+00:05:44,535 --> 00:05:48,945
+exercise intensity and context might affect your glucose levels.
+
+93
+00:05:49,455 --> 00:05:51,555
+Here are a few things to explore:
+
+94
+00:05:52,485 --> 00:05:54,705
+Do your glucose levels respond differently
+
+95
+00:05:54,705 --> 00:05:57,300
+during practices versus games or races?
+
+96
+00:05:59,025 --> 00:06:01,695
+How does increasing or decreasing the intensity
+
+97
+00:06:01,695 --> 00:06:04,395
+of an activity affect your glucose levels?
+
+98
+00:06:04,815 --> 00:06:07,065
+What happens to your glucose levels when you
+
+99
+00:06:07,065 --> 00:06:09,885
+do walking versus running versus sprinting?
+
+100
+00:06:10,455 --> 00:06:13,785
+If you play competitive sports, try visualizing
+
+101
+00:06:13,785 --> 00:06:16,485
+the event to prepare yourself for game day.
+
+102
+00:06:17,205 --> 00:06:19,875
+Imagine you're stepping into the competition ring
+
+103
+00:06:20,055 --> 00:06:22,935
+or on the field, whatever that may be for you.
+
+104
+00:06:23,655 --> 00:06:28,770
+Repeat this at the end of every practice for five to 10 minutes if you can.
+
+105
+00:06:29,520 --> 00:06:33,270
+This might help you handle stressful situations better because
+
+106
+00:06:33,270 --> 00:06:37,500
+you've already been there in your mind and prepared for this moment.
+
+107
+00:06:38,850 --> 00:06:42,210
+Understanding these differences can help you plan better for
+
+108
+00:06:42,210 --> 00:06:45,960
+physical activity and manage your glucose levels more effectively.
+
+109
+00:06:46,000 --> 00:06:53,000
+♪ ♪ ♪
