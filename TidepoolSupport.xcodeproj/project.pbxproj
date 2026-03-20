@@ -264,7 +264,7 @@
 		1DFFB93427150D2C0075AEAA /* TidepoolSupport */ = {
 			isa = PBXGroup;
 			children = (
-				84DF49772F6C6D1500BEDB40 /* Traianing Media */,
+				84DF49772F6C6D1500BEDB40 /* Training Media */,
 				847434DE2B7C35C30084BE98 /* TidepoolLoopUnitTestPlan.xctestplan */,
 				C1B2EE992A0C4F12001CF2FA /* Caregivers */,
 				1DFFB95027150D930075AEAA /* Extensions */,
@@ -408,7 +408,7 @@
 			path = "Same Activity Different Intensity";
 			sourceTree = "<group>";
 		};
-		84DF49772F6C6D1500BEDB40 /* Traianing Media */ = {
+		84DF49772F6C6D1500BEDB40 /* Training Media */ = {
 			isa = PBXGroup;
 			children = (
 				84DF49912F6C7FE300BEDB40 /* TrainingMedia.xcassets */,
@@ -416,7 +416,7 @@
 				84DF49702F6C6D1500BEDB40 /* Mixed Exercise */,
 				84DF49762F6C6D1500BEDB40 /* Same Activity Different Intensity */,
 			);
-			path = "Traianing Media";
+			path = "Training Media";
 			sourceTree = "<group>";
 		};
 		C1B2EE992A0C4F12001CF2FA /* Caregivers */ = {
