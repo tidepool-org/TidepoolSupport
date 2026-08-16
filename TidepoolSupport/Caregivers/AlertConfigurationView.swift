@@ -38,17 +38,14 @@ struct AlertConfigurationView: View {
     var body: some View {
         VStack(spacing: 0) {
             form
-            VStack {
+            FloatingActionArea {
                 NavigationLink {
                     InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
                     Text(LocalizedString("Confirm Notifications", comment: "Button title for navigating to next page of caregiver invitation form"))
                 }
                 .buttonStyle(ActionButtonStyle())
-                .padding()
             }
-            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5)
-                .edgesIgnoringSafeArea(.bottom))
         }
         .navigationTitle(LocalizedString("Notifications", comment: "Navigation title for notification configuration page of caregiver invitation"))
         .navigationBarTitleDisplayMode(.large)
