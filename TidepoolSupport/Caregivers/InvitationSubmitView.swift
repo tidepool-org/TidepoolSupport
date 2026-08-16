@@ -104,12 +104,11 @@ struct InvitationSubmitView: View {
             }
             .listStyle(.insetGrouped)
 
-            VStack(spacing: 0) {
+            FloatingActionArea {
                 switch sendState {
                 case .error(let error):
                     WarningView(title: Text(LocalizedString("Invite Failed to Send", comment: "Failure message when caregiver invitation fails during sending.")), caption: Text(error))
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding([.top, .horizontal])
                 case .sent:
                     VStack(spacing: 10) {
                         Image(systemName: "checkmark.circle.fill")
@@ -119,7 +118,6 @@ struct InvitationSubmitView: View {
                             .bold()
                     }
                     .frame(maxWidth: .infinity)
-                    .padding([.top, .horizontal])
                 default:
                     EmptyView()
                 }
@@ -160,11 +158,8 @@ struct InvitationSubmitView: View {
                 .buttonStyle(ActionButtonStyle())
                 .textCase(nil)
                 .disabled(sendState == .sending)
-                .padding()
             }
             .animation(.default, value: sendState)
-            .background(Color(UIColor.secondarySystemGroupedBackground).shadow(radius: 5)
-                .edgesIgnoringSafeArea(.bottom))
         }
         .navigationTitle(LocalizedString("Send Invitation", comment: "Navigation bar title on submit caregiver invitation page"))
         .navigationBarTitleDisplayMode(.large)

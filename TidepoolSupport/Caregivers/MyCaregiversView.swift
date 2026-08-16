@@ -317,7 +317,7 @@ struct MyCaregiversView: View {
     }
     
     var removeSuccessTray: some View {
-        VStack(spacing: 0) {
+        FloatingActionArea {
             VStack(spacing: 10) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(.accentColor)
@@ -333,14 +333,11 @@ struct MyCaregiversView: View {
             }
             .buttonStyle(LoopKitUI.ActionButtonStyle())
             .textCase(nil)
-            .padding(.top)
         }
-        .padding()
-        .background(Color(UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.bottom).shadow(radius: 5))
     }
     
     var resendSuccessTray: some View {
-        VStack(spacing: 0) {
+        FloatingActionArea {
             VStack(spacing: 10) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(.accentColor)
@@ -356,10 +353,7 @@ struct MyCaregiversView: View {
             }
             .buttonStyle(LoopKitUI.ActionButtonStyle())
             .textCase(nil)
-            .padding(.top)
         }
-        .padding()
-        .background(Color(UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.bottom).shadow(radius: 5))
     }
 }
 
