@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import UIKit
 import LoopKitUI
 import TidepoolKit
 
@@ -44,7 +43,6 @@ struct NewCaregiverView: View {
                 }
                 .focused($focusedField, equals: .nickname)
                 .submitLabel(.next)
-                .keyboardDismissAccessory(onSubmit: { focusedField = .email })
                 .onSubmit { focusedField = .email }
                 .textContentType(.name)
 
@@ -53,7 +51,6 @@ struct NewCaregiverView: View {
                 }
                 .focused($focusedField, equals: .email)
                 .submitLabel(.done)
-                .keyboardDismissAccessory()
                 .onSubmit { focusedField = nil }
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
@@ -73,7 +70,12 @@ struct NewCaregiverView: View {
         .actionAreaInset {
             continueAction
         }
-        .keyboardEntryPage()
+        .keyboardEntryPage(isInteractiveDismissDisabled: true)
+        .keyboardToolbar(
+            isFocused: focusedField != nil,
+            next: focusedField == .nickname ? { focusedField = .email } : nil,
+            dismiss: { focusedField = nil }
+        )
         .onAppear {
             guard !hasAutoFocused, viewModel.nickname.isEmpty else { return }
             hasAutoFocused = true
@@ -124,7 +126,6 @@ struct NewCaregiverView: View {
     var continueAction: some View {
         Button(action: {
             focusedField = nil
-            KeyboardDismissal.resignFirstResponder()
             showAlertConfiguration = true
         }) {
             Text(LocalizedString("Continue", comment: "Button title to continue to next page of invite caregiver form"))
