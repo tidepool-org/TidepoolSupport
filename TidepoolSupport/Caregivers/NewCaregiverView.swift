@@ -44,7 +44,7 @@ struct NewCaregiverView: View {
                 }
                 .focused($focusedField, equals: .nickname)
                 .submitLabel(.next)
-                .keyboardDismissAccessory()
+                .keyboardDismissAccessory(onSubmit: { focusedField = .email })
                 .onSubmit { focusedField = .email }
                 .textContentType(.name)
 
