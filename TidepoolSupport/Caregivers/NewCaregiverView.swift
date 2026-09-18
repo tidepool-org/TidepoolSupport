@@ -26,7 +26,6 @@ struct NewCaregiverView: View {
     }
     
     @FocusState private var focusedField: FocusedField?
-    @State private var hasAutoFocused = false
     @State private var showAlertConfiguration = false
 
     init(caregiverManager: CaregiverManager, isCreatingInvitation: Binding<Bool>) {
@@ -41,17 +40,13 @@ struct NewCaregiverView: View {
                 TextField(text: $viewModel.nickname) {
                     Text(LocalizedString("Caregiver Nickname", comment: "Placeholder text for caregiver nickname field of invite caregiver form"))
                 }
-                .focused($focusedField, equals: .nickname)
-                .submitLabel(.next)
-                .onSubmit { focusedField = .email }
+                .inputField(focus: $focusedField, equals: .nickname, next: .email)
                 .textContentType(.name)
 
                 TextField(text: $viewModel.email) {
                     Text(LocalizedString("Email", comment: "Placeholder text for email field of invite caregiver form"))
                 }
-                .focused($focusedField, equals: .email)
-                .submitLabel(.done)
-                .onSubmit { focusedField = nil }
+                .inputField(focus: $focusedField, equals: .email)
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
                 .textInputAutocapitalization(.never)
@@ -67,24 +62,10 @@ struct NewCaregiverView: View {
             .opacity(0)
             .accessibility(hidden: true)
         )
-        .keyboardEntryPage(isInteractiveDismissDisabled: true)
-        .keyboardToolbar(
-            isFocused: focusedField != nil,
-            next: focusedField == .nickname ? { focusedField = .email } : nil,
-            dismiss: { focusedField = nil }
-        )
+        .defaultFocus($focusedField, viewModel.nickname.isEmpty ? .nickname : nil)
+        .inputForm(focus: $focusedField, isInteractiveDismissDisabled: true)
         .actionAreaInset {
             continueAction
-        }
-        .onAppear {
-            guard !hasAutoFocused, viewModel.nickname.isEmpty else { return }
-            hasAutoFocused = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                focusedField = .nickname
-            }
-        }
-        .onDisappear {
-            focusedField = nil
         }
         .navigationTitle(LocalizedString("Invite a Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
