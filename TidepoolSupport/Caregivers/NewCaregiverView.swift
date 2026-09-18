@@ -22,7 +22,7 @@ struct NewCaregiverView: View {
     }
 
     enum FocusedField {
-        case nickname, email, fullName
+        case nickname, email
     }
     
     @FocusState private var focusedField: FocusedField?
@@ -67,20 +67,20 @@ struct NewCaregiverView: View {
             .opacity(0)
             .accessibility(hidden: true)
         )
-        .actionAreaInset {
-            continueAction
-        }
         .keyboardEntryPage(isInteractiveDismissDisabled: true)
         .keyboardToolbar(
             isFocused: focusedField != nil,
             next: focusedField == .nickname ? { focusedField = .email } : nil,
             dismiss: { focusedField = nil }
         )
+        .actionAreaInset {
+            continueAction
+        }
         .onAppear {
             guard !hasAutoFocused, viewModel.nickname.isEmpty else { return }
             hasAutoFocused = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                focusedField = viewModel.caregiverManager.profile == nil ? .fullName : .nickname
+                focusedField = .nickname
             }
         }
         .onDisappear {
