@@ -43,12 +43,16 @@ struct NewCaregiverView: View {
                     Text(LocalizedString("Caregiver Nickname", comment: "Placeholder text for caregiver nickname field of invite caregiver form"))
                 }
                 .focused($focusedField, equals: .nickname)
+                .submitLabel(.done)
+                .onSubmit { focusedField = .email }
                 .textContentType(.name)
 
                 TextField(text: $viewModel.email) {
                     Text(LocalizedString("Email", comment: "Placeholder text for email field of invite caregiver form"))
                 }
                 .focused($focusedField, equals: .email)
+                .submitLabel(.done)
+                .onSubmit { focusedField = nil }
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
                 .textInputAutocapitalization(.never)
