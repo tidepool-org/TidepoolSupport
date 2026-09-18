@@ -104,7 +104,7 @@ struct InvitationSubmitView: View {
             }
             .listStyle(.insetGrouped)
 
-            FloatingActionArea {
+            ActionArea {
                 switch sendState {
                 case .error(let error):
                     WarningView(title: Text(LocalizedString("Invite Failed to Send", comment: "Failure message when caregiver invitation fails during sending.")), caption: Text(error))

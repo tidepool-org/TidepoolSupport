@@ -317,7 +317,7 @@ struct MyCaregiversView: View {
     }
     
     var removeSuccessTray: some View {
-        FloatingActionArea {
+        ActionArea {
             VStack(spacing: 10) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(.accentColor)
@@ -337,7 +337,7 @@ struct MyCaregiversView: View {
     }
     
     var resendSuccessTray: some View {
-        FloatingActionArea {
+        ActionArea {
             VStack(spacing: 10) {
                 Image(systemName: "checkmark.circle.fill")
                     .foregroundColor(.accentColor)

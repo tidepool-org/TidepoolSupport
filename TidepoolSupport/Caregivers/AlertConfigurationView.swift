@@ -38,7 +38,7 @@ struct AlertConfigurationView: View {
     var body: some View {
         VStack(spacing: 0) {
             form
-            FloatingActionArea {
+            ActionArea {
                 NavigationLink {
                     InvitationSubmitView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
                 } label: {
