@@ -62,7 +62,7 @@ struct NewCaregiverView: View {
             .opacity(0)
             .accessibility(hidden: true)
         )
-        .defaultFocus($focusedField, viewModel.nickname.isEmpty ? .nickname : nil)
+        .initialFocus($focusedField, equals: .nickname, when: viewModel.nickname.isEmpty)
         .inputForm(focus: $focusedField, isInteractiveDismissDisabled: true)
         .actionAreaInset {
             continueAction
