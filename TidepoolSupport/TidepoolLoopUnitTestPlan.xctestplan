@@ -99,6 +99,20 @@
         "identifier" : "B4D8557F241BC25000ED61FF",
         "name" : "InsulinDeliveryLoopKitUITests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:cgm-loop-kit\/CGMLoopKit.xcodeproj",
+        "identifier" : "C6CC00000000000000000401",
+        "name" : "CGMLoopKitUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:cgm-loop-kit\/CGMLoopKit.xcodeproj",
+        "identifier" : "C6CC00000000000000000201",
+        "name" : "CGMLoopKitTests"
+      }
     }
   ],
   "version" : 1
