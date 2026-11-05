@@ -26,7 +26,6 @@ struct NewCaregiverView: View {
     }
     
     @FocusState private var focusedField: FocusedField?
-    @State private var showAlertConfiguration = false
 
     init(caregiverManager: CaregiverManager, isCreatingInvitation: Binding<Bool>) {
         self._viewModel = StateObject(wrappedValue: InvitationViewModel(caregiverManager: caregiverManager))
@@ -53,15 +52,6 @@ struct NewCaregiverView: View {
                 .autocorrectionDisabled()
             }
         }
-        .background(
-            NavigationLink(isActive: $showAlertConfiguration) {
-                AlertConfigurationView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
-            } label: {
-                EmptyView()
-            }
-            .opacity(0)
-            .accessibility(hidden: true)
-        )
         .initialFocus($focusedField, equals: .nickname, when: viewModel.nickname.isEmpty)
         .inputForm(focus: $focusedField, isInteractiveDismissDisabled: true)
         .actionAreaInset {
@@ -105,12 +95,12 @@ struct NewCaregiverView: View {
     }
     
     var continueAction: some View {
-        Button(action: {
-            focusedField = nil
-            showAlertConfiguration = true
-        }) {
+        NavigationLink {
+            AlertConfigurationView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
+        } label: {
             Text(LocalizedString("Continue", comment: "Button title to continue to next page of invite caregiver form"))
         }
+        .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
         .disabled(!formComplete)
         .animation(.default, value: formComplete)
         .buttonStyle(LoopKitUI.ActionButtonStyle())
