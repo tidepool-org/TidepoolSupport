@@ -27,10 +27,12 @@ func carbsEntrySteps() {
     
     When ("I set amount consumed value {int}") { matches, _ in
         carbsEntryScreen.setCarbsConsumedTextField(carbsAmount: try String  (matches.first(\.int)).replacing(",", with: "."))
+        dismissKeyboard()
         carbsEntryScreen.tapContinueButton()
     }
     
     When("I tap Continue on Carb Entry screen") { _, _ in
+        if app.keyboards.count > 0 { dismissKeyboard() }
         carbsEntryScreen.tapContinueButton()
     }
     
@@ -86,7 +88,10 @@ func carbsEntrySteps() {
             lastCarbEntries["AbsorbtionTime"] = carbsEntryScreen.getAbsorbtionTimeText
             lastCarbEntries["CarbsAmmount"] = carbsEntryScreen.getCarbsAmountValue
         }
-        if matches.1 == "add" { carbsEntryScreen.tapContinueButton() }
+        if matches.1 == "add" {
+            if app.keyboards.count > 0 { dismissKeyboard() }
+            carbsEntryScreen.tapContinueButton()
+        }
     }
     
     When(/^I press (decrease|increase) button "(.*)" time(s|) to update Carb Entry time$/) { matches, _ in
@@ -112,6 +117,7 @@ func carbsEntrySteps() {
     }
     
     When("I confirm edited Carb Entry and bolus recomendation") { _, _ in
+        if app.keyboards.count > 0 { dismissKeyboard() }
         carbsEntryScreen.tapContinueButton()
         bolusScreen.tapBolusActionButton()
         if passcodeScreen.passcodeEntryExists { passcodeScreen.setPasscode() }

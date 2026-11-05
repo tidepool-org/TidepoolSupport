@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LoopKitUI
 import TidepoolKit
 
 struct NewCaregiverView: View {
@@ -21,8 +22,9 @@ struct NewCaregiverView: View {
     }
 
     enum FocusedField {
-        case nickname, email, fullName
+        case nickname, email
     }
+    
     @FocusState private var focusedField: FocusedField?
 
     init(caregiverManager: CaregiverManager, isCreatingInvitation: Binding<Bool>) {
@@ -31,31 +33,29 @@ struct NewCaregiverView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Form {
-                Section(header: header, footer: footer)
-                {
-                    TextField(text: $viewModel.nickname) {
-                        Text(LocalizedString("Caregiver Nickname", comment: "Placeholder text for caregiver nickname field of invite caregiver form"))
-                    }
-                    .focused($focusedField, equals: .nickname)
-                    .textContentType(.name)
-                    
-                    TextField(text: $viewModel.email) {
-                        Text(LocalizedString("Email", comment: "Placeholder text for email field of invite caregiver form"))
-                    }
-                    .focused($focusedField, equals: .email)
-                    .keyboardType(.emailAddress)
-                    .textContentType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
+        Form {
+            Section(header: header, footer: footer)
+            {
+                TextField(text: $viewModel.nickname) {
+                    Text(LocalizedString("Caregiver Nickname", comment: "Placeholder text for caregiver nickname field of invite caregiver form"))
                 }
+                .inputField(focus: $focusedField, equals: .nickname, next: .email)
+                .textContentType(.name)
+
+                TextField(text: $viewModel.email) {
+                    Text(LocalizedString("Email", comment: "Placeholder text for email field of invite caregiver form"))
+                }
+                .inputField(focus: $focusedField, equals: .email)
+                .keyboardType(.emailAddress)
+                .textContentType(.emailAddress)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled()
             }
-            
-            continueTray
         }
-        .onAppear {
-            focusedField = viewModel.caregiverManager.profile == nil ? .fullName : .nickname
+        .initialFocus($focusedField, equals: .nickname, when: viewModel.nickname.isEmpty)
+        .inputForm(focus: $focusedField, isInteractiveDismissDisabled: true)
+        .actionAreaInset {
+            continueAction
         }
         .navigationTitle(LocalizedString("Invite a Caregiver", comment: "Navigation title for first page of invite caregiver form"))
         .navigationBarTitleDisplayMode(.large)
@@ -69,7 +69,6 @@ struct NewCaregiverView: View {
 
             }
         }
-        .interactiveDismissDisabled()
         .alert(Text("Close Invitation?"), isPresented: $showCancelConfirmationAlert) {
             Button("Cancel", role: .cancel, action: {})
             
@@ -95,18 +94,17 @@ struct NewCaregiverView: View {
             .foregroundColor(.secondary)
     }
     
-    var continueTray: some View {
+    var continueAction: some View {
         NavigationLink {
             AlertConfigurationView(viewModel: viewModel, isCreatingInvitation: $isCreatingInvitation)
         } label: {
             Text(LocalizedString("Continue", comment: "Button title to continue to next page of invite caregiver form"))
         }
+        .simultaneousGesture(TapGesture().onEnded { focusedField = nil })
         .disabled(!formComplete)
         .animation(.default, value: formComplete)
-        .buttonStyle(ActionButtonStyle())
-        .padding()
+        .buttonStyle(LoopKitUI.ActionButtonStyle())
         .textCase(nil)
-        .background(Color(UIColor.secondarySystemGroupedBackground).edgesIgnoringSafeArea(.bottom).shadow(radius: 5))
     }
 
 }

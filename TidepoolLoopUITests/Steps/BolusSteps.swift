@@ -49,7 +49,7 @@ func bolusSteps() {
             default:
                 XCTFail("Unsupported field \(textField.key)")
             }
-            bolusScreen.tapKeyboardDoneButton()
+            dismissKeyboard()
         }
     }
     

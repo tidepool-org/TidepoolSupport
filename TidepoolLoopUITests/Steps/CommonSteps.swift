@@ -75,3 +75,19 @@ func commonSteps() {
         XCTAssertEqual(result, .completed, "Wait did not complete successfully")
     }
 }
+
+/// Taps the button above the keyboard, stepping through any Next fields until Done dismisses it.
+/// The page's footer is hidden while the keyboard covers it.
+func dismissKeyboard() {
+    let doneButton = app.buttons["button_KeyboardDone"]
+    let nextButton = app.buttons["button_KeyboardNext"]
+    for _ in 1...3 {
+        if doneButton.waitForExistence(timeout: 2) {
+            doneButton.tap()
+            return
+        }
+        guard nextButton.exists else { break }
+        nextButton.tap()
+    }
+    XCTFail("The keyboard has no Done button")
+}
